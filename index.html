@@ -629,12 +629,35 @@ button:focus-visible {
     --header-height: 58px;
   }
 
-  .top {
+  /*.top {
     min-height: var(--header-height);
 
     gap: 6px;
 
     padding: 0 12px;
+  }*/
+
+  .top {
+    min-height: var(--header-height);
+
+    gap: 4px;
+
+    padding: 0 8px;
+  }
+
+  .brand {
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .main-nav {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .top-actions {
+    flex: 0 0 auto;
   }
 
   .brand-logo {
