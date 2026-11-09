@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#111827">
+<!--<meta name="theme-color" content="#111827">-->
+  <meta name="theme-color" content="#080D1C">
 <title>NAVAA</title>
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
   
@@ -14,7 +15,7 @@
    BINANCE INSPIRED | RESPONSIVE
 ========================================== */
 
-:root {
+/*:root {
   color-scheme: dark;
 
   --bg: #0b0e11;
@@ -40,13 +41,42 @@
   --header-height: 68px;
 
   --transition: 0.25s ease;
-}
+}*/
 
+  
+:root {
+  color-scheme: dark;
+
+  --bg: #080D1C;
+  --surface: #101A32;
+  --surface2: #172443;
+  --surface3: #223354;
+
+  --line: #263657;
+
+  --text: #F4F7FF;
+  --muted: #9AA9C7;
+
+  --accent: #18D6C5;
+  --accent-hover: #32E6D5;
+  --accent-text: #071522;
+
+  --green: #0ecb81;
+  --red: #f6465d;
+
+  --header-bg: #080D1C;
+
+  --radius: 8px;
+  --header-height: 68px;
+
+  --transition: 0.25s ease;
+}
+  
 /* ==========================================
    LIGHT THEME
 ========================================== */
 
-[data-theme="light"] {
+/*[data-theme="light"] {
   color-scheme: light;
 
   --bg: #ffffff;
@@ -67,7 +97,32 @@
   --red: #f6465d;
 
   --header-bg: #ffffff;
+}*/
+
+  
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #F5F8FC;
+  --surface: #FFFFFF;
+  --surface2: #EDF3F8;
+  --surface3: #E3ECF3;
+
+  --line: #DCE5EF;
+
+  --text: #14213A;
+  --muted: #65758B;
+
+  --accent: #0FBFB2;
+  --accent-hover: #0AA99E;
+  --accent-text: #061A24;
+
+  --green: #0ecb81;
+  --red: #f6465d;
+
+  --header-bg: #FFFFFF;
 }
+
 
 /* ==========================================
    RESET
@@ -187,11 +242,17 @@ main {
     filter 0.3s ease;
 }
 
-.brand-logo:hover {
+/*.brand-logo:hover {
+  transform: scale(1.07);
+  filter: drop-shadow(0 0 7px rgba(240,185,11,0.25));
+}
+*/
+  .brand-logo:hover {
   transform: scale(1.07);
   filter: drop-shadow(0 0 7px rgba(240,185,11,0.25));
 }
 
+  
 .brand-logo:active {
   transform: scale(0.96);
 }
@@ -331,8 +392,11 @@ main {
 
   transform: translateY(-1px);
 
+ /* box-shadow:
+    0 4px 14px rgba(240,185,11,0.18);*/
+
   box-shadow:
-    0 4px 14px rgba(240,185,11,0.18);
+    0 4px 18px rgba(24,214,197,0.22);
 }
 
 .btn:active {
