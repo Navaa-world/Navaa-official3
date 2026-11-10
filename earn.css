@@ -1,1 +1,582 @@
 
+/* =========================================
+   NAVAA EARN — RESPONSIVE STAKING UI
+   Scoped styles: Earn section only
+========================================= */
+
+.earn-page {
+  --earn-bg: #0b0e11;
+  --earn-card: #151a21;
+  --earn-card-2: #1e2329;
+  --earn-border: rgba(255,255,255,.08);
+  --earn-text: #f0f2f5;
+  --earn-muted: #848e9c;
+  --earn-gold: #f0b90b;
+  --earn-green: #0ecb81;
+  --earn-red: #f6465d;
+
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 28px 24px 110px;
+  color: var(--earn-text);
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.earn-page *,
+.earn-page *::before,
+.earn-page *::after {
+  box-sizing: border-box;
+}
+
+.earn-page button,
+.earn-page input {
+  font: inherit;
+}
+
+.earn-page .earn-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 25px;
+}
+
+.earn-page .earn-heading h2 {
+  margin: 0 0 7px;
+  font-size: clamp(23px, 3vw, 30px);
+  font-weight: 750;
+  letter-spacing: -.7px;
+}
+
+.earn-page .earn-heading p {
+  margin: 0;
+  color: var(--earn-muted);
+  font-size: 13px;
+}
+
+.earn-page .earn-network {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 13px;
+  border: 1px solid var(--earn-border);
+  border-radius: 30px;
+  color: var(--earn-muted);
+  background: var(--earn-card);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.earn-page .earn-network::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--earn-green);
+  box-shadow: 0 0 9px rgba(14,203,129,.6);
+}
+
+/* Statistics */
+
+.earn-page .earn-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.earn-page .earn-stat-card {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--earn-border);
+  border-radius: 14px;
+  background: var(--earn-card);
+  transition: border-color .2s ease, transform .2s ease;
+}
+
+.earn-page .earn-stat-card:hover {
+  border-color: rgba(240,185,11,.35);
+  transform: translateY(-2px);
+}
+
+.earn-page .earn-stat-label {
+  display: block;
+  margin-bottom: 13px;
+  color: var(--earn-muted);
+  font-size: 12px;
+}
+
+.earn-page .earn-stat-value {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: clamp(19px, 2vw, 25px);
+  font-weight: 750;
+  letter-spacing: -.5px;
+}
+
+.earn-page .earn-stat-value small {
+  margin-left: 4px;
+  color: var(--earn-muted);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* Main layout */
+
+.earn-page .earn-main-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+  gap: 18px;
+  align-items: stretch;
+  margin-bottom: 20px;
+}
+
+.earn-page .earn-panel {
+  min-width: 0;
+  padding: 23px;
+  border: 1px solid var(--earn-border);
+  border-radius: 16px;
+  background: var(--earn-card);
+}
+
+.earn-page .earn-panel-title {
+  margin: 0 0 20px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.earn-page .earn-panel-subtitle {
+  margin: -12px 0 20px;
+  color: var(--earn-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* Stake form */
+
+.earn-page .earn-form-group {
+  margin-bottom: 17px;
+}
+
+.earn-page .earn-form-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 9px;
+  color: var(--earn-muted);
+  font-size: 12px;
+}
+
+.earn-page .earn-form-label strong {
+  color: var(--earn-text);
+  font-weight: 600;
+}
+
+.earn-page .earn-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 0 14px;
+  border: 1px solid var(--earn-border);
+  border-radius: 10px;
+  background: var(--earn-card-2);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.earn-page .earn-input-wrap:focus-within {
+  border-color: var(--earn-gold);
+  box-shadow: 0 0 0 3px rgba(240,185,11,.08);
+}
+
+.earn-page .earn-input {
+  width: 100%;
+  min-width: 0;
+  padding: 14px 0;
+  outline: none;
+  border: 0;
+  background: transparent;
+  color: var(--earn-text);
+  font-size: 16px;
+}
+
+.earn-page .earn-input::placeholder {
+  color: #5e6673;
+}
+
+.earn-page .earn-input-wrap button {
+  flex-shrink: 0;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(240,185,11,.12);
+  color: var(--earn-gold);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.earn-page .earn-input-symbol {
+  flex-shrink: 0;
+  color: var(--earn-text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.earn-page .earn-form-hint {
+  display: block;
+  margin-top: 8px;
+  color: var(--earn-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.earn-page .earn-action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.earn-page .earn-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  min-height: 46px;
+  padding: 12px 16px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter .2s ease, transform .2s ease, opacity .2s ease;
+}
+
+.earn-page .earn-btn:not(:disabled):active {
+  transform: scale(.98);
+}
+
+.earn-page .earn-btn:disabled {
+  opacity: .42;
+  cursor: not-allowed;
+}
+
+.earn-page .earn-btn-primary {
+  background: var(--earn-gold);
+  color: #171717;
+}
+
+.earn-page .earn-btn-primary:not(:disabled):hover {
+  filter: brightness(1.08);
+}
+
+.earn-page .earn-btn-secondary {
+  border-color: var(--earn-border);
+  background: var(--earn-card-2);
+  color: var(--earn-text);
+}
+
+.earn-page .earn-btn-full {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.earn-page .earn-status {
+  min-height: 18px;
+  margin-top: 12px;
+  color: var(--earn-muted);
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* Info panel */
+
+.earn-page .earn-info-list {
+  display: grid;
+  gap: 0;
+}
+
+.earn-page .earn-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--earn-border);
+  font-size: 12px;
+}
+
+.earn-page .earn-info-row:last-child {
+  border-bottom: 0;
+}
+
+.earn-page .earn-info-row span {
+  color: var(--earn-muted);
+}
+
+.earn-page .earn-info-row strong {
+  text-align: right;
+  overflow-wrap: anywhere;
+  font-weight: 650;
+}
+
+.earn-page .earn-highlight {
+  color: var(--earn-gold) !important;
+}
+
+/* Lower content */
+
+.earn-page .earn-lower-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.earn-page .earn-wide-panel {
+  grid-column: 1 / -1;
+}
+
+.earn-page .earn-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 17px;
+}
+
+.earn-page .earn-section-heading h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.earn-page .earn-count {
+  padding: 5px 9px;
+  border: 1px solid var(--earn-border);
+  border-radius: 20px;
+  color: var(--earn-muted);
+  font-size: 11px;
+}
+
+.earn-page .earn-empty-state {
+  padding: 27px 14px;
+  border: 1px dashed var(--earn-border);
+  border-radius: 10px;
+  color: var(--earn-muted);
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.earn-page .earn-position-item,
+.earn-page .earn-reward-item,
+.earn-page .earn-history-item {
+  padding: 15px;
+  margin-bottom: 10px;
+  border: 1px solid var(--earn-border);
+  border-radius: 10px;
+  background: var(--earn-card-2);
+}
+
+.earn-page .earn-position-item:last-child,
+.earn-page .earn-reward-item:last-child,
+.earn-page .earn-history-item:last-child {
+  margin-bottom: 0;
+}
+
+.earn-page .earn-item-top,
+.earn-page .earn-item-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.earn-page .earn-item-top {
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.earn-page .earn-item-bottom {
+  color: var(--earn-muted);
+  font-size: 11px;
+}
+
+.earn-page .earn-item-bottom strong {
+  color: var(--earn-text);
+  text-align: right;
+}
+
+.earn-page .earn-progress {
+  width: 100%;
+  height: 5px;
+  margin: 12px 0;
+  overflow: hidden;
+  border-radius: 10px;
+  background: rgba(255,255,255,.08);
+}
+
+.earn-page .earn-progress > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--earn-gold);
+}
+
+/* Referral */
+
+.earn-page .earn-referral-box {
+  padding: 15px;
+  border: 1px solid var(--earn-border);
+  border-radius: 10px;
+  background: var(--earn-card-2);
+}
+
+.earn-page .earn-referral-value {
+  display: block;
+  margin: 9px 0 14px;
+  overflow-wrap: anywhere;
+  color: var(--earn-gold);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.earn-page .earn-referral-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.earn-page .earn-referral-actions .earn-btn {
+  flex: 1;
+}
+
+/* History */
+
+.earn-page .earn-history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+}
+
+.earn-page .earn-history-item span {
+  color: var(--earn-muted);
+}
+
+.earn-page .earn-history-item strong {
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+/* Light theme support */
+
+body.light-theme .earn-page,
+body[data-theme="light"] .earn-page {
+  --earn-bg: #f5f5f5;
+  --earn-card: #ffffff;
+  --earn-card-2: #f7f7f7;
+  --earn-border: rgba(0,0,0,.09);
+  --earn-text: #1e2329;
+  --earn-muted: #707a8a;
+}
+
+body.light-theme .earn-page .earn-progress,
+body[data-theme="light"] .earn-page .earn-progress {
+  background: rgba(0,0,0,.08);
+}
+
+/* Tablet */
+
+@media (max-width: 1023px) {
+  .earn-page {
+    padding: 24px 18px 105px;
+  }
+
+  .earn-page .earn-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .earn-page .earn-main-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(250px, .85fr);
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 700px) {
+  .earn-page {
+    padding: 20px 14px 100px;
+  }
+
+  .earn-page .earn-header {
+    align-items: flex-start;
+  }
+
+  .earn-page .earn-main-grid,
+  .earn-page .earn-lower-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .earn-page .earn-wide-panel {
+    grid-column: auto;
+  }
+
+  .earn-page .earn-panel {
+    padding: 18px;
+  }
+
+  .earn-page .earn-stat-card {
+    padding: 16px;
+  }
+
+  .earn-page .earn-stat-label {
+    margin-bottom: 10px;
+  }
+}
+
+/* Small phones */
+
+@media (max-width: 400px) {
+  .earn-page {
+    padding-right: 11px;
+    padding-left: 11px;
+  }
+
+  .earn-page .earn-header {
+    flex-direction: column;
+  }
+
+  .earn-page .earn-stats-grid {
+    gap: 9px;
+  }
+
+  .earn-page .earn-stat-card {
+    padding: 13px;
+  }
+
+  .earn-page .earn-stat-value {
+    font-size: 18px;
+  }
+
+  .earn-page .earn-panel {
+    padding: 15px;
+  }
+
+  .earn-page .earn-action-row {
+    grid-template-columns: 1fr;
+  }
+
+  .earn-page .earn-btn {
+    min-height: 44px;
+  }
+}
+
