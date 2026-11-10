@@ -281,6 +281,8 @@
     ].forEach(id => setText(id, "—"));
 
     setText("earnWalletBalance", "Connect wallet to continue");
+     setText("dashboardStakedAmount", "—");
+     setText("dashboardEligibleReward", "—");
     setText("earnPositionCount", "0");
 
     const positions = $("earnPositionsList");
@@ -598,11 +600,14 @@
         )
       );
 
-      setText("earnAccruedRewards", "0 NAVAA");
+       setText("earnAccruedRewards", "0 NAVAA");
+       setText("dashboardStakedAmount", "0");
+       setText("dashboardEligibleReward", "0");
       return;
     }
 
-    let totalPreview = 0n;
+     let totalPreview = 0n;
+     let totalDashboardStaked = 0n;
     const now = currentTime();
     const canClaim = nextClaim <= now;
 
@@ -633,6 +638,9 @@
       const unlocksAt = position.unlocksAt ?? position[3];
       const withdrawn = position.principalWithdrawn ?? position[5];
 
+       if (!withdrawn) {
+          totalDashboardStaked += BigInt(principal.toString());
+       }
       totalPreview += reward;
 
       const unlocked = now >= unlocksAt;
@@ -742,6 +750,14 @@
       "earnAccruedRewards",
       formatAmount(totalPreview) + " NAVAA"
     );
+     setText(
+        "dashboardStakedAmount",
+        formatAmount(totalDashboardStaked)
+     );
+     setText(
+        "dashboardEligibleReward",
+        formatAmount(totalPreview)
+     );
   }
 
   /* =========================================
