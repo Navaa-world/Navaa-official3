@@ -589,7 +589,98 @@ button:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
+/* ===================================================
+           END : HEADER DESIGN 
+  ===================================================*/
 
+  /* =========================================
+              NAVAA Wallet Balance
+  =============================================*/
+.balance-card {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:22px 24px;
+  margin:18px 0 22px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:linear-gradient(120deg,var(--surface),var(--surface2));
+  min-width:0;
+}
+.balance-info { min-width:0; }
+.balance-label {
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+}
+.balance-value {
+  margin-top:5px;
+  color:var(--text);
+  font-size:clamp(25px,4vw,34px);
+  font-weight:800;
+  line-height:1.3;
+  overflow-wrap:anywhere;
+}
+.balance-symbol {
+  color:var(--accent);
+  font-size:14px;
+  font-weight:800;
+}
+.balance-status {
+  margin-top:5px;
+  color:var(--muted);
+  font-size:12px;
+}
+.add-fund-btn {
+  flex-shrink:0;
+  padding:12px 22px;
+  border:0;
+  border-radius:12px;
+  background:var(--accent);
+  color:var(--accent-text);
+  font-weight:800;
+  cursor:pointer;
+}
+.add-fund-btn:hover { filter:brightness(1.1); }
+.fund-sheet {
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  background:rgba(0,0,0,.65);
+}
+.fund-sheet.show { display:flex; }
+.fund-sheet-box {
+  width:100%;
+  max-width:480px;
+  padding:24px;
+  border:1px solid var(--line);
+  border-radius:22px 22px 0 0;
+  background:var(--surface);
+}
+.fund-option {
+  width:100%;
+  margin-top:10px;
+  padding:15px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--surface2);
+  color:var(--text);
+  font-weight:800;
+  text-align:left;
+  cursor:pointer;
+}
+@media(max-width:480px) {
+  .balance-card { padding:16px 13px; gap:8px; }
+  .balance-value { font-size:23px; }
+  .add-fund-btn { padding:11px 13px; font-size:12px; }
+}
+  
 
 </style>
 </head>
@@ -629,6 +720,50 @@ button:focus-visible {
       </div>  
     </header>
     <!--==================== END Header Navbar Part - 1 ================--->
+
+      <!--////////////////////////////////////////////////
+                    NAVAA Wallet Balance 
+      ////////////////////////////////////////////////-->
+<section class="balance-card" id="navaaBalanceCard">
+
+  <div class="balance-info">
+    <div class="balance-label">My NAVAA Balance</div>
+
+    <div class="balance-value">
+      <span id="navaaBalanceAmount">—</span>
+      <span class="balance-symbol">NAVAA</span>
+    </div>
+
+    <div class="balance-status" id="navaaBalanceStatus">
+      Connect wallet to view your balance
+    </div>
+  </div>
+
+  <button class="add-fund-btn" id="addFundBtn" type="button">
+    + Add Fund
+  </button>
+
+</section>
+
+<!-- Add Fund Popup -->
+<div class="fund-sheet" id="fundSheet">
+  <div class="fund-sheet-box">
+    <div class="row">
+      <h2>Add Funds</h2>
+      <button class="btn secondary" id="closeFundSheet" type="button">✕</button>
+    </div>
+
+    <button class="fund-option" id="fundP2P" type="button">
+      P2P <span class="muted">— Coming Soon</span>
+    </button>
+
+    <button class="fund-option" id="fundExchange" type="button">
+      Exchange <span class="muted">— NAVAA Exchange</span>
+    </button>
+
+    <div class="balance-status" id="fundMessage"></div>
+  </div>
+</div>
       
       
     </main>
@@ -676,12 +811,233 @@ button:focus-visible {
           currentTheme === "dark" ? "light" : "dark"
         );
       });
-
-
-
-
-
       
     </script>
+<!--==================================================
+          JAVASCRIPT : Wallet Balance 
+    ===============================================--->
+    <script>
+      (() => {
+        'use strict';
+        const TOKEN_ADDRESS =
+          '0x82dba663278ADF0c398c1795a31760c7a76CA932';
+
+        const POLYGON_CHAIN_ID = 137n;
+        const TOKEN_ABI = [
+          'function balanceOf(address) view returns (uint256)',
+          'function decimals() view returns (uint8)',
+          'function symbol() view returns (string)'
+        ];
+
+        const $ = id => document.getElementById(id);
+        const connectBtn = $('connectBtn');
+        const balanceAmount = $('navaaBalanceAmount');
+        const balanceStatus = $('navaaBalanceStatus');
+
+        let walletAddress = null;
+        let walletProvider = null;
+
+        function shortAddress(address) {
+          return address.slice(0, 6) + '...' + address.slice(-4);
+        }
+        
+        function showBalance(value) {
+          balanceAmount.textContent = value;
+        }
+        
+        function showStatus(message) {
+          balanceStatus.textContent = message;
+        }
+        
+        async function readNavaaBalance() {
+          if (!walletAddress || !window.ethereum) return;
+          try {
+            walletProvider =
+              new ethers.BrowserProvider(window.ethereum);
+            const network = await walletProvider.getNetwork();
+
+            if (network.chainId !== POLYGON_CHAIN_ID) {
+              showBalance('—');
+              showStatus('Please switch to Polygon Mainnet');
+              return;
+            }
+
+            const token = new ethers.Contract(
+              TOKEN_ADDRESS,
+              TOKEN_ABI,
+              walletProvider
+            );
+
+            const [rawBalance, decimals, symbol] =
+              await Promise.all([
+                token.balanceOf(walletAddress),
+                token.decimals(),
+                token.symbol()
+              ]);
+
+            const formatted = Number(
+              ethers.formatUnits(rawBalance, decimals)
+            ).toLocaleString('en-US', {
+              maximumFractionDigits: 4
+            });
+     
+            showBalance(formatted);
+            showStatus(
+              shortAddress(walletAddress) +
+              ' · ' + symbol + ' balance on Polygon'
+            );
+          } 
+          
+          catch (error) {
+            console.error('NAVAA balance error:', error);
+            showBalance('—');
+            showStatus('Unable to load NAVAA balance. Please retry.');
+          }
+        }
+
+  async function connectWallet() {
+    try {
+      if (!window.ethereum) {
+        showStatus('Open this website inside MetaMask, Trust Wallet or SafePal DApp browser.');
+        return;
+      }
+
+      connectBtn.disabled = true;
+      connectBtn.textContent = 'Connecting...';
+
+      let accounts = await window.ethereum.request({
+        method: 'eth_requestAccounts'
+      });
+
+      if (!accounts || !accounts.length) {
+        throw new Error('No wallet account found.');
+      }
+
+      let chain = await window.ethereum.request({
+        method: 'eth_chainId'
+      });
+
+      if (BigInt(chain) !== POLYGON_CHAIN_ID) {
+        try {
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: '0x89' }]
+          });
+        } catch (error) {
+          if (error.code === 4902) {
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [{
+                chainId: '0x89',
+                chainName: 'Polygon Mainnet',
+                nativeCurrency: {
+                  name: 'POL',
+                  symbol: 'POL',
+                  decimals: 18
+                },
+                rpcUrls: ['https://polygon.drpc.org'],
+                blockExplorerUrls: ['https://polygonscan.com']
+              }]
+            });
+          } else {
+            throw error;
+          }
+        }
+      }
+
+      accounts = await window.ethereum.request({
+        method: 'eth_accounts'
+      });
+
+      walletAddress = accounts[0];
+
+      connectBtn.textContent = shortAddress(walletAddress);
+
+      await readNavaaBalance();
+
+    } catch (error) {
+      console.error('Wallet connection error:', error);
+      showStatus(error.message || 'Wallet connection failed.');
+      connectBtn.textContent = 'Connect wallet';
+
+    } finally {
+      connectBtn.disabled = false;
+    }
+  }
+
+  connectBtn.addEventListener('click', connectWallet);
+
+  if (window.ethereum && window.ethereum.on) {
+
+    window.ethereum.on('accountsChanged', accounts => {
+      walletAddress = accounts.length ? accounts[0] : null;
+
+      if (!walletAddress) {
+        connectBtn.textContent = 'Connect wallet';
+        showBalance('—');
+        showStatus('Connect wallet to view your balance');
+        return;
+      }
+
+      connectBtn.textContent = shortAddress(walletAddress);
+      readNavaaBalance();
+    });
+
+    window.ethereum.on('chainChanged', () => {
+      readNavaaBalance();
+    });
+  }
+
+  // Restore an already-authorized wallet without a new permission prompt
+  async function restoreWallet() {
+    if (!window.ethereum) return;
+
+    try {
+      const accounts = await window.ethereum.request({
+        method: 'eth_accounts'
+      });
+
+      if (accounts.length) {
+        walletAddress = accounts[0];
+        connectBtn.textContent = shortAddress(walletAddress);
+        await readNavaaBalance();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  restoreWallet();
+
+  // Add Fund popup
+  $('addFundBtn').addEventListener('click', () => {
+    $('fundSheet').classList.add('show');
+  });
+
+  $('closeFundSheet').addEventListener('click', () => {
+    $('fundSheet').classList.remove('show');
+  });
+
+  $('fundSheet').addEventListener('click', event => {
+    if (event.target === $('fundSheet')) {
+      $('fundSheet').classList.remove('show');
+    }
+  });
+
+  $('fundP2P').addEventListener('click', () => {
+    $('fundMessage').textContent = 'P2P is coming soon.';
+  });
+
+  $('fundExchange').addEventListener('click', () => {
+    $('fundSheet').classList.remove('show');
+
+    const exchangeTab = $('pageExchangeTab');
+
+    if (exchangeTab) exchangeTab.click();
+  });
+
+})();
+</script>
+    
   </body>
 </html>
