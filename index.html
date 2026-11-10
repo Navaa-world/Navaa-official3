@@ -96,7 +96,7 @@
     max-width: 100%;
     min-height: 100vh;
     margin: 0 auto;
-    padding: 0 0 56px;
+    padding-bottom: calc(100px + env(safe-area-inset-bottom));
   }
 
 /* ==========================================
@@ -106,22 +106,16 @@
 .top {
   width: 100%;
   min-height: var(--header-height);
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   gap: 24px;
   padding: 0 28px;
-
   background: var(--header-bg);
-
   border-bottom: 1px solid var(--line);
-
   position: sticky;
   top: 0;
   z-index: 1000;
-
   transition:
     background 0.25s ease,
     border-color 0.25s ease,
@@ -143,6 +137,11 @@
     isolation: isolate;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
+
+    /*---Logo button reset */
+    border: 0;
+    padding: 0;
+    background: transparent;
   }
 
 /*--------ROTATING ENERGY RING----------*/
@@ -266,69 +265,6 @@
       drop-shadow(0 0 9px rgba(24,214,197,0.7));
   }
 
-/* =================================================
-    CENTER NAVIGATION : Earn & Exchange [ Tab ]
-================================================== */
-
-  .main-nav {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-
-  .nav-tab {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: var(--header-height);
-    padding: 0 20px;
-    border: none;
-    border-radius: 0;
-    background: transparent;
-    color: var(--muted);
-    font-size: 14px;
-    font-weight: 600;
-    white-space: nowrap;
-    transition: color 0.2s ease, background 0.2s ease;
-}
-
-  .nav-tab:hover {
-    color: var(--text);
-    background: var(--surface2);
-  }
-
-  .nav-tab.active {
-    color: var(--accent);
-  }
-  
-  .nav-tab.active::after {
-    content: "";
-    position: absolute;
-    left: 18px;
-    right: 18px;
-    bottom: 0;
-    height: 3px;
-    border-radius: 3px 3px 0 0;
-    background: var(--accent);
-    animation: navIndicator 0.25s ease;
-  }
-
-  @keyframes navIndicator {
-    from {
-      transform: scaleX(0.3);
-      opacity: 0;
-    }
-
-    to {
-      transform: scaleX(1);
-      opacity: 1;
-    }
-  }
-
 /* ==========================================
          HEADER ACTIONS
 ========================================== */
@@ -440,15 +376,6 @@ button:focus-visible {
       height: 40px;
     }
 
-  .main-nav {
-    gap: 2px;
-  }
-
-  .nav-tab {
-    padding: 0 14px;
-    font-size: 13px;
-  }
-
   .top-actions {
     gap: 8px;
   }
@@ -476,12 +403,7 @@ button:focus-visible {
     width: 40px;
     height: 40px;
   }
-
-  .main-nav {
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-
+  
   .top-actions {
     flex: 0 0 auto;
   }
@@ -489,23 +411,6 @@ button:focus-visible {
   .brand-logo {
     width: 36px;
     height: 36px;
-  }
-
-  .main-nav {
-    gap: 0;
-    justify-content: center;
-  }
-
-  .nav-tab {
-    min-height: var(--header-height);
-    padding: 0 10px;
-    font-size: 12px;
-  }
-
-  .nav-tab.active::after {
-    left: 10px;
-    right: 10px;
-    height: 2px;
   }
 
   .top-actions {
@@ -545,16 +450,6 @@ button:focus-visible {
   .brand-logo {
     width: 32px;
     height: 32px;
-  }
-
-  .nav-tab {
-    padding: 0 7px;
-    font-size: 11px;
-  }
-
-  .nav-tab.active::after {
-    left: 7px;
-    right: 7px;
   }
 
   .top-actions {
@@ -914,10 +809,6 @@ button:focus-visible {
    NAVAA PREMIUM BOTTOM NAVIGATION
 ========================================== */
 
-main {
-  padding-bottom: calc(100px + env(safe-area-inset-bottom));
-}
-
 /* Page switching */
 .app-page {
   display: none;
@@ -987,13 +878,6 @@ main {
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 1px;
-}
-
-/* Logo button reset - visual design preserved */
-.brand {
-  border: 0;
-  padding: 0;
-  background: transparent;
 }
 
 /* Fixed bottom navigation */
