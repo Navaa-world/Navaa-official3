@@ -392,150 +392,183 @@
      DASHBOARD READS
   ========================================= */
 
-  async function refreshDashboard() {
+     async function refreshDashboard() {
     if (!account || !token || !staking) {
-      resetDashboard();
+      showConnectState();
       return;
     }
 
-    // Each read is isolated. One failure won't hide all data.
-    const reads = await Promise.allSettled([
-      token.balanceOf(account),
-      staking.availableRewardReserve(),
-      staking.totalPrincipalLocked(),
-      staking.totalRewardsReserved(),
-      staking.positionCount(account),
-      staking.referralBalance(account),
-      staking.maxStakeCapacity(account),
-      staking.hasStaked(account),
-      staking.nextRewardClaimAt(account),
-      staking.paused(),
-      token.allowance(account, STAKE_ADDRESS)
-    ]);
+    try {
+      decimals = await token.decimals().catch(() => 18);
 
-    const value = index => {
-      const result = reads[index];
+      const reads = await Promise.allSettled([
+        token.balanceOf(account),
+        staking.availableRewardReserve(),
+        staking.totalPrincipalLocked(),
+        staking.totalRewardsReserved(),
+        staking.positionCount(account),
+        staking.referralBalance(account),
+        staking.maxStakeCapacity(account),
+        staking.hasStaked(account),
+        staking.nextRewardClaimAt(account),
+        staking.paused()
+      ]);
 
-      return result.status === "fulfilled"
-        ? result.value
-        : null;
-    };
+      const getValue = (index, fallback = null) =>
+        reads[index].status === "fulfilled"
+          ? reads[index].value
+          : fallback;
 
-    walletBalanceRaw = value(0) ?? 0n;
-    capacityRaw = value(6) ?? 0n;
-    allowanceRaw = value(10) ?? 0n;
-    pausedState = value(9) ?? false;
+      const walletBalance = getValue(0);
+      const reserve = getValue(1);
+      const totalStaked = getValue(2);
+      const totalRewards = getValue(3);
+      const count = getValue(4);
+      const referralAmount = getValue(5);
+      const capacity = getValue(6);
+      const alreadyStaked = getValue(7);
+      const nextClaim = getValue(8);
+      const isPaused = getValue(9);
 
-    if (value(0) !== null) {
       setText(
         "earnWalletBalance",
-        formatAmount(walletBalanceRaw) + " NAVAA"
+        walletBalance === null
+          ? "Read error"
+          : formatAmount(walletBalance) + " NAVAA"
       );
-    } else {
-      setText("earnWalletBalance", "Unable to load");
-    }
 
-    if (value(1) !== null) {
       setText(
         "earnAvailableBalance",
-        formatAmount(value(1))
+        reserve === null ? "Read error" : formatAmount(reserve) + " NAVAA"
       );
-    } else {
-      setText("earnAvailableBalance", "Unavailable");
-    }
 
-    if (value(2) !== null) {
       setText(
         "earnTotalStaked",
-        formatAmount(value(2))
+        totalStaked === null ? "Read error" : formatAmount(totalStaked) + " NAVAA"
       );
-    } else {
-      setText("earnTotalStaked", "Unavailable");
-    }
 
-    if (value(3) !== null) {
       setText(
         "earnTotalRewards",
-        formatAmount(value(3))
+        totalRewards === null ? "Read error" : formatAmount(totalRewards) + " NAVAA"
       );
-    } else {
-      setText("earnTotalRewards", "Unavailable");
-    }
 
-    if (value(4) !== null) {
-      setText("earnActivePositions", value(4).toString());
       setText(
-        "earnPositionCount",
-        value(4).toString() + " total positions"
+        "earnActivePositions",
+        count === null ? "Read error" : count.toString()
       );
-    }
 
-    if (value(5) !== null) {
       setText(
         "earnReferralBalance",
-        formatAmount(value(5)) + " NAVAA"
+        referralAmount === null
+          ? "Read error"
+          : formatAmount(referralAmount) + " NAVAA"
       );
+
+      const input = $("earnStakeAmount");
+
+      if (input) {
+        input.dataset.walletBalance =
+          walletBalance === null ? "0" : ethers.formatUnits(walletBalance, decimals);
+
+        input.dataset.maxCapacity =
+          capacity === null ? "0" : ethers.formatUnits(capacity, decimals);
+
+        input.dataset.alreadyStaked =
+          alreadyStaked === true ? "true" : "false";
+      }
+
+      const maxStake =
+        walletBalance !== null && capacity !== null
+          ? (walletBalance < capacity ? walletBalance : capacity)
+          : 0n;
+
+      const maxButton = $("earnMaxBtn");
+
+      if (maxButton) {
+        maxButton.onclick = () => {
+          if (input) {
+            input.value = ethers.formatUnits(maxStake, decimals);
+            updateStakeButtons();
+          }
+        };
+      }
+
+      const referralInput = $("earnReferrer");
+
+      if (referralInput) {
+        if (alreadyStaked === true) {
+          referralInput.value = "";
+          referralInput.placeholder = "Not required for subsequent stakes";
+          referralInput.disabled = true;
+        } else {
+          referralInput.disabled = false;
+          referralInput.placeholder = "Enter referrer's wallet address";
+        }
+      }
+
+      const referralAddress = $("earnReferralLink");
+
+      if (referralAddress) {
+        referralAddress.value = account;
+      }
+
+      if (nextClaim !== null) {
+        const claimDate = Number(nextClaim);
+
+        setText(
+          "earnNextClaim",
+          claimDate > Math.floor(Date.now() / 1000)
+            ? formatDate(claimDate)
+            : "Available now"
+        );
+      } else {
+        setText("earnNextClaim", "Read error");
+      }
+
+      if (count !== null && nextClaim !== null) {
+        try {
+          await loadPositions(count, nextClaim);
+        } catch (error) {
+          console.error("NAVAA positions read error:", error);
+          setText("earnPositionCount", "Unable to load positions");
+          setText("earnAccruedRewards", "Read error");
+        }
+      } else {
+        setText("earnPositionCount", "Read error");
+        setText("earnAccruedRewards", "Read error");
+      }
+
+      const referralButton = $("earnWithdrawReferralBtn");
+
+      if (referralButton) {
+        referralButton.disabled =
+          referralAmount === null || referralAmount === 0n;
+      }
+
+      updateStakeButtons();
+
+      const failedReads = reads.filter(
+        result => result.status === "rejected"
+      ).length;
+
+      if (failedReads > 0) {
+        setStatus(
+          failedReads + " contract read(s) failed. Other available data is shown.",
+          true
+        );
+        console.error("NAVAA Earn failed reads:", reads);
+      } else if (isPaused === true) {
+        setStatus("Staking is currently paused by the contract owner.", true);
+      } else {
+        setStatus("Wallet and staking data updated.");
+      }
+
+    } catch (error) {
+      console.error("NAVAA Earn dashboard error:", error);
+      setStatus(showError(error), true);
     }
-
-    const alreadyStaked = value(7);
-
-    const referralInput = $("earnReferrer");
-
-    if (referralInput && alreadyStaked !== null) {
-      referralInput.disabled = alreadyStaked;
-
-      referralInput.placeholder = alreadyStaked
-        ? "Not required for subsequent stakes"
-        : "Enter referrer's wallet address";
-
-      if (alreadyStaked) referralInput.value = "";
-    }
-
-    const referralAddress = $("earnReferralLink");
-    if (referralAddress) referralAddress.value = account;
-
-    const copyButton = $("earnCopyReferralBtn");
-    if (copyButton) copyButton.disabled = false;
-
-    const nextClaim = value(8);
-
-    if (nextClaim !== null) {
-      const remaining = nextClaim - currentTime();
-
-      setText(
-        "earnNextClaim",
-        remaining > 0n
-          ? formatDate(nextClaim)
-          : "Available now"
-      );
-    }
-
-    const referralButton = $("earnWithdrawReferralBtn");
-
-    if (referralButton && value(5) !== null) {
-      referralButton.disabled = value(5) === 0n || busy;
-    }
-
-    if (pausedState) {
-      setStatus(
-        "Staking is paused by the contract owner. Withdrawals remain subject to contract rules.",
-        true
-      );
-    } else if (value(0) === null || value(6) === null) {
-      setStatus(
-        "Some wallet or contract data could not load. Please refresh.",
-        true
-      );
-    } else {
-      setStatus("Wallet and staking data updated.");
-    }
-
-    if (value(4) !== null && nextClaim !== null) {
-      await loadPositions(value(4), nextClaim);
-    }
-
-    await updateStakeButtons();
   }
+  
 
   /* =========================================
      POSITIONS + REWARD PREVIEW
