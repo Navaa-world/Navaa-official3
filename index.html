@@ -1025,17 +1025,6 @@ button:focus-visible {
   }
 }
 
-/* Reduced motion 
-@media (prefers-reduced-motion: reduce) {
-  .app-page,
-  .bottom-nav-item,
-  .bottom-nav-item svg {
-    animation: none;
-    transition: none;
-  }
-}
-  */
-
 
   
 
@@ -1345,9 +1334,6 @@ button:focus-visible {
 
         balanceVisibilityBtn.addEventListener('click', () => {
           balanceHidden = !balanceHidden;
-        /*  balanceAmount.textContent = balanceHidden
-            ? '••••••••'
-            : actualBalanceText; */
             showBalance(actualBalanceText);
 
           balanceVisibilityBtn.innerHTML = balanceHidden
@@ -1370,10 +1356,6 @@ button:focus-visible {
         async function readNavaaBalance() {
           if (!walletAddress || !window.ethereum) return;
           try {
-           /* walletProvider =
-              new ethers.BrowserProvider(window.ethereum);
-            const network = await walletProvider.getNetwork(); */
-
             const walletProvider =
               new ethers.BrowserProvider(window.ethereum);
             const network = await walletProvider.getNetwork();
