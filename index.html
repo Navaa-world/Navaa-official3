@@ -1331,7 +1331,6 @@ button:focus-visible {
         </svg>`;
 
         let walletAddress = null;
-        let walletProvider = null;
 
         function shortAddress(address) {
           return address.slice(0, 6) + '...' + address.slice(-4);
@@ -1370,7 +1369,11 @@ button:focus-visible {
         async function readNavaaBalance() {
           if (!walletAddress || !window.ethereum) return;
           try {
-            walletProvider =
+           /* walletProvider =
+              new ethers.BrowserProvider(window.ethereum);
+            const network = await walletProvider.getNetwork(); */
+
+            const walletProvider =
               new ethers.BrowserProvider(window.ethereum);
             const network = await walletProvider.getNetwork();
 
