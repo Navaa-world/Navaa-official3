@@ -1136,6 +1136,23 @@
 }
 
 
+/* ALL POSITIONS CARD ICON */
+
+#pageDashboard .positions-icon {
+  color: #55d6c2;
+  background: rgba(45, 205, 180, 0.13);
+  border: 1px solid rgba(45, 205, 180, 0.20);
+}
+
+/* Desktop: show all 3 cards in one row */
+
+@media (min-width: 1024px) {
+  #pageDashboard .dashboard-earning-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+
 
 
 
