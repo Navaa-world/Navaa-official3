@@ -1074,28 +1074,29 @@
   }
 }
 
+/* =========================================
+   NAVAA DASHBOARD - MOBILE SWIPE SLIDER
+   Desktop layout remains unchanged
+========================================= */
 
-/* =====================================
-   NAVAA MOBILE STAKED & REWARD SLIDER
-===================================== */
-
-@media (max-width: 480px) {
+@media (max-width: 1023px) {
 
   #pageDashboard .dashboard-earning-cards {
     display: flex;
     flex-wrap: nowrap;
+    width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
 
     gap: 12px;
-    padding: 2px 2px 12px;
+    padding: 3px 2px 12px;
 
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    scroll-padding-inline: 2px;
-
     -webkit-overflow-scrolling: touch;
+
     scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
   #pageDashboard .dashboard-earning-cards::-webkit-scrollbar {
@@ -1103,15 +1104,36 @@
   }
 
   #pageDashboard .dashboard-earning-card {
-    flex: 0 0 86%;
+    flex: 0 0 76%;
+    width: 76%;
     min-width: 0;
     scroll-snap-align: start;
     scroll-snap-stop: always;
   }
-
 }
 
+/* Smaller mobile screens */
+@media (max-width: 600px) {
 
+  #pageDashboard .dashboard-earning-cards {
+    gap: 10px;
+    padding-bottom: 10px;
+  }
+
+  #pageDashboard .dashboard-earning-card {
+    flex: 0 0 87%;
+    width: 87%;
+  }
+}
+
+/* Very small mobile screens */
+@media (max-width: 360px) {
+
+  #pageDashboard .dashboard-earning-card {
+    flex-basis: 91%;
+    width: 91%;
+  }
+}
 
 
 
