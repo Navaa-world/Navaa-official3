@@ -1,27 +1,29 @@
 
-/* =========================================
-   NAVAA EARN — RESPONSIVE STAKING UI
-   Scoped styles: Earn section only
-========================================= */
+/* =================================================
+   NAVAA EARN — OFFICIAL RESPONSIVE DESIGN
+   Matches current index.html class names
+   Dark + Light theme supported
+================================================= */
 
 .earn-page {
-  --earn-bg: #0b0e11;
-  --earn-card: #151a21;
-  --earn-card-2: #1e2329;
-  --earn-border: rgba(255,255,255,.08);
-  --earn-text: #f0f2f5;
-  --earn-muted: #848e9c;
-  --earn-gold: #f0b90b;
-  --earn-green: #0ecb81;
-  --earn-red: #f6465d;
+  --ec-bg: var(--bg);
+  --ec-card: var(--surface);
+  --ec-inner: var(--surface2);
+  --ec-border: var(--line);
+  --ec-text: var(--text);
+  --ec-muted: var(--muted);
+  --ec-accent: var(--accent);
+  --ec-green: var(--green);
+  --ec-radius: 16px;
 
   width: 100%;
-  max-width: 1440px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 28px 24px 110px;
-  color: var(--earn-text);
-  box-sizing: border-box;
+  padding: 30px 24px 115px;
+  color: var(--ec-text);
   font-family: inherit;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
 }
 
 .earn-page *,
@@ -35,206 +37,374 @@
   font: inherit;
 }
 
+.earn-page button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* =================================
+   PAGE HEADER
+================================= */
+
 .earn-page .earn-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 20px;
   margin-bottom: 25px;
 }
 
-.earn-page .earn-heading h2 {
-  margin: 0 0 7px;
-  font-size: clamp(23px, 3vw, 30px);
+.earn-page .earn-eyebrow,
+.earn-page .earn-info-eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--ec-accent);
+  font-size: 11px;
   font-weight: 750;
+  letter-spacing: 1.5px;
+}
+
+.earn-page .earn-header h1 {
+  margin: 0;
+  color: var(--ec-text);
+  font-size: clamp(25px, 3.2vw, 34px);
+  font-weight: 750;
+  line-height: 1.2;
   letter-spacing: -.7px;
 }
 
-.earn-page .earn-heading p {
-  margin: 0;
-  color: var(--earn-muted);
+.earn-page .earn-header p {
+  margin-top: 9px;
+  color: var(--ec-muted);
   font-size: 13px;
+  line-height: 1.6;
 }
 
 .earn-page .earn-network {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 9px 13px;
-  border: 1px solid var(--earn-border);
+  gap: 9px;
+  flex-shrink: 0;
+  padding: 10px 15px;
+  border: 1px solid var(--ec-border);
   border-radius: 30px;
-  color: var(--earn-muted);
-  background: var(--earn-card);
+  background: var(--ec-card);
+  color: var(--ec-text);
   font-size: 12px;
+  font-weight: 600;
   white-space: nowrap;
+}
+
+.earn-page .earn-network-dot,
+.earn-page .earn-network::before {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ec-green);
+  box-shadow: 0 0 9px rgba(14,203,129,.5);
 }
 
 .earn-page .earn-network::before {
   content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--earn-green);
-  box-shadow: 0 0 9px rgba(14,203,129,.6);
 }
 
-/* Statistics */
+.earn-page .earn-network-dot {
+  display: none;
+}
 
-.earn-page .earn-stats-grid {
+/* =================================
+   STATISTICS CARDS
+================================= */
+
+.earn-page .earn-stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
-  margin-bottom: 22px;
+  margin-bottom: 32px;
 }
 
 .earn-page .earn-stat-card {
   min-width: 0;
-  padding: 20px;
-  border: 1px solid var(--earn-border);
-  border-radius: 14px;
-  background: var(--earn-card);
+  min-height: 116px;
+  padding: 19px;
+  border: 1px solid var(--ec-border);
+  border-radius: var(--ec-radius);
+  background:
+    linear-gradient(145deg, rgba(24,214,197,.055), transparent 75%),
+    var(--ec-card);
   transition: border-color .2s ease, transform .2s ease;
 }
 
 .earn-page .earn-stat-card:hover {
-  border-color: rgba(240,185,11,.35);
+  border-color: var(--ec-accent);
   transform: translateY(-2px);
 }
 
-.earn-page .earn-stat-label {
+.earn-page .earn-stat-card > span {
   display: block;
   margin-bottom: 13px;
-  color: var(--earn-muted);
+  color: var(--ec-muted);
   font-size: 12px;
-}
-
-.earn-page .earn-stat-value {
-  display: block;
-  overflow-wrap: anywhere;
-  font-size: clamp(19px, 2vw, 25px);
-  font-weight: 750;
-  letter-spacing: -.5px;
-}
-
-.earn-page .earn-stat-value small {
-  margin-left: 4px;
-  color: var(--earn-muted);
-  font-size: 11px;
   font-weight: 500;
 }
 
-/* Main layout */
+.earn-page .earn-stat-card strong {
+  display: block;
+  overflow-wrap: anywhere;
+  color: var(--ec-text);
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 750;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+}
+
+.earn-page .earn-stat-card small {
+  display: block;
+  margin-top: 5px;
+  color: var(--ec-muted);
+  font-size: 10px;
+}
+
+/* =================================
+   SECTION HEADINGS
+================================= */
+
+.earn-page .earn-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 30px 0 15px;
+}
+
+.earn-page .earn-section-heading h2 {
+  margin: 0;
+  color: var(--ec-text);
+  font-size: 19px;
+  font-weight: 750;
+  letter-spacing: -.3px;
+}
+
+.earn-page .earn-section-heading p {
+  margin-top: 5px;
+  color: var(--ec-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* =================================
+   MAIN STAKING LAYOUT
+================================= */
 
 .earn-page .earn-main-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
   gap: 18px;
   align-items: stretch;
-  margin-bottom: 20px;
 }
 
 .earn-page .earn-panel {
   min-width: 0;
   padding: 23px;
-  border: 1px solid var(--earn-border);
-  border-radius: 16px;
-  background: var(--earn-card);
+  border: 1px solid var(--ec-border);
+  border-radius: var(--ec-radius);
+  background: var(--ec-card);
+  box-shadow: 0 5px 22px rgba(0,0,0,.07);
 }
 
-.earn-page .earn-panel-title {
-  margin: 0 0 20px;
-  font-size: 17px;
-  font-weight: 700;
+/* =================================
+   PANEL HEADINGS
+================================= */
+
+.earn-page .earn-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
 }
 
-.earn-page .earn-panel-subtitle {
-  margin: -12px 0 20px;
-  color: var(--earn-muted);
+.earn-page .earn-panel-heading h3 {
+  margin: 0;
+  color: var(--ec-text);
+  font-size: 16px;
+  font-weight: 750;
+}
+
+.earn-page .earn-panel-heading p {
+  margin-top: 5px;
+  color: var(--ec-muted);
   font-size: 12px;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
-/* Stake form */
-
-.earn-page .earn-form-group {
-  margin-bottom: 17px;
+.earn-page .earn-token-badge {
+  flex-shrink: 0;
+  padding: 7px 11px;
+  border: 1px solid rgba(24,214,197,.25);
+  border-radius: 8px;
+  background: rgba(24,214,197,.08);
+  color: var(--ec-accent);
+  font-size: 11px;
+  font-weight: 750;
 }
 
-.earn-page .earn-form-label {
+/* =================================
+   STAKE INPUT
+================================= */
+
+.earn-page .earn-field-label {
+  display: block;
+  margin: 16px 0 9px;
+  color: var(--ec-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.earn-page .earn-amount-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 55px;
+  padding: 0 13px;
+  border: 1px solid var(--ec-border);
+  border-radius: 10px;
+  background: var(--ec-inner);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.earn-page .earn-amount-box:focus-within {
+  border-color: var(--ec-accent);
+  box-shadow: 0 0 0 3px rgba(24,214,197,.09);
+}
+
+.earn-page .earn-amount-box input {
+  width: 100%;
+  min-width: 0;
+  min-height: 50px;
+  padding: 12px 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ec-text);
+  font-size: 16px;
+}
+
+.earn-page .earn-amount-box input::placeholder {
+  color: var(--ec-muted);
+  opacity: .75;
+}
+
+.earn-page .earn-amount-box button {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 7px;
+  background: rgba(24,214,197,.12);
+  color: var(--ec-accent);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.earn-page .earn-amount-box button:active {
+  transform: scale(.95);
+}
+
+.earn-page .earn-balance-line {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  margin-bottom: 9px;
-  color: var(--earn-muted);
-  font-size: 12px;
-}
-
-.earn-page .earn-form-label strong {
-  color: var(--earn-text);
-  font-weight: 600;
-}
-
-.earn-page .earn-input-wrap {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 54px;
-  padding: 0 14px;
-  border: 1px solid var(--earn-border);
-  border-radius: 10px;
-  background: var(--earn-card-2);
-  transition: border-color .2s ease, box-shadow .2s ease;
-}
-
-.earn-page .earn-input-wrap:focus-within {
-  border-color: var(--earn-gold);
-  box-shadow: 0 0 0 3px rgba(240,185,11,.08);
-}
-
-.earn-page .earn-input {
-  width: 100%;
-  min-width: 0;
-  padding: 14px 0;
-  outline: none;
-  border: 0;
-  background: transparent;
-  color: var(--earn-text);
-  font-size: 16px;
-}
-
-.earn-page .earn-input::placeholder {
-  color: #5e6673;
-}
-
-.earn-page .earn-input-wrap button {
-  flex-shrink: 0;
-  padding: 7px 10px;
-  border: 0;
-  border-radius: 6px;
-  background: rgba(240,185,11,.12);
-  color: var(--earn-gold);
+  margin-top: 11px;
+  color: var(--ec-muted);
   font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
 }
 
-.earn-page .earn-input-symbol {
-  flex-shrink: 0;
-  color: var(--earn-text);
-  font-size: 12px;
-  font-weight: 700;
+.earn-page .earn-balance-line strong {
+  color: var(--ec-text);
+  font-weight: 650;
 }
 
-.earn-page .earn-form-hint {
+/* =================================
+   REFERRAL INPUT IN STAKE FORM
+================================= */
+
+.earn-page .earn-referral-field {
+  margin-top: 22px;
+}
+
+.earn-page .earn-referral-field input {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 13px;
+  border: 1px solid var(--ec-border);
+  border-radius: 9px;
+  outline: none;
+  background: var(--ec-inner);
+  color: var(--ec-text);
+  font-size: 13px;
+}
+
+.earn-page .earn-referral-field input:focus {
+  border-color: var(--ec-accent);
+}
+
+.earn-page .earn-referral-field input::placeholder {
+  color: var(--ec-muted);
+  opacity: .75;
+}
+
+.earn-page .earn-referral-field input:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+.earn-page .earn-referral-field small {
   display: block;
   margin-top: 8px;
-  color: var(--earn-muted);
+  color: var(--ec-muted);
   font-size: 11px;
   line-height: 1.5;
 }
 
-.earn-page .earn-action-row {
+/* =================================
+   STAKING SUMMARY
+================================= */
+
+.earn-page .earn-stake-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 22px;
+  padding: 14px 0;
+  border-top: 1px solid var(--ec-border);
+  border-bottom: 1px solid var(--ec-border);
+}
+
+.earn-page .earn-stake-summary > div {
+  min-width: 0;
+}
+
+.earn-page .earn-stake-summary span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ec-muted);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.earn-page .earn-stake-summary strong {
+  display: block;
+  color: var(--ec-text);
+  font-size: 12px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
+/* =================================
+   ACTION BUTTONS
+================================= */
+
+.earn-page .earn-action-buttons {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
@@ -246,18 +416,20 @@
   justify-content: center;
   align-items: center;
   gap: 7px;
+  min-width: 0;
   min-height: 46px;
-  padding: 12px 16px;
+  padding: 11px 15px;
   border: 1px solid transparent;
   border-radius: 9px;
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 750;
+  text-align: center;
   cursor: pointer;
-  transition: filter .2s ease, transform .2s ease, opacity .2s ease;
+  transition: transform .18s ease, filter .18s ease, opacity .18s ease;
 }
 
-.earn-page .earn-btn:not(:disabled):active {
-  transform: scale(.98);
+.earn-page .earn-btn:active:not(:disabled) {
+  transform: scale(.97);
 }
 
 .earn-page .earn-btn:disabled {
@@ -266,242 +438,363 @@
 }
 
 .earn-page .earn-btn-primary {
-  background: var(--earn-gold);
-  color: #171717;
-}
-
-.earn-page .earn-btn-primary:not(:disabled):hover {
-  filter: brightness(1.08);
+  background: var(--ec-accent);
+  color: var(--accent-text);
 }
 
 .earn-page .earn-btn-secondary {
-  border-color: var(--earn-border);
-  background: var(--earn-card-2);
-  color: var(--earn-text);
+  border-color: var(--ec-border);
+  background: var(--ec-inner);
+  color: var(--ec-text);
 }
 
 .earn-page .earn-btn-full {
   width: 100%;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
-.earn-page .earn-status {
-  min-height: 18px;
-  margin-top: 12px;
-  color: var(--earn-muted);
-  font-size: 12px;
-  line-height: 1.5;
+.earn-page .earn-form-status {
+  min-height: 20px;
+  margin-top: 13px;
+  color: var(--ec-muted);
+  font-size: 11px;
+  line-height: 1.6;
   overflow-wrap: anywhere;
 }
 
-/* Info panel */
+/* =================================
+   STAKING INFORMATION PANEL
+================================= */
+
+.earn-page .earn-info-panel {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 90% 0%, rgba(24,214,197,.13), transparent 55%),
+    var(--ec-card);
+}
+
+.earn-page .earn-info-panel h3 {
+  margin: 0;
+  color: var(--ec-text);
+  font-size: 22px;
+  font-weight: 750;
+}
+
+.earn-page .earn-info-panel > p {
+  margin-top: 9px;
+  color: var(--ec-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.earn-page .earn-rate-display {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 23px 0 17px;
+  padding: 19px;
+  border: 1px solid rgba(24,214,197,.22);
+  border-radius: 12px;
+  background: rgba(24,214,197,.07);
+}
+
+.earn-page .earn-rate-display strong {
+  color: var(--ec-accent);
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.earn-page .earn-rate-display span {
+  color: var(--ec-muted);
+  font-size: 11px;
+}
 
 .earn-page .earn-info-list {
   display: grid;
-  gap: 0;
 }
 
-.earn-page .earn-info-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 15px;
-  padding: 15px 0;
-  border-bottom: 1px solid var(--earn-border);
-  font-size: 12px;
-}
-
-.earn-page .earn-info-row:last-child {
-  border-bottom: 0;
-}
-
-.earn-page .earn-info-row span {
-  color: var(--earn-muted);
-}
-
-.earn-page .earn-info-row strong {
-  text-align: right;
-  overflow-wrap: anywhere;
-  font-weight: 650;
-}
-
-.earn-page .earn-highlight {
-  color: var(--earn-gold) !important;
-}
-
-/* Lower content */
-
-.earn-page .earn-lower-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-  margin-top: 20px;
-}
-
-.earn-page .earn-wide-panel {
-  grid-column: 1 / -1;
-}
-
-.earn-page .earn-section-heading {
+.earn-page .earn-info-list > div {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  margin-bottom: 17px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--ec-border);
 }
 
-.earn-page .earn-section-heading h3 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 700;
+.earn-page .earn-info-list > div:last-child {
+  border-bottom: 0;
 }
 
-.earn-page .earn-count {
-  padding: 5px 9px;
-  border: 1px solid var(--earn-border);
-  border-radius: 20px;
-  color: var(--earn-muted);
+.earn-page .earn-info-list span {
+  color: var(--ec-muted);
   font-size: 11px;
 }
 
+.earn-page .earn-info-list strong {
+  color: var(--ec-text);
+  font-size: 12px;
+  text-align: right;
+}
+
+.earn-page .earn-info-note {
+  margin-top: 13px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--ec-inner);
+  color: var(--ec-muted);
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+/* =================================
+   POSITIONS PANEL
+================================= */
+
+.earn-page .earn-positions-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
 .earn-page .earn-empty-state {
-  padding: 27px 14px;
-  border: 1px dashed var(--earn-border);
-  border-radius: 10px;
-  color: var(--earn-muted);
+  grid-column: 1 / -1;
+  padding: 30px 16px;
+  border: 1px dashed var(--ec-border);
+  border-radius: 12px;
+  color: var(--ec-muted);
   text-align: center;
   font-size: 12px;
   line-height: 1.7;
 }
 
-.earn-page .earn-position-item,
-.earn-page .earn-reward-item,
-.earn-page .earn-history-item {
-  padding: 15px;
+.earn-page .earn-empty-icon {
   margin-bottom: 10px;
-  border: 1px solid var(--earn-border);
-  border-radius: 10px;
-  background: var(--earn-card-2);
+  color: var(--ec-accent);
+  font-size: 27px;
 }
 
-.earn-page .earn-position-item:last-child,
-.earn-page .earn-reward-item:last-child,
-.earn-page .earn-history-item:last-child {
-  margin-bottom: 0;
+.earn-page .earn-empty-state strong {
+  display: block;
+  color: var(--ec-text);
+  font-size: 13px;
 }
 
-.earn-page .earn-item-top,
+.earn-page .earn-empty-state p {
+  margin-top: 5px;
+  color: var(--ec-muted);
+}
+
+.earn-page .earn-count {
+  flex-shrink: 0;
+  padding: 6px 11px;
+  border: 1px solid var(--ec-border);
+  border-radius: 20px;
+  color: var(--ec-muted);
+  font-size: 11px;
+}
+
+/* Dynamic cards created by earn.js */
+
+.earn-page .earn-position-item,
+.earn-page .earn-reward-item {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--ec-border);
+  border-radius: 12px;
+  background: var(--ec-inner);
+}
+
+.earn-page .earn-item-top {
+  margin-bottom: 13px;
+  color: var(--ec-text);
+  font-size: 13px;
+  font-weight: 750;
+}
+
 .earn-page .earn-item-bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
-}
-
-.earn-page .earn-item-top {
-  margin-bottom: 12px;
-  font-size: 13px;
-  font-weight: 650;
-}
-
-.earn-page .earn-item-bottom {
-  color: var(--earn-muted);
+  gap: 10px;
+  color: var(--ec-muted);
   font-size: 11px;
+  line-height: 1.5;
 }
 
 .earn-page .earn-item-bottom strong {
-  color: var(--earn-text);
+  color: var(--ec-text);
   text-align: right;
 }
 
 .earn-page .earn-progress {
   width: 100%;
-  height: 5px;
-  margin: 12px 0;
+  height: 6px;
+  margin: 13px 0;
   overflow: hidden;
-  border-radius: 10px;
-  background: rgba(255,255,255,.08);
+  border-radius: 20px;
+  background: var(--ec-border);
 }
 
-.earn-page .earn-progress > span {
+.earn-page .earn-progress span {
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: var(--earn-gold);
+  background: var(--ec-accent);
 }
 
-/* Referral */
+/* =================================
+   REWARD CENTER
+================================= */
 
-.earn-page .earn-referral-box {
-  padding: 15px;
-  border: 1px solid var(--earn-border);
-  border-radius: 10px;
-  background: var(--earn-card-2);
+.earn-page .earn-reward-overview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+  margin-bottom: 18px;
 }
 
-.earn-page .earn-referral-value {
+.earn-page .earn-reward-overview > div {
+  min-width: 0;
+  padding: 17px;
+  border: 1px solid var(--ec-border);
+  border-radius: 11px;
+  background: var(--ec-inner);
+}
+
+.earn-page .earn-reward-overview span {
   display: block;
-  margin: 9px 0 14px;
+  margin-bottom: 9px;
+  color: var(--ec-muted);
+  font-size: 11px;
+}
+
+.earn-page .earn-reward-overview strong {
+  display: block;
+  color: var(--ec-text);
+  font-size: 15px;
+  font-weight: 750;
   overflow-wrap: anywhere;
-  color: var(--earn-gold);
-  font-size: 13px;
-  font-weight: 650;
 }
 
-.earn-page .earn-referral-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-}
-
-.earn-page .earn-referral-actions .earn-btn {
-  flex: 1;
-}
-
-/* History */
-
-.earn-page .earn-history-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.earn-page .earn-reward-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+}
+
+.earn-page .earn-reward-list > p {
+  grid-column: 1 / -1;
+  padding: 20px;
+  color: var(--ec-muted);
+  text-align: center;
   font-size: 12px;
 }
 
-.earn-page .earn-history-item span {
-  color: var(--earn-muted);
+/* =================================
+   REFERRAL PANEL
+================================= */
+
+.earn-page .earn-referral-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+  margin-bottom: 20px;
 }
 
-.earn-page .earn-history-item strong {
-  text-align: right;
+.earn-page .earn-referral-top > div {
+  min-width: 0;
+  padding: 17px;
+  border: 1px solid var(--ec-border);
+  border-radius: 11px;
+  background: var(--ec-inner);
+}
+
+.earn-page .earn-referral-top span,
+.earn-page .earn-referral-address > span {
+  display: block;
+  margin-bottom: 9px;
+  color: var(--ec-muted);
+  font-size: 11px;
+}
+
+.earn-page .earn-referral-top strong {
+  color: var(--ec-accent);
+  font-size: 20px;
+  font-weight: 800;
   overflow-wrap: anywhere;
 }
 
-/* Light theme support */
-
-body.light-theme .earn-page,
-body[data-theme="light"] .earn-page {
-  --earn-bg: #f5f5f5;
-  --earn-card: #ffffff;
-  --earn-card-2: #f7f7f7;
-  --earn-border: rgba(0,0,0,.09);
-  --earn-text: #1e2329;
-  --earn-muted: #707a8a;
+.earn-page .earn-referral-address {
+  margin-bottom: 15px;
 }
 
-body.light-theme .earn-page .earn-progress,
-body[data-theme="light"] .earn-page .earn-progress {
-  background: rgba(0,0,0,.08);
+.earn-page .earn-referral-address > div {
+  display: flex;
+  align-items: stretch;
+  gap: 9px;
 }
 
-/* Tablet */
+.earn-page .earn-referral-address input {
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid var(--ec-border);
+  border-radius: 8px;
+  outline: none;
+  background: var(--ec-inner);
+  color: var(--ec-text);
+  font-size: 12px;
+}
+
+.earn-page .earn-referral-address button {
+  flex-shrink: 0;
+  min-width: 65px;
+  padding: 0 14px;
+  border: 1px solid var(--ec-border);
+  border-radius: 8px;
+  background: var(--ec-inner);
+  color: var(--ec-accent);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.earn-page .earn-referral-address button:disabled {
+  opacity: .4;
+}
+
+/* =================================
+   TRANSACTION HISTORY
+================================= */
+
+.earn-page .earn-history-header {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr .7fr;
+  gap: 10px;
+  padding: 13px 15px;
+  border-bottom: 1px solid var(--ec-border);
+  color: var(--ec-muted);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.earn-page .earn-history-panel .earn-empty-state {
+  margin-top: 13px;
+}
+
+/* =================================
+   TABLET RESPONSIVE
+================================= */
 
 @media (max-width: 1023px) {
   .earn-page {
-    padding: 24px 18px 105px;
+    padding: 25px 18px 110px;
   }
 
-  .earn-page .earn-stats-grid {
+  .earn-page .earn-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -510,42 +803,46 @@ body[data-theme="light"] .earn-page .earn-progress {
   }
 }
 
-/* Mobile */
+/* =================================
+   MOBILE RESPONSIVE
+================================= */
 
 @media (max-width: 700px) {
   .earn-page {
-    padding: 20px 14px 100px;
+    padding: 21px 14px 105px;
   }
 
   .earn-page .earn-header {
     align-items: flex-start;
   }
 
-  .earn-page .earn-main-grid,
-  .earn-page .earn-lower-grid {
+  .earn-page .earn-header h1 {
+    font-size: 26px;
+  }
+
+  .earn-page .earn-main-grid {
     grid-template-columns: 1fr;
   }
 
-  .earn-page .earn-wide-panel {
-    grid-column: auto;
-  }
-
   .earn-page .earn-panel {
-    padding: 18px;
+    padding: 19px;
   }
 
-  .earn-page .earn-stat-card {
-    padding: 16px;
+  .earn-page .earn-section-heading {
+    margin-top: 25px;
   }
 
-  .earn-page .earn-stat-label {
-    margin-bottom: 10px;
+  .earn-page .earn-positions-list,
+  .earn-page .earn-reward-list {
+    grid-template-columns: 1fr;
   }
 }
 
-/* Small phones */
+/* =================================
+   SMALL MOBILE
+================================= */
 
-@media (max-width: 400px) {
+@media (max-width: 420px) {
   .earn-page {
     padding-right: 11px;
     padding-left: 11px;
@@ -553,30 +850,84 @@ body[data-theme="light"] .earn-page .earn-progress {
 
   .earn-page .earn-header {
     flex-direction: column;
+    gap: 13px;
   }
 
-  .earn-page .earn-stats-grid {
+  .earn-page .earn-network {
+    padding: 8px 11px;
+  }
+
+  .earn-page .earn-stats {
     gap: 9px;
   }
 
   .earn-page .earn-stat-card {
+    min-height: 105px;
     padding: 13px;
   }
 
-  .earn-page .earn-stat-value {
-    font-size: 18px;
+  .earn-page .earn-stat-card > span {
+    font-size: 10px;
+  }
+
+  .earn-page .earn-stat-card strong {
+    font-size: 17px;
   }
 
   .earn-page .earn-panel {
     padding: 15px;
   }
 
-  .earn-page .earn-action-row {
+  .earn-page .earn-stake-summary {
+    gap: 6px;
+  }
+
+  .earn-page .earn-stake-summary span {
+    font-size: 9px;
+  }
+
+  .earn-page .earn-stake-summary strong {
+    font-size: 10px;
+  }
+
+  .earn-page .earn-action-buttons {
     grid-template-columns: 1fr;
   }
 
-  .earn-page .earn-btn {
-    min-height: 44px;
+  .earn-page .earn-referral-top,
+  .earn-page .earn-reward-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .earn-page .earn-referral-address > div {
+    flex-wrap: wrap;
+  }
+
+  .earn-page .earn-referral-address input {
+    flex: 1 1 100%;
+  }
+
+  .earn-page .earn-referral-address button {
+    width: 100%;
+    min-height: 42px;
+  }
+
+  .earn-page .earn-history-header {
+    font-size: 10px;
+    padding: 11px 8px;
   }
 }
 
+/* =================================
+   ACCESSIBILITY
+================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .earn-page *,
+  .earn-page *::before,
+  .earn-page *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
