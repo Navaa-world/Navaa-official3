@@ -283,6 +283,7 @@
     setText("earnWalletBalance", "Connect wallet to continue");
      setText("dashboardStakedAmount", "—");
      setText("dashboardEligibleReward", "—");
+     setText("dashboardAllPositions", "—");
     setText("earnPositionCount", "0");
 
     const positions = $("earnPositionsList");
@@ -603,11 +604,13 @@
        setText("earnAccruedRewards", "0 NAVAA");
        setText("dashboardStakedAmount", "0");
        setText("dashboardEligibleReward", "0");
+       setText("dashboardAllPositions", "0");
       return;
     }
 
      let totalPreview = 0n;
      let totalDashboardStaked = 0n;
+     let totalActivePositions = 0;
     const now = currentTime();
     const canClaim = nextClaim <= now;
 
@@ -640,6 +643,7 @@
 
        if (!withdrawn) {
           totalDashboardStaked += BigInt(principal.toString());
+          totalActivePositions++;
        }
       totalPreview += reward;
 
@@ -757,6 +761,10 @@
      setText(
         "dashboardEligibleReward",
         formatAmount(totalPreview)
+     );
+     setText(
+        "dashboardAllPositions",
+        totalActivePositions.toString()
      );
   }
 
