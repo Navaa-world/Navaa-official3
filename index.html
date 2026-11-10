@@ -1157,6 +1157,77 @@ button:focus-visible {
           Add Funds
         </button>
       </section>
+
+    <!--========= NAVAA DASHBOARD STAKED & REWARD CARDS ==========-->
+    <section class="dashboard-earning-cards" id="dashboardEarningCards">
+      <!--====== STAKED CARD =======-->
+      <div class="dashboard-earning-card staked-card">
+        <div class="dashboard-card-top">
+          <div class="dashboard-card-icon staked-icon">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="4" y="10" width="16" height="11" rx="2"
+                stroke="currentColor" stroke-width="1.7"/>
+              <path d="M8 10V7a4 4 0 0 1 8 0v3"
+                stroke="currentColor" stroke-width="1.7"
+                stroke-linecap="round"/>
+              <path d="M12 14v3"
+                stroke="currentColor" stroke-width="1.7"
+                stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="dashboard-card-label">STAKED</span>
+        </div>
+
+        <div class="dashboard-card-amount" id="dashboardStakedAmount">
+          0.00
+        </div>
+        
+        <div class="dashboard-card-footer">
+      <span>NAVAA</span>
+      <span class="dashboard-card-description">
+        Across all positions
+      </span>
+    </div>
+  </div>
+
+  <!-- REWARD CARD -->
+  <div class="dashboard-earning-card reward-card">
+    <div class="dashboard-card-top">
+      <div class="dashboard-card-icon reward-icon">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M20 12v9H4v-9"
+            stroke="currentColor" stroke-width="1.7"
+            stroke-linejoin="round"/>
+          <path d="M2 7h20v5H2z"
+            stroke="currentColor" stroke-width="1.7"
+            stroke-linejoin="round"/>
+          <path d="M12 7v14"
+            stroke="currentColor" stroke-width="1.7"/>
+          <path d="M12 7H7.5a2.5 2.5 0 1 1 2.5-2.5L12 7Z"
+            stroke="currentColor" stroke-width="1.5"
+            stroke-linejoin="round"/>
+          <path d="M12 7h4.5A2.5 2.5 0 1 0 14 4.5L12 7Z"
+            stroke="currentColor" stroke-width="1.5"
+            stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="dashboard-card-label">REWARD</span>
+    </div>
+
+    <div class="dashboard-card-amount" id="dashboardEligibleReward">
+      0.00
+    </div>
+
+    <div class="dashboard-card-footer">
+      <span>NAVAA</span>
+      <span class="dashboard-card-description">
+        Accrued staking rewards
+      </span>
+    </div>
+  </div>
+
+</section>
+<!-- END DASHBOARD STAKED & REWARD CARDS -->
       
         <!--*******************************
                ADD FUNDS : POP UP
@@ -1202,128 +1273,126 @@ button:focus-visible {
               Polygon Network
             </div>
           </div>
+          
+          <!-- EARN STATISTICS -->
+          
+          <div class="earn-stats">
+            <div class="earn-stat-card">
+              <span>Total Staked</span>
+              <strong id="earnTotalStaked">—</strong>
+              <small>NAVAA</small>
+            </div>
+            
+            <div class="earn-stat-card">
+              <span>Total Rewards</span>
+              <strong id="earnTotalRewards">—</strong>
+              <small>NAVAA</small>
+            </div>
 
-    <!-- EARN STATISTICS -->
-    <div class="earn-stats">
+            <div class="earn-stat-card">
+              <span>Available Balance</span>
+              <strong id="earnAvailableBalance">—</strong>
+              <small>NAVAA</small>
+            </div>
 
-      <div class="earn-stat-card">
-        <span>Total Staked</span>
-        <strong id="earnTotalStaked">—</strong>
-        <small>NAVAA</small>
-      </div>
-
-      <div class="earn-stat-card">
-        <span>Total Rewards</span>
-        <strong id="earnTotalRewards">—</strong>
-        <small>NAVAA</small>
-      </div>
-
-      <div class="earn-stat-card">
-        <span>Available Balance</span>
-        <strong id="earnAvailableBalance">—</strong>
-        <small>NAVAA</small>
-      </div>
-
-      <div class="earn-stat-card">
-        <span>Total Positions</span>
-        <strong id="earnActivePositions">—</strong>
-        <small>Positions</small>
-      </div>
-
-    </div>
-
-    <!-- STAKING SECTION -->
-    <div class="earn-section-heading">
-      <div>
-        <h2>Stake NAVAA</h2>
-        <p>Put your NAVAA to work and earn staking rewards.</p>
-      </div>
-    </div>
-
-    <div class="earn-main-grid">
-
-      <!-- STAKE FORM -->
-      <div class="earn-panel earn-stake-panel">
-
-        <div class="earn-panel-heading">
-          <div>
-            <h3>Subscribe to Staking</h3>
-            <p>Enter the amount you want to stake.</p>
+            <div class="earn-stat-card">
+              <span>Total Positions</span>
+              <strong id="earnActivePositions">—</strong>
+              <small>Positions</small>
+            </div>
           </div>
-          <span class="earn-token-badge">NAVAA</span>
-        </div>
 
-        <label class="earn-field-label" for="earnStakeAmount">
-          Stake Amount
-        </label>
-
-        <div class="earn-amount-box">
-          <input
-            type="number"
-            id="earnStakeAmount"
-            placeholder="Minimum 1,000"
-            min="1000"
-            step="any"
-            inputmode="decimal">
-
-          <button type="button" id="earnMaxBtn">MAX</button>
-        </div>
-
-        <div class="earn-balance-line">
-          <span>Wallet balance</span>
-          <strong id="earnWalletBalance">— NAVAA</strong>
-        </div>
-
-        <!-- FIRST STAKE REFERRAL -->
-        <div class="earn-referral-field" id="earnReferralField">
-          <label class="earn-field-label" for="earnReferrer">
-            Referral Address
-          </label>
-          <input
-            type="text"
-            id="earnReferrer"
-            placeholder="Enter referrer's wallet address"
-            autocomplete="off"
-            spellcheck="false">
-          <small>Required only for your first stake.</small>
-        </div>
-
-        <div class="earn-stake-summary">
-          <div>
-            <span>Minimum Stake</span>
-            <strong>1,000 NAVAA</strong>
+          <!-- STAKING SECTION -->
+          <div class="earn-section-heading">
+            <div>
+              <h2>Stake NAVAA</h2>
+              <p>Put your NAVAA to work and earn staking rewards.</p>
+            </div>
           </div>
-          <div>
-            <span>Daily Reward Rate</span>
-            <strong>0.07%</strong>
-          </div>
-          <div>
-            <span>Lock Period</span>
-            <strong>1,825 Days</strong>
-          </div>
-        </div>
 
-        <div class="earn-action-buttons">
-          <button
-            type="button"
-            id="earnApproveBtn"
-            class="earn-btn earn-btn-secondary"
-            disabled>
-            Approve NAVAA
-          </button>
+          <div class="earn-main-grid">
+            <!-- STAKE FORM -->
+            <div class="earn-panel earn-stake-panel">
+              <div class="earn-panel-heading">
+                <div>
+                  <h3>Subscribe to Staking</h3>
+                  <p>Enter the amount you want to stake.</p>
+                </div>
+                <span class="earn-token-badge">NAVAA</span>
+              </div>
+              
+              <label class="earn-field-label" for="earnStakeAmount">
+                Stake Amount
+              </label>
+              
+              <div class="earn-amount-box">
+                <input
+                  type="number"
+                  id="earnStakeAmount"
+                  placeholder="Minimum 1,000"
+                  min="1000"
+                  step="any"
+                  inputmode="decimal">
+                <button type="button" id="earnMaxBtn">MAX</button>
+              </div>
 
-          <button
-            type="button"
-            id="earnStakeBtn"
-            class="earn-btn earn-btn-primary"
-            disabled>
-            Stake NAVAA
-          </button>
-        </div>
+              <div class="earn-balance-line">
+                <span>Wallet balance</span>
+                <strong id="earnWalletBalance">— NAVAA</strong>
+              </div>
 
-        <p class="earn-form-status" id="earnStakeStatus">
-          Connect your wallet to start staking.
-        </p>
+              <!-- FIRST STAKE REFERRAL -->
+              <div class="earn-referral-field" id="earnReferralField">
+                <label class="earn-field-label" for="earnReferrer">
+                  Referral Address
+                </label>
+                <input
+                  type="text"
+                  id="earnReferrer"
+                  placeholder="Enter referrer's wallet address"
+                  autocomplete="off"
+                  spellcheck="false">
+                <small>Required only for your first stake.</small>
+              </div>
+
+              <div class="earn-stake-summary">
+                <div>
+                  <span>Minimum Stake</span>
+                  <strong>1,000 NAVAA</strong>
+                </div>
+                
+                <div>
+                  <span>Daily Reward Rate</span>
+                  <strong>0.07%</strong>
+                </div>
+                
+                <div>
+                  <span>Lock Period</span>
+                  <strong>1,825 Days</strong>
+                </div>
+              </div>
+
+              <div class="earn-action-buttons">
+                <button
+                  type="button"
+                  id="earnApproveBtn"
+                  class="earn-btn earn-btn-secondary"
+                  disabled>
+                  Approve NAVAA
+                </button>
+
+                <button
+                  type="button"
+                  id="earnStakeBtn"
+                  class="earn-btn earn-btn-primary"
+                  disabled>
+                  Stake NAVAA
+                </button>
+              </div>
+
+              <p class="earn-form-status" id="earnStakeStatus">
+                Connect your wallet to start staking.
+              </p>
 
       </div>
 
