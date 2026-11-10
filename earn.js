@@ -1203,32 +1203,75 @@
      WALLET EVENTS
   ========================================= */
 
-  function bindWalletEvents() {
-    if (!window.ethereum?.on) return;
+  
+function bindWalletEvents() {
+  // Sync Earn module with the main website Connect Wallet button
+  const connectButton = $("connectBtn");
 
-    window.ethereum.on("accountsChanged", async () => {
+  if (connectButton) {
+    connectButton.addEventListener("click", async () => {
+      setStatus("Connecting Earn to your wallet...");
+
       try {
-        const connected = await connectEarnWallet();
+        let connected = false;
+
+        // Wait for the main wallet connection to finish
+        for (let i = 0; i < 30; i++) {
+          await new Promise(resolve => setTimeout(resolve, 500));
+
+          const accounts = await window.ethereum.request({
+            method: "eth_accounts"
+          });
+
+          if (accounts && accounts.length > 0) {
+            connected = await connectEarnWallet();
+            if (connected) break;
+          }
+        }
 
         if (connected) {
           await refreshDashboard();
           await loadHistory();
         } else {
-          account = null;
-          token = null;
-          staking = null;
-          resetDashboard();
+          setStatus(
+            "Earn could not detect the connected wallet. Please reconnect.",
+            true
+          );
         }
       } catch (error) {
-        resetDashboard();
         setStatus(showError(error), true);
       }
     });
-
-    window.ethereum.on("chainChanged", () => {
-      window.location.reload();
-    });
   }
+
+  if (!window.ethereum?.on) return;
+
+  window.ethereum.on("accountsChanged", async () => {
+    try {
+      const connected = await connectEarnWallet();
+
+      if (connected) {
+        await refreshDashboard();
+        await loadHistory();
+      } else {
+        account = null;
+        signer = null;
+        token = null;
+        staking = null;
+        resetDashboard();
+        setStatus("Connect your wallet to start staking.");
+      }
+    } catch (error) {
+      resetDashboard();
+      setStatus(showError(error), true);
+    }
+  });
+
+  window.ethereum.on("chainChanged", () => {
+    window.location.reload();
+  });
+}
+
 
   /* =========================================
      INITIALIZATION
