@@ -476,7 +476,7 @@
       let referrer = ethers.ZeroAddress;
 
       if (!alreadyStaked) {
-        const referral = $("earnReferralField")?.value?.trim();
+         const referral = $("earnReferrer")?.value?.trim();
 
         if (!referral) {
           throw new Error("Enter a valid referrer's wallet address for your first stake.");
