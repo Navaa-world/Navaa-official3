@@ -931,3 +931,186 @@
     scroll-behavior: auto !important;
   }
 }
+
+
+/* =============================================================
+   NAVAA DASHBOARD - STAKED & REWARD CARDS : MODIFICATION 
+================================================================ */
+
+.dashboard-earning-cards {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 16px 0 22px;
+}
+
+.dashboard-earning-card {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(214, 168, 75, 0.12), transparent 48%),
+    linear-gradient(145deg, #111a2d 0%, #0b1221 100%);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.20);
+  transition: transform 0.25s ease, border-color 0.25s ease,
+              box-shadow 0.25s ease;
+}
+
+.dashboard-earning-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(214, 168, 75, 0.38);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.28);
+}
+
+.dashboard-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.dashboard-card-icon {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+}
+
+.dashboard-card-icon svg {
+  width: 23px;
+  height: 23px;
+}
+
+.staked-icon {
+  color: #e5bd69;
+  background: rgba(214, 168, 75, 0.13);
+  border: 1px solid rgba(214, 168, 75, 0.20);
+}
+
+.reward-icon {
+  color: #c4a0ff;
+  background: rgba(164, 119, 255, 0.13);
+  border: 1px solid rgba(164, 119, 255, 0.22);
+}
+
+.dashboard-card-label {
+  color: #aab5c8;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.dashboard-card-amount {
+  color: #f5f7fc;
+  font-size: clamp(23px, 3vw, 32px);
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+
+.dashboard-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 13px;
+  color: #d8b66f;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.5px;
+}
+
+.dashboard-card-description {
+  color: #8794aa;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-align: right;
+}
+
+/* Tablet */
+@media (max-width: 700px) {
+  .dashboard-earning-cards {
+    gap: 12px;
+  }
+
+  .dashboard-earning-card {
+    padding: 17px;
+    border-radius: 17px;
+  }
+
+  .dashboard-card-top {
+    margin-bottom: 18px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .dashboard-earning-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 12px 0 18px;
+  }
+
+  .dashboard-earning-card {
+    padding: 14px 12px;
+    border-radius: 15px;
+  }
+
+  .dashboard-card-icon {
+    width: 37px;
+    height: 37px;
+    flex-basis: 37px;
+    border-radius: 12px;
+  }
+
+  .dashboard-card-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .dashboard-card-label {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .dashboard-card-top {
+    margin-bottom: 17px;
+  }
+
+  .dashboard-card-amount {
+    font-size: clamp(18px, 5vw, 24px);
+  }
+
+  .dashboard-card-footer {
+    margin-top: 11px;
+    font-size: 9px;
+  }
+
+  .dashboard-card-description {
+    width: 100%;
+    text-align: left;
+    font-size: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-earning-card {
+    transition: none;
+  }
+
+  .dashboard-earning-card:hover {
+    transform: none;
+  }
+}
+
