@@ -56,7 +56,6 @@
     --header-bg: #FFFFFF;
   }
 
-
 /* =================================
              RESET
 ================================== */
@@ -271,94 +270,74 @@
     CENTER NAVIGATION : Earn & Exchange [ Tab ]
 ================================================== */
 
-.main-nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 8px;
-
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-.nav-tab {
-  position: relative;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  min-height: var(--header-height);
-
-  padding: 0 20px;
-
-  border: none;
-  border-radius: 0;
-
-  background: transparent;
-
-  color: var(--muted);
-
-  font-size: 14px;
-  font-weight: 600;
-  white-space: nowrap;
-
-  transition:
-    color 0.2s ease,
-    background 0.2s ease;
-}
-
-.nav-tab:hover {
-  color: var(--text);
-  background: var(--surface2);
-}
-
-.nav-tab.active {
-  color: var(--accent);
-}
-
-.nav-tab.active::after {
-  content: "";
-
-  position: absolute;
-
-  left: 18px;
-  right: 18px;
-  bottom: 0;
-
-  height: 3px;
-
-  border-radius: 3px 3px 0 0;
-
-  background: var(--accent);
-
-  animation: navIndicator 0.25s ease;
-}
-
-@keyframes navIndicator {
-  from {
-    transform: scaleX(0.3);
-    opacity: 0;
+  .main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
-  to {
-    transform: scaleX(1);
-    opacity: 1;
-  }
+  .nav-tab {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--header-height);
+    padding: 0 20px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: color 0.2s ease, background 0.2s ease;
 }
+
+  .nav-tab:hover {
+    color: var(--text);
+    background: var(--surface2);
+  }
+
+  .nav-tab.active {
+    color: var(--accent);
+  }
+  
+  .nav-tab.active::after {
+    content: "";
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 0;
+    height: 3px;
+    border-radius: 3px 3px 0 0;
+    background: var(--accent);
+    animation: navIndicator 0.25s ease;
+  }
+
+  @keyframes navIndicator {
+    from {
+      transform: scaleX(0.3);
+      opacity: 0;
+    }
+
+    to {
+      transform: scaleX(1);
+      opacity: 1;
+    }
+  }
 
 /* ==========================================
-   HEADER ACTIONS
+         HEADER ACTIONS
 ========================================== */
 
 .top-actions {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-
   gap: 12px;
-
   flex: 0 0 auto;
 }
 
@@ -373,40 +352,24 @@
 
 .btn {
   min-height: 38px;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   padding: 0 18px;
-
   border: 1px solid transparent;
   border-radius: var(--radius);
-
   background: var(--accent);
   color: var(--accent-text);
-
   font-size: 14px;
   font-weight: 700;
-
   white-space: nowrap;
-
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn:hover {
   background: var(--accent-hover);
-
   transform: translateY(-1px);
-
- /* box-shadow:
-    0 4px 14px rgba(240,185,11,0.18);*/
-
-  box-shadow:
-    0 4px 18px rgba(24,214,197,0.22);
+  box-shadow: 0 4px 18px rgba(24,214,197,0.22);
 }
 
 .btn:active {
@@ -414,27 +377,21 @@
 }
 
 /* ==========================================
-   THEME SWITCH BUTTON
+        THEME SWITCH BUTTON
 ========================================== */
 
 .theme-btn {
   width: 38px;
   height: 38px;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   flex-shrink: 0;
-
   border: 1px solid var(--line);
   border-radius: var(--radius);
-
   background: var(--surface);
   color: var(--text);
-
   font-size: 19px;
-
   transition:
     background 0.2s ease,
     border-color 0.2s ease,
@@ -445,7 +402,6 @@
 .theme-btn:hover {
   background: var(--surface2);
   border-color: var(--accent);
-
   transform: rotate(15deg);
 }
 
@@ -511,9 +467,7 @@ button:focus-visible {
 
   .top {
     min-height: var(--header-height);
-
     gap: 4px;
-
     padding: 0 8px;
   }
 
@@ -544,9 +498,7 @@ button:focus-visible {
 
   .nav-tab {
     min-height: var(--header-height);
-
     padding: 0 10px;
-
     font-size: 12px;
   }
 
@@ -571,7 +523,6 @@ button:focus-visible {
     padding: 0 10px;
     font-size: 12px;
   }
-
 }
 
 /* ==========================================
@@ -621,7 +572,6 @@ button:focus-visible {
     padding: 0 7px;
     font-size: 10px;
   }
-
 }
 
 /* ==========================================
@@ -638,7 +588,6 @@ button:focus-visible {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-
 }
 
 
@@ -651,17 +600,15 @@ button:focus-visible {
                 HEADER Navbar html Design : Part - 1
       ///////////////////////////////////////////////////////-->
     <header class="top">     
-      
-<div class="brand">
-  <img
-    src="https://navaa-world.github.io/Navaa-official2/navaa-logo.png?v=2"
-    class="brand-logo"
-    alt="NAVAA Token Logo"
-    width="40"
-    height="40">
-</div>
-
-      
+      <div class="brand">
+        <img
+          src="https://navaa-world.github.io/Navaa-official2/navaa-logo.png?v=2"
+          class="brand-logo"
+          alt="NAVAA Token Logo"
+          width="40"
+          height="40">
+      </div>
+ 
       <nav class="main-nav" aria-label="Main navigation">
         <button class="nav-tab active" id="pageEarnTab" type="button">Earn</button>
         <button class="nav-tab" id="pageExchangeTab" type="button">Exchange</button>
