@@ -229,8 +229,8 @@
       input.dataset.alreadyStaked = alreadyStaked ? "true" : "false";
     }
 
-    const referralInput = $("earnReferralField");
-    if (referralInput && alreadyStaked) {
+     const referralInput = $("earnReferrer");
+     if (referralInput && alreadyStaked) {
       referralInput.value = "";
       referralInput.placeholder = "Not required for subsequent stakes";
       referralInput.disabled = true;
