@@ -10,126 +10,98 @@
   
 <style>
   
-/* ==========================================
-   NAVAA EXCHANGE — PREMIUM DESIGN SYSTEM
-   BINANCE INSPIRED | RESPONSIVE
-========================================== */
+/* ====================================================
+      NAVAA EXCHANGE — PREMIUM DESIGN SYSTEM
+                   RESPONSIVE
+====================================================== */
   
-:root {
-  color-scheme: dark;
-
-  --bg: #080D1C;
-  --surface: #101A32;
-  --surface2: #172443;
-  --surface3: #223354;
-
-  --line: #263657;
-
-  --text: #F4F7FF;
-  --muted: #9AA9C7;
-
-  --accent: #18D6C5;
-  --accent-hover: #32E6D5;
-  --accent-text: #071522;
-
-  --green: #0ecb81;
-  --red: #f6465d;
-
-  --header-bg: #080D1C;
-
-  --radius: 8px;
-  --header-height: 68px;
-
-  --transition: 0.25s ease;
-}
+  :root {
+    color-scheme: dark;
+    --bg: #080D1C;
+    --surface: #101A32;
+    --surface2: #172443;
+    --surface3: #223354;
+    --line: #263657;
+    --text: #F4F7FF;
+    --muted: #9AA9C7;
+    --accent: #18D6C5;
+    --accent-hover: #32E6D5;
+    --accent-text: #071522;
+    --green: #0ecb81;
+    --red: #f6465d;
+    --header-bg: #080D1C;
+    --radius: 8px;
+    --header-height: 68px;
+    --transition: 0.25s ease;
+  }
   
-/* ==========================================
-   LIGHT THEME
-========================================== */
-
+/* =====================================
+           LIGHT THEME
+====================================== */
   
-[data-theme="light"] {
-  color-scheme: light;
-
-  --bg: #F5F8FC;
-  --surface: #FFFFFF;
-  --surface2: #EDF3F8;
-  --surface3: #E3ECF3;
-
-  --line: #DCE5EF;
-
-  --text: #14213A;
-  --muted: #65758B;
-
-  --accent: #0FBFB2;
-  --accent-hover: #0AA99E;
-  --accent-text: #061A24;
-
-  --green: #0ecb81;
-  --red: #f6465d;
-
-  --header-bg: #FFFFFF;
-}
+  [data-theme="light"] {
+    color-scheme: light;
+    --bg: #F5F8FC;
+    --surface: #FFFFFF;
+    --surface2: #EDF3F8;
+    --surface3: #E3ECF3;
+    --line: #DCE5EF;
+    --text: #14213A;
+    --muted: #65758B;
+    --accent: #0FBFB2;
+    --accent-hover: #0AA99E;
+    --accent-text: #061A24;
+    --green: #0ecb81;
+    --red: #f6465d;
+    --header-bg: #FFFFFF;
+  }
 
 
-/* ==========================================
-   RESET
-========================================== */
+/* =================================
+             RESET
+================================== */
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
 
-html {
-  scroll-behavior: smooth;
-}
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
 
-body {
-  min-height: 100vh;
+  button,
+  input,
+  select {
+    font: inherit;
+  }
 
-  background: var(--bg);
-  color: var(--text);
+  button {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
 
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Arial,
-    sans-serif;
-
-  font-size: 14px;
-  line-height: 1.5;
-
-  transition:
-    background 0.25s ease,
-    color 0.25s ease;
-}
-
-button,
-input,
-select {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-
-main {
-  width: 100%;
-  max-width: 100%;
-  min-height: 100vh;
-  margin: 0 auto;
-  padding: 0 0 56px;
-}
+  main {
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 0 0 56px;
+  }
 
 /* ==========================================
-   NAVIGATION HEADER
+            NAVIGATION HEADER
 ========================================== */
 
 .top {
@@ -158,244 +130,146 @@ main {
 }
 
 /* ==========================================
-   NAVAA BRAND LOGO
-========================================== */
-
-/*.brand {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-
-  flex: 0 0 auto;
-  min-width: 0;
-}
-
-.brand-logo {
-  width: 42px;
-  height: 42px;
-
-  display: block;
-
-  object-fit: contain;
-  object-position: center;
-
-  flex-shrink: 0;
-
-  border-radius: 50%;
-
-  cursor: pointer;
-
-  transition:
-    transform 0.3s ease,
-    filter 0.3s ease;
-}
-  .brand-logo:hover {
-  transform: scale(1.07);
-  filter: drop-shadow(0 0 7px rgba(240,185,11,0.25));
-}
-
-  
-.brand-logo:active {
-  transform: scale(0.96);
-} */
-
-  
-/* ==========================================
    NAVAA — PREMIUM ANIMATED BRAND VFX
 ========================================== */
 
-.brand {
-  position: relative;
-
-  width: 50px;
-  height: 50px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  flex: 0 0 50px;
-
-  isolation: isolate;
-  cursor: pointer;
-
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* ROTATING ENERGY RING */
-
-.brand::before {
-  content: "";
-
-  position: absolute;
-  inset: 1px;
-
-  border-radius: 50%;
-
-  background: conic-gradient(
-    from 0deg,
-    transparent 0deg,
-    transparent 45deg,
-    rgba(24,214,197,0.18) 90deg,
-    #18D6C5 145deg,
-    #8FFFF4 175deg,
-    rgba(24,214,197,0.35) 205deg,
-    transparent 260deg,
-    transparent 360deg
-  );
-
-  -webkit-mask:
-    radial-gradient(
-      farthest-side,
-      transparent calc(100% - 2px),
-      #000 calc(100% - 1.5px)
-    );
-
-  mask:
-    radial-gradient(
-      farthest-side,
-      transparent calc(100% - 2px),
-      #000 calc(100% - 1.5px)
-    );
-
-  animation: navaaOrbit 4s linear infinite;
-
-  z-index: 0;
-}
-
-/* SOFT NEON PULSE */
-
-.brand::after {
-  content: "";
-
-  position: absolute;
-  inset: 5px;
-
-  border-radius: 50%;
-
-  background: rgba(24,214,197,0.13);
-
-  filter: blur(10px);
-
-  animation: navaaPulse 3s ease-in-out infinite;
-
-  z-index: -1;
-}
-
-/* OFFICIAL TOKEN IMAGE */
-
-.brand-logo {
-  position: relative;
-  z-index: 1;
-
-  width: 40px;
-  height: 40px;
-
-  display: block;
-
-  object-fit: contain;
-  object-position: center;
-
-  flex-shrink: 0;
-
-  border-radius: 50%;
-
-  animation: navaaFloat 4s ease-in-out infinite;
-
-  transition:
-    transform 0.35s cubic-bezier(.2,.8,.2,1),
-    filter 0.35s ease;
-}
-
-/* CONTINUOUS ROTATION */
-
-@keyframes navaaOrbit {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* BREATHING LIGHT */
-
-@keyframes navaaPulse {
-  0%, 100% {
-    opacity: 0.35;
-    transform: scale(0.88);
-  }
-
-  50% {
-    opacity: 0.85;
-    transform: scale(1.12);
-  }
-}
-
-/* GENTLE FLOATING LOGO */
-
-@keyframes navaaFloat {
-  0%, 100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-2px);
-  }
-}
-
-/* DESKTOP HOVER */
-
-.brand:hover .brand-logo {
-  transform: scale(1.09);
-
-  filter:
-    drop-shadow(0 0 5px rgba(24,214,197,0.65))
-    drop-shadow(0 0 12px rgba(24,214,197,0.35));
-}
-
-/* TOUCH FEEDBACK */
-
-.brand:active .brand-logo {
-  transform: scale(0.91);
-
-  filter:
-    drop-shadow(0 0 9px rgba(24,214,197,0.7));
-}
-
-/* MOBILE BRAND SIZE */
-
-@media (max-width: 850px) {
   .brand {
-    width: 46px;
-    height: 46px;
-    flex-basis: 46px;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 50px;
+    isolation: isolate;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
   }
 
+/*--------ROTATING ENERGY RING----------*/
+
+  .brand::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      transparent 45deg,
+      rgba(24,214,197,0.18) 90deg,
+      #18D6C5 145deg,
+      #8FFFF4 175deg,
+      rgba(24,214,197,0.35) 205deg,
+      transparent 260deg,
+      transparent 360deg
+    );
+
+    -webkit-mask:
+      radial-gradient(
+        farthest-side,
+        transparent calc(100% - 2px),
+        #000 calc(100% - 1.5px)
+      );
+
+    mask:
+      radial-gradient(
+        farthest-side,
+        transparent calc(100% - 2px),
+        #000 calc(100% - 1.5px)
+      );
+
+    animation: navaaOrbit 4s linear infinite;
+
+    z-index: 0;
+  }
+
+/*-----------SOFT NEON PULSE-------------*/
+
+  .brand::after {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border-radius: 50%;
+    background: rgba(24,214,197,0.13);
+    filter: blur(10px);
+    animation: navaaPulse 3s ease-in-out infinite;
+    z-index: -1;
+  }
+
+  /*-------OFFICIAL TOKEN IMAGE---------*/
+  
   .brand-logo {
-    width: 36px;
-    height: 36px;
-  }
-}
-
-@media (max-width: 380px) {
-  .brand {
+    position: relative;
+    z-index: 1;
     width: 40px;
     height: 40px;
-    flex-basis: 40px;
+    display: block;
+    object-fit: contain;
+    object-position: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+    animation: navaaFloat 4s ease-in-out infinite;
+    transition:
+      transform 0.35s cubic-bezier(.2,.8,.2,1),
+      filter 0.35s ease;
   }
 
-  .brand-logo {
-    width: 32px;
-    height: 32px;
+/*----------CONTINUOUS ROTATION------------*/
+
+  @keyframes navaaOrbit {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
-}
 
+/*-----------BREATHING LIGHT------------*/
 
-/* ==========================================
-   CENTER NAVIGATION
-========================================== */
+  @keyframes navaaPulse {
+    0%, 100% {
+      opacity: 0.35;
+      transform: scale(0.88);
+    }
+    50% {
+      opacity: 0.85;
+      transform: scale(1.12);
+    }
+  }
+
+/*------- GENTLE FLOATING LOGO -------*/
+
+  @keyframes navaaFloat {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-2px);
+    }
+  }
+
+/*---------- DESKTOP HOVER ----------*/
+
+  .brand:hover .brand-logo {
+    transform: scale(1.09);
+    filter:
+      drop-shadow(0 0 5px rgba(24,214,197,0.65))
+      drop-shadow(0 0 12px rgba(24,214,197,0.35));
+  }
+
+  /*--------- TOUCH FEEDBACK ---------*/
+
+  .brand:active .brand-logo {
+    transform: scale(0.91);
+    filter:
+      drop-shadow(0 0 9px rgba(24,214,197,0.7));
+  }
+
+/* =================================================
+    CENTER NAVIGATION : Earn & Exchange [ Tab ]
+================================================== */
 
 .main-nav {
   display: flex;
@@ -580,7 +454,7 @@ main {
 }
 
 /* ==========================================
-   ACCESSIBILITY
+         ACCESSIBILITY
 ========================================== */
 
 button:focus-visible {
@@ -589,20 +463,26 @@ button:focus-visible {
 }
 
 /* ==========================================
-   TABLET RESPONSIVE
+            RESPONSIVE : TABLET
 ========================================== */
 
-@media (max-width: 850px) {
+  @media (max-width: 850px) {
 
-  .top {
-    gap: 14px;
-    padding: 0 18px;
-  }
+    .top {
+      gap: 14px;
+      padding: 0 18px;
+    }
 
-  .brand-logo {
-    width: 40px;
-    height: 40px;
-  }
+    .brand {
+      width: 46px;
+      height: 46px;
+      flex-basis: 46px;
+    }
+  
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+    }
 
   .main-nav {
     gap: 2px;
@@ -620,7 +500,7 @@ button:focus-visible {
 }
 
 /* ==========================================
-   MOBILE RESPONSIVE
+         RESPONSIVE : MOBILE
 ========================================== */
 
 @media (max-width: 600px) {
@@ -628,13 +508,6 @@ button:focus-visible {
   :root {
     --header-height: 58px;
   }
-  /*.top {
-    min-height: var(--header-height);
-
-    gap: 6px;
-
-    padding: 0 12px;
-  }*/
 
   .top {
     min-height: var(--header-height);
@@ -702,7 +575,7 @@ button:focus-visible {
 }
 
 /* ==========================================
-   SMALL MOBILE
+       RESPONSIVE : SMALL MOBILE
 ========================================== */
 
 @media (max-width: 380px) {
@@ -711,6 +584,12 @@ button:focus-visible {
     gap: 4px;
     padding: 0 8px;
   }
+
+    .brand {
+      width: 40px;
+      height: 40px;
+      flex-basis: 40px;
+    }
 
   .brand-logo {
     width: 32px;
@@ -746,7 +625,7 @@ button:focus-visible {
 }
 
 /* ==========================================
-   REDUCED MOTION ACCESSIBILITY
+         REDUCED MOTION ACCESSIBILITY
 ========================================== */
 
 @media (prefers-reduced-motion: reduce) {
