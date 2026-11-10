@@ -1297,6 +1297,8 @@ button:focus-visible {
         ];
 
         const $ = id => document.getElementById(id);
+        const appPages = document.querySelectorAll('.app-page');
+        const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
         const connectBtn = $('connectBtn');
         const balanceAmount = $('navaaBalanceAmount');
         const balanceStatus = $('navaaBalanceStatus');
@@ -1526,7 +1528,7 @@ button:focus-visible {
           ];
 
           if (!validPages.includes(pageName)) return;
-          document.querySelectorAll('.app-page').forEach(page => {
+            appPages.forEach(page => {
             page.classList.remove('active');
           });
           
@@ -1538,7 +1540,7 @@ button:focus-visible {
             targetPage.classList.add('active');
           }
 
-          document.querySelectorAll('.bottom-nav-item').forEach(button => {
+            bottomNavItems.forEach(button => {
             const isActive = button.dataset.pageTarget === pageName;
             button.classList.toggle('active', isActive);
 
@@ -1556,7 +1558,7 @@ button:focus-visible {
         }
         
         /*========== Bottom navigation clicks ==============*/
-        document.querySelectorAll('.bottom-nav-item').forEach(button => {
+          bottomNavItems.forEach(button => {
           button.addEventListener('click', () => {
             showPage(button.dataset.pageTarget);
           });
