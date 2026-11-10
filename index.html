@@ -721,49 +721,52 @@ button:focus-visible {
     </header>
     <!--==================== END Header Navbar Part - 1 ================--->
 
-      <!--////////////////////////////////////////////////
-                    NAVAA Wallet Balance 
-      ////////////////////////////////////////////////-->
-<section class="balance-card" id="navaaBalanceCard">
+      <!--////////////////////////////////////////////////////
+                  CONNECT WALLET : NAVAA BALANCE
+      /////////////////////////////////////////////////////-->
+      
+      <section class="balance-card" id="navaaBalanceCard">
+        <div class="balance-info">
+          <div class="balance-label">My NAVAA Balance</div>
+          <div class="balance-value">
+            <span id="navaaBalanceAmount">—</span>
+            <span class="balance-symbol">NAVAA</span>
+          </div>
+          
+          <div class="balance-status" id="navaaBalanceStatus">
+            Connect wallet to view your balance
+          </div>
+        </div>
+        
+        <button class="add-fund-btn" id="addFundBtn" type="button">
+          + Add Fund
+        </button>
+      </section>
 
-  <div class="balance-info">
-    <div class="balance-label">My NAVAA Balance</div>
+        <!--*******************************
+               ADD FUNDS : POP UP
+        ********************************-->
+      
+      <div class="fund-sheet" id="fundSheet">
+        <div class="fund-sheet-box">
+          <div class="row">
+            <h2>Add Funds</h2>
+            <button class="btn secondary" id="closeFundSheet" type="button">✕</button>
+          </div>
+          
+          <button class="fund-option" id="fundP2P" type="button">
+            P2P <span class="muted">— Coming Soon</span>
+          </button>
 
-    <div class="balance-value">
-      <span id="navaaBalanceAmount">—</span>
-      <span class="balance-symbol">NAVAA</span>
-    </div>
+          <button class="fund-option" id="fundExchange" type="button">
+            Exchange <span class="muted">— NAVAA Exchange</span>
+          </button>
+          
+          <div class="balance-status" id="fundMessage"></div>
+        </div>
+      </div>
 
-    <div class="balance-status" id="navaaBalanceStatus">
-      Connect wallet to view your balance
-    </div>
-  </div>
-
-  <button class="add-fund-btn" id="addFundBtn" type="button">
-    + Add Fund
-  </button>
-
-</section>
-
-<!-- Add Fund Popup -->
-<div class="fund-sheet" id="fundSheet">
-  <div class="fund-sheet-box">
-    <div class="row">
-      <h2>Add Funds</h2>
-      <button class="btn secondary" id="closeFundSheet" type="button">✕</button>
-    </div>
-
-    <button class="fund-option" id="fundP2P" type="button">
-      P2P <span class="muted">— Coming Soon</span>
-    </button>
-
-    <button class="fund-option" id="fundExchange" type="button">
-      Exchange <span class="muted">— NAVAA Exchange</span>
-    </button>
-
-    <div class="balance-status" id="fundMessage"></div>
-  </div>
-</div>
+      <!--================== END CONNECT WALLET : NAVAA BALANCE ================--->
       
       
     </main>
@@ -895,148 +898,145 @@ button:focus-visible {
           }
         }
 
-  async function connectWallet() {
-    try {
-      if (!window.ethereum) {
-        showStatus('Open this website inside MetaMask, Trust Wallet or SafePal DApp browser.');
-        return;
-      }
+        async function connectWallet() {
+          try {
+            if (!window.ethereum) {
+              showStatus('Open this website inside MetaMask, Trust Wallet or SafePal DApp browser.');
+              return;
+            }
 
-      connectBtn.disabled = true;
-      connectBtn.textContent = 'Connecting...';
+            connectBtn.disabled = true;
+            connectBtn.textContent = 'Connecting...';
 
-      let accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts'
-      });
-
-      if (!accounts || !accounts.length) {
-        throw new Error('No wallet account found.');
-      }
-
-      let chain = await window.ethereum.request({
-        method: 'eth_chainId'
-      });
-
-      if (BigInt(chain) !== POLYGON_CHAIN_ID) {
-        try {
-          await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: '0x89' }]
-          });
-        } catch (error) {
-          if (error.code === 4902) {
-            await window.ethereum.request({
-              method: 'wallet_addEthereumChain',
-              params: [{
-                chainId: '0x89',
-                chainName: 'Polygon Mainnet',
-                nativeCurrency: {
-                  name: 'POL',
-                  symbol: 'POL',
-                  decimals: 18
-                },
-                rpcUrls: ['https://polygon.drpc.org'],
-                blockExplorerUrls: ['https://polygonscan.com']
-              }]
+            let accounts = await window.ethereum.request({
+              method: 'eth_requestAccounts'
             });
-          } else {
-            throw error;
+
+            if (!accounts || !accounts.length) {
+              throw new Error('No wallet account found.');
+            }
+
+            let chain = await window.ethereum.request({
+              method: 'eth_chainId'
+            });
+
+            if (BigInt(chain) !== POLYGON_CHAIN_ID) {
+              try {
+                await window.ethereum.request({
+                  method: 'wallet_switchEthereumChain',
+                  params: [{ chainId: '0x89' }]
+                });
+              } catch (error) {
+                if (error.code === 4902) {
+                  await window.ethereum.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [{
+                      chainId: '0x89',
+                      chainName: 'Polygon Mainnet',
+                      nativeCurrency: {
+                        name: 'POL',
+                        symbol: 'POL',
+                        decimals: 18
+                      },
+                      rpcUrls: ['https://polygon.drpc.org'],
+                      blockExplorerUrls: ['https://polygonscan.com']
+                    }]
+                  });
+                }
+                else {
+                  throw error;
+                }
+              }
+            }
+
+            accounts = await window.ethereum.request({
+              method: 'eth_accounts'
+            });
+            
+            walletAddress = accounts[0];
+            connectBtn.textContent = shortAddress(walletAddress);
+            await readNavaaBalance();
+          }
+          
+          catch (error) {
+            console.error('Wallet connection error:', error);
+            showStatus(error.message || 'Wallet connection failed.');
+            connectBtn.textContent = 'Connect wallet';
+          }
+          
+          finally {
+            connectBtn.disabled = false;
           }
         }
+        
+        connectBtn.addEventListener('click', connectWallet);
+        if (window.ethereum && window.ethereum.on) {
+          window.ethereum.on('accountsChanged', accounts => {
+            walletAddress = accounts.length ? accounts[0] : null;
+            if (!walletAddress) {
+              connectBtn.textContent = 'Connect wallet';
+              showBalance('—');
+              showStatus('Connect wallet to view your balance');
+              return;
+            }
+
+            connectBtn.textContent = shortAddress(walletAddress);
+            readNavaaBalance();
+          });
+
+          window.ethereum.on('chainChanged', () => {
+            readNavaaBalance();
+        });
       }
+ 
+        // Restore an already-authorized wallet without a new permission prompt
+        
+        async function restoreWallet() {
+          if (!window.ethereum) return;
+          try {
+            const accounts = await window.ethereum.request({
+              method: 'eth_accounts'
+            });
+            if (accounts.length) {
+              walletAddress = accounts[0];
+              connectBtn.textContent = shortAddress(walletAddress);
+              await readNavaaBalance();
+            }
+          } 
+          
+          catch (error) {
+            console.error(error);
+          }
+        }
 
-      accounts = await window.ethereum.request({
-        method: 'eth_accounts'
-      });
+        restoreWallet();
 
-      walletAddress = accounts[0];
+        // Add Fund popup
+        $('addFundBtn').addEventListener('click', () => {
+          $('fundSheet').classList.add('show');
+        });
 
-      connectBtn.textContent = shortAddress(walletAddress);
+        $('closeFundSheet').addEventListener('click', () => {
+          $('fundSheet').classList.remove('show');
+        });
 
-      await readNavaaBalance();
+        $('fundSheet').addEventListener('click', event => {
+          if (event.target === $('fundSheet')) {
+            $('fundSheet').classList.remove('show');
+          }
+        });
 
-    } catch (error) {
-      console.error('Wallet connection error:', error);
-      showStatus(error.message || 'Wallet connection failed.');
-      connectBtn.textContent = 'Connect wallet';
+        $('fundP2P').addEventListener('click', () => {
+          $('fundMessage').textContent = 'P2P is coming soon.';
+        });
+        
+        $('fundExchange').addEventListener('click', () => {
+          $('fundSheet').classList.remove('show');
 
-    } finally {
-      connectBtn.disabled = false;
-    }
-  }
-
-  connectBtn.addEventListener('click', connectWallet);
-
-  if (window.ethereum && window.ethereum.on) {
-
-    window.ethereum.on('accountsChanged', accounts => {
-      walletAddress = accounts.length ? accounts[0] : null;
-
-      if (!walletAddress) {
-        connectBtn.textContent = 'Connect wallet';
-        showBalance('—');
-        showStatus('Connect wallet to view your balance');
-        return;
-      }
-
-      connectBtn.textContent = shortAddress(walletAddress);
-      readNavaaBalance();
-    });
-
-    window.ethereum.on('chainChanged', () => {
-      readNavaaBalance();
-    });
-  }
-
-  // Restore an already-authorized wallet without a new permission prompt
-  async function restoreWallet() {
-    if (!window.ethereum) return;
-
-    try {
-      const accounts = await window.ethereum.request({
-        method: 'eth_accounts'
-      });
-
-      if (accounts.length) {
-        walletAddress = accounts[0];
-        connectBtn.textContent = shortAddress(walletAddress);
-        await readNavaaBalance();
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  restoreWallet();
-
-  // Add Fund popup
-  $('addFundBtn').addEventListener('click', () => {
-    $('fundSheet').classList.add('show');
-  });
-
-  $('closeFundSheet').addEventListener('click', () => {
-    $('fundSheet').classList.remove('show');
-  });
-
-  $('fundSheet').addEventListener('click', event => {
-    if (event.target === $('fundSheet')) {
-      $('fundSheet').classList.remove('show');
-    }
-  });
-
-  $('fundP2P').addEventListener('click', () => {
-    $('fundMessage').textContent = 'P2P is coming soon.';
-  });
-
-  $('fundExchange').addEventListener('click', () => {
-    $('fundSheet').classList.remove('show');
-
-    const exchangeTab = $('pageExchangeTab');
-
-    if (exchangeTab) exchangeTab.click();
-  });
-
-})();
+          const exchangeTab = $('pageExchangeTab');
+          if (exchangeTab) exchangeTab.click();
+        });
+      })();
 </script>
     
   </body>
