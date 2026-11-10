@@ -1158,76 +1158,54 @@ button:focus-visible {
         </button>
       </section>
 
-    <!--========= NAVAA DASHBOARD STAKED & REWARD CARDS ==========-->
-    <section class="dashboard-earning-cards" id="dashboardEarningCards">
-      <!--====== STAKED CARD =======-->
-      <div class="dashboard-earning-card staked-card">
-        <div class="dashboard-card-top">
-          <div class="dashboard-card-icon staked-icon">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <rect x="4" y="10" width="16" height="11" rx="2"
-                stroke="currentColor" stroke-width="1.7"/>
-              <path d="M8 10V7a4 4 0 0 1 8 0v3"
-                stroke="currentColor" stroke-width="1.7"
-                stroke-linecap="round"/>
-              <path d="M12 14v3"
-                stroke="currentColor" stroke-width="1.7"
-                stroke-linecap="round"/>
-            </svg>
+    
+      <!-- DASHBOARD STAKED & REWARD CARDS -->
+      <section class="dashboard-earning-cards" id="dashboardEarningCards">
+
+        <div class="dashboard-earning-card staked-card">
+          <div class="dashboard-card-top">
+            <div class="dashboard-card-icon staked-icon">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="4" y="10" width="16" height="11" rx="2"
+                  stroke="currentColor" stroke-width="1.7"/>
+                <path d="M8 10V7a4 4 0 0 1 8 0v3"
+                  stroke="currentColor" stroke-width="1.7"/>
+                <path d="M12 14v3" stroke="currentColor" stroke-width="1.7"/>
+              </svg>
+            </div>
+            <span class="dashboard-card-label">STAKED</span>
           </div>
-          <span class="dashboard-card-label">STAKED</span>
+          <div class="dashboard-card-amount" id="dashboardStakedAmount">—</div>
+          <div class="dashboard-card-footer">
+            <span>NAVAA</span>
+            <span class="dashboard-card-description">Across all positions</span>
+          </div>
         </div>
 
-        <div class="dashboard-card-amount" id="dashboardStakedAmount">
-          0.00
+        <div class="dashboard-earning-card reward-card">
+          <div class="dashboard-card-top">
+            <div class="dashboard-card-icon reward-icon">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M20 12v9H4v-9M2 7h20v5H2zM12 7v14"
+                  stroke="currentColor" stroke-width="1.7"/>
+                <path d="M12 7H7.5a2.5 2.5 0 1 1 2.5-2.5L12 7Z"
+                  stroke="currentColor" stroke-width="1.5"/>
+                <path d="M12 7h4.5A2.5 2.5 0 1 0 14 4.5L12 7Z"
+                  stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <span class="dashboard-card-label">REWARD</span>
+          </div>
+          <div class="dashboard-card-amount" id="dashboardEligibleReward">—</div>
+          <div class="dashboard-card-footer">
+            <span>NAVAA</span>
+            <span class="dashboard-card-description">Accrued staking rewards</span>
+          </div>
         </div>
-        
-        <div class="dashboard-card-footer">
-      <span>NAVAA</span>
-      <span class="dashboard-card-description">
-        Across all positions
-      </span>
-    </div>
-  </div>
 
-  <!-- REWARD CARD -->
-  <div class="dashboard-earning-card reward-card">
-    <div class="dashboard-card-top">
-      <div class="dashboard-card-icon reward-icon">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M20 12v9H4v-9"
-            stroke="currentColor" stroke-width="1.7"
-            stroke-linejoin="round"/>
-          <path d="M2 7h20v5H2z"
-            stroke="currentColor" stroke-width="1.7"
-            stroke-linejoin="round"/>
-          <path d="M12 7v14"
-            stroke="currentColor" stroke-width="1.7"/>
-          <path d="M12 7H7.5a2.5 2.5 0 1 1 2.5-2.5L12 7Z"
-            stroke="currentColor" stroke-width="1.5"
-            stroke-linejoin="round"/>
-          <path d="M12 7h4.5A2.5 2.5 0 1 0 14 4.5L12 7Z"
-            stroke="currentColor" stroke-width="1.5"
-            stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <span class="dashboard-card-label">REWARD</span>
-    </div>
+      </section>
+      <!-- END DASHBOARD CARDS -->
 
-    <div class="dashboard-card-amount" id="dashboardEligibleReward">
-      0.00
-    </div>
-
-    <div class="dashboard-card-footer">
-      <span>NAVAA</span>
-      <span class="dashboard-card-description">
-        Accrued staking rewards
-      </span>
-    </div>
-  </div>
-
-</section>
-<!-- END DASHBOARD STAKED & REWARD CARDS -->
       
         <!--*******************************
                ADD FUNDS : POP UP
