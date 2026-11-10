@@ -910,6 +910,252 @@ button:focus-visible {
 }
 
   
+/* ==========================================
+   NAVAA PREMIUM BOTTOM NAVIGATION
+========================================== */
+
+main {
+  padding-bottom: calc(100px + env(safe-area-inset-bottom));
+}
+
+/* Page switching */
+.app-page {
+  display: none;
+  width: 100%;
+  min-height: 55vh;
+  animation: pageFadeIn .28s ease;
+}
+
+.app-page.active {
+  display: block;
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Placeholder sections */
+.page-placeholder {
+  width: min(100% - 32px, 900px);
+  min-height: 42vh;
+  margin: 30px auto;
+  padding: 35px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(24,214,197,.09),
+      transparent 65%
+    ),
+    var(--surface);
+}
+
+.page-placeholder h2 {
+  margin-bottom: 8px;
+  color: var(--text);
+  font-size: clamp(21px, 4vw, 28px);
+  font-weight: 750;
+}
+
+.page-placeholder p {
+  max-width: 420px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.page-placeholder .coming-soon {
+  margin-top: 18px;
+  padding: 7px 14px;
+  border: 1px solid rgba(24,214,197,.3);
+  border-radius: 30px;
+  background: rgba(24,214,197,.08);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* Logo button reset - visual design preserved */
+.brand {
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+
+/* Fixed bottom navigation */
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2000;
+
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+
+  width: 100%;
+  min-height: 74px;
+  padding: 8px 8px max(8px, env(safe-area-inset-bottom));
+
+  background: rgba(8,13,28,.94);
+  border-top: 1px solid var(--line);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow: 0 -8px 30px rgba(0,0,0,.22);
+}
+
+[data-theme="light"] .bottom-nav {
+  background: rgba(255,255,255,.95);
+  box-shadow: 0 -8px 30px rgba(20,33,58,.08);
+}
+
+/* Individual navigation item */
+.bottom-nav-item {
+  position: relative;
+  isolation: isolate;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  min-width: 0;
+  min-height: 58px;
+  padding: 5px 2px;
+
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--muted);
+
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+
+  transition:
+    color .22s ease,
+    background .22s ease,
+    transform .18s ease;
+}
+
+/* Navigation icons */
+.bottom-nav-item svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  transition:
+    transform .25s ease,
+    filter .25s ease;
+}
+
+/* Active glow */
+.bottom-nav-item.active {
+  color: var(--accent);
+  background: rgba(24,214,197,.08);
+}
+
+.bottom-nav-item.active svg {
+  filter: drop-shadow(0 0 6px rgba(24,214,197,.65));
+  transform: translateY(-2px);
+}
+
+.bottom-nav-item.active::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 35%;
+  width: 30%;
+  height: 2px;
+  border-radius: 10px;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+/* Touch feedback */
+.bottom-nav-item:active {
+  transform: scale(.93);
+  background: rgba(24,214,197,.12);
+}
+
+.bottom-nav-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* Tablet and desktop */
+@media (min-width: 700px) {
+  .bottom-nav {
+    min-height: 78px;
+    padding: 8px 12px;
+  }
+
+  .bottom-nav-item {
+    max-width: 180px;
+    width: 100%;
+    justify-self: center;
+    font-size: 12px;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 360px) {
+  .bottom-nav {
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+
+  .bottom-nav-item {
+    font-size: 10px;
+    gap: 3px;
+  }
+
+  .bottom-nav-item svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .app-page,
+  .bottom-nav-item,
+  .bottom-nav-item svg {
+    animation: none;
+    transition: none;
+  }
+}
+
+
+  
 
 </style>
 </head>
@@ -920,19 +1166,26 @@ button:focus-visible {
                 HEADER Navbar html Design : Part - 1
       ///////////////////////////////////////////////////////-->
     <header class="top">     
-      <div class="brand">
+  <!--    <div class="brand"> --->
+        <button
+  class="brand"
+  id="homeLogoBtn"
+  type="button"
+  aria-label="Go to NAVAA Home"
+  title="Home">
         <img
           src="https://navaa-world.github.io/Navaa-official2/navaa-logo.png?v=2"
           class="brand-logo"
           alt="NAVAA Token Logo"
           width="40"
           height="40">
-      </div>
- 
+   <!--   </div> -->
+        </button>
+ <!--
       <nav class="main-nav" aria-label="Main navigation">
         <button class="nav-tab active" id="pageEarnTab" type="button">Earn</button>
         <button class="nav-tab" id="pageExchangeTab" type="button">Exchange</button>
-      </nav>
+      </nav> --->
       
       <div class="top-actions row">
         <button 
@@ -949,6 +1202,25 @@ button:focus-visible {
       </div>  
     </header>
     <!--==================== END Header Navbar Part - 1 ================--->
+
+      
+<!--==========================================
+               NAVAA HOME PAGE 
+  ========================================-->
+<section class="app-page" id="pageHome">
+  <div class="page-placeholder">
+    <h2>Welcome to NAVAA</h2>
+    <p>
+      Your gateway to the NAVAA ecosystem.
+      An exciting new experience is coming soon.
+    </p>
+    <span class="coming-soon">COMING SOON</span>
+  </div>
+</section>
+
+<!-- DASHBOARD PAGE -->
+<section class="app-page active" id="pageDashboard">
+
 
       <!--////////////////////////////////////////////////////
                   CONNECT WALLET : NAVAA BALANCE
@@ -1013,7 +1285,97 @@ button:focus-visible {
       </div>
 
       <!--================== END CONNECT WALLET : NAVAA BALANCE ================--->
+
+
+  
+</section>
+
+<!-- EARN PAGE -->
+<section class="app-page" id="pageEarn">
+  <div class="page-placeholder">
+    <h2>Earn NAVAA</h2>
+    <p>Staking and earning dashboard will be available here.</p>
+    <span class="coming-soon">COMING SOON</span>
+  </div>
+</section>
+
+<!-- REFER & EARN PAGE -->
+<section class="app-page" id="pageRefer">
+  <div class="page-placeholder">
+    <h2>Refer & Earn</h2>
+    <p>Invite friends and explore NAVAA referral rewards.</p>
+    <span class="coming-soon">COMING SOON</span>
+  </div>
+</section>
+
+<!-- EXCHANGE PAGE -->
+<section class="app-page" id="pageExchange">
+  <div class="page-placeholder">
+    <h2>NAVAA Exchange</h2>
+    <p>Buy and sell NAVAA through the exchange interface.</p>
+    <span class="coming-soon">COMING SOON</span>
+  </div>
+</section>
+
       
+<!-- NAVAA BOTTOM NAVIGATION -->
+<nav class="bottom-nav" aria-label="Main navigation">
+
+  <button class="bottom-nav-item active"
+    type="button"
+    data-page-target="dashboard"
+    aria-current="page">
+
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="3" y="3" width="8" height="8" rx="2"/>
+      <rect x="13" y="3" width="8" height="5" rx="2"/>
+      <rect x="13" y="10" width="8" height="11" rx="2"/>
+      <rect x="3" y="13" width="8" height="8" rx="2"/>
+    </svg>
+    <span>Dashboard</span>
+  </button>
+
+  <button class="bottom-nav-item"
+    type="button"
+    data-page-target="earn">
+
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="9"/>
+      <path d="M16 8.5c-.8-1-2-1.5-4-1.5-2.2 0-3.5 1-3.5 2.5S10 12 12 12s3.5 1 3.5 2.5S14 17 12 17c-1.8 0-3.2-.6-4-1.7"/>
+      <path d="M12 5v14"/>
+    </svg>
+    <span>Earn</span>
+  </button>
+
+  <button class="bottom-nav-item"
+    type="button"
+    data-page-target="refer">
+
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="9" cy="8" r="3"/>
+      <path d="M3 20v-1.5A4.5 4.5 0 0 1 7.5 14h3A4.5 4.5 0 0 1 15 18.5V20"/>
+      <path d="M16 5.5a3 3 0 0 1 0 5.8M18 14a4.5 4.5 0 0 1 3 4.3V20"/>
+    </svg>
+    <span>Refer &amp; Earn</span>
+  </button>
+
+  <button class="bottom-nav-item"
+    type="button"
+    data-page-target="exchange">
+
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 7h14l-3-3"/>
+      <path d="M21 7l-3 3"/>
+      <path d="M17 17H3l3 3"/>
+      <path d="M3 17l3-3"/>
+    </svg>
+    <span>Exchange</span>
+  </button>
+
+</nav>
+
+
+  
       
     </main>
     <script>
@@ -1297,6 +1659,67 @@ button:focus-visible {
 
         restoreWallet();
 
+
+        
+/* =================================
+   NAVAA PAGE NAVIGATION SYSTEM
+================================= */
+
+function showPage(pageName) {
+
+  const validPages = [
+    'home',
+    'dashboard',
+    'earn',
+    'refer',
+    'exchange'
+  ];
+
+  if (!validPages.includes(pageName)) return;
+
+  document.querySelectorAll('.app-page').forEach(page => {
+    page.classList.remove('active');
+  });
+
+  const targetPage = document.getElementById(
+    'page' + pageName.charAt(0).toUpperCase() + pageName.slice(1)
+  );
+
+  if (targetPage) {
+    targetPage.classList.add('active');
+  }
+
+  document.querySelectorAll('.bottom-nav-item').forEach(button => {
+    const isActive = button.dataset.pageTarget === pageName;
+
+    button.classList.toggle('active', isActive);
+
+    if (isActive) {
+      button.setAttribute('aria-current', 'page');
+    } else {
+      button.removeAttribute('aria-current');
+    }
+  });
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+/* Bottom navigation clicks */
+document.querySelectorAll('.bottom-nav-item').forEach(button => {
+  button.addEventListener('click', () => {
+    showPage(button.dataset.pageTarget);
+  });
+});
+
+/* Logo always opens Home */
+document.getElementById('homeLogoBtn').addEventListener('click', () => {
+  showPage('home');
+});
+
+
         // Add Fund popup
         $('addFundBtn').addEventListener('click', () => {
           $('fundSheet').classList.add('show');
@@ -1315,13 +1738,18 @@ button:focus-visible {
         $('fundP2P').addEventListener('click', () => {
           $('fundMessage').textContent = 'P2P is coming soon.';
         });
-        
-        $('fundExchange').addEventListener('click', () => {
-          $('fundSheet').classList.remove('show');
 
+        $('fundExchange').addEventListener('click', () => {
+  $('fundSheet').classList.remove('show');
+  showPage('exchange');
+});
+        
+     /*   $('fundExchange').addEventListener('click', () => {
+          $('fundSheet').classList.remove('show');
           const exchangeTab = $('pageExchangeTab');
           if (exchangeTab) exchangeTab.click();
         });
+        */
       })();
 </script>
     
