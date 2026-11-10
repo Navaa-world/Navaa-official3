@@ -1345,9 +1345,10 @@ button:focus-visible {
 
         balanceVisibilityBtn.addEventListener('click', () => {
           balanceHidden = !balanceHidden;
-          balanceAmount.textContent = balanceHidden
+        /*  balanceAmount.textContent = balanceHidden
             ? '••••••••'
-            : actualBalanceText;
+            : actualBalanceText; */
+            showBalance(actualBalanceText);
 
           balanceVisibilityBtn.innerHTML = balanceHidden
             ? eyeClosedIcon
