@@ -1453,6 +1453,391 @@
 /* =============== END DASHBOARD BALANCE CSS =============== */
 
 
+/* =========================================================
+   NAVAA DASHBOARD — PREMIUM LAYOUT & BALANCE PANEL
+   Desktop / Tablet / Mobile / Dark + Light
+========================================================= */
+
+/* Dashboard outer container */
+#pageDashboard {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 28px 24px 115px;
+}
+
+/* =========================================
+   BALANCE PANEL
+========================================= */
+
+#pageDashboard .balance-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  width: 100%;
+  min-width: 0;
+  margin: 0 0 16px;
+  padding: 23px 25px;
+
+  border: 1px solid var(--line);
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      125deg,
+      rgba(24,214,197,.065),
+      transparent 60%
+    ),
+    var(--surface);
+
+  box-shadow: 0 6px 22px rgba(0,0,0,.08);
+}
+
+/* Balance information */
+#pageDashboard .balance-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Heading + eye */
+#pageDashboard .balance-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+#pageDashboard .balance-label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Eye button */
+#pageDashboard .balance-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 30px;
+
+  width: 30px;
+  height: 30px;
+
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+
+  cursor: pointer;
+  transition: color .2s ease, background .2s ease;
+}
+
+#pageDashboard .balance-toggle:hover {
+  color: var(--accent);
+  background: var(--surface2);
+}
+
+#pageDashboard .balance-toggle svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Main amount */
+#pageDashboard .balance-value {
+  margin-top: 4px;
+  color: var(--text);
+
+  font-size: clamp(27px, 3vw, 34px);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -.5px;
+
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+#pageDashboard .balance-symbol {
+  margin-left: 4px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* Original wallet status */
+#pageDashboard .balance-info > .balance-status {
+  display: none;
+}
+
+/* =========================================
+   EARN ELIGIBILITY NOTICE
+========================================= */
+
+#pageDashboard .balance-earn-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  width: 100%;
+  min-width: 0;
+  margin-top: 7px;
+
+  max-height: 90px;
+  overflow: hidden;
+  opacity: 1;
+  transform: translateY(0);
+
+  transition:
+    max-height .32s ease,
+    opacity .24s ease,
+    transform .32s ease,
+    margin-top .32s ease;
+}
+
+/* Eye closed */
+#pageDashboard .balance-earn-notice.is-collapsed {
+  max-height: 0;
+  margin-top: 0;
+  opacity: 0;
+  transform: translateY(-9px);
+  pointer-events: none;
+}
+
+#pageDashboard .balance-earn-message {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+#pageDashboard .balance-earn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 16px;
+
+  width: 16px;
+  height: 16px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+/* Go button */
+#pageDashboard .balance-earn-go {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  gap: 3px;
+
+  padding: 3px 0 3px 7px;
+  border: 0;
+  background: transparent;
+  color: var(--green);
+
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+#pageDashboard .balance-earn-go[hidden] {
+  display: none !important;
+}
+
+#pageDashboard .balance-earn-go svg {
+  width: 14px;
+  height: 14px;
+}
+
+#pageDashboard .balance-earn-go:hover {
+  opacity: .8;
+  transform: translateY(-1px);
+}
+
+#pageDashboard .balance-earn-go:active {
+  transform: scale(.94);
+}
+
+#pageDashboard .balance-earn-go:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Below minimum */
+#pageDashboard .balance-earn-notice.is-ineligible .balance-earn-message,
+#pageDashboard .balance-earn-notice.is-ineligible .balance-earn-icon,
+#pageDashboard .balance-earn-notice.is-ineligible .balance-earn-go {
+  color: #d6a84b;
+}
+
+/* =========================================
+   ADD FUNDS BUTTON
+========================================= */
+
+#pageDashboard .add-fund-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+
+  min-height: 40px;
+  padding: 0 19px;
+
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--accent-text);
+
+  font-size: 13px;
+  font-weight: 650;
+  white-space: nowrap;
+
+  transition:
+    background .2s ease,
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+#pageDashboard .add-fund-btn:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 4px 14px rgba(24,214,197,.16);
+  transform: translateY(-1px);
+}
+
+#pageDashboard .add-fund-btn:active {
+  transform: scale(.96);
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 850px) {
+  #pageDashboard {
+    padding: 23px 18px 110px;
+  }
+
+  #pageDashboard .balance-card {
+    padding: 20px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  #pageDashboard {
+    padding: 17px 13px 108px;
+  }
+
+  #pageDashboard .balance-card {
+    gap: 10px;
+    padding: 16px 14px;
+    margin-bottom: 14px;
+    border-radius: 13px;
+  }
+
+  #pageDashboard .balance-value {
+    font-size: 24px;
+    letter-spacing: -.3px;
+  }
+
+  #pageDashboard .balance-label {
+    font-size: 12px;
+  }
+
+  #pageDashboard .balance-earn-notice {
+    gap: 5px;
+    margin-top: 6px;
+  }
+
+  #pageDashboard .balance-earn-message {
+    gap: 4px;
+    font-size: 10px;
+  }
+
+  #pageDashboard .balance-earn-go {
+    font-size: 11px;
+  }
+
+  #pageDashboard .balance-earn-go svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  #pageDashboard .add-fund-btn {
+    min-height: 35px;
+    padding: 0 12px;
+    font-size: 12px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 380px) {
+  #pageDashboard {
+    padding: 14px 10px 105px;
+  }
+
+  #pageDashboard .balance-card {
+    padding: 14px 11px;
+    gap: 7px;
+  }
+
+  #pageDashboard .balance-value {
+    font-size: 21px;
+  }
+
+  #pageDashboard .balance-earn-message {
+    font-size: 9px;
+  }
+
+  #pageDashboard .balance-earn-go {
+    font-size: 10px;
+  }
+
+  #pageDashboard .add-fund-btn {
+    min-height: 33px;
+    padding: 0 9px;
+    font-size: 11px;
+  }
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  #pageDashboard .balance-earn-notice,
+  #pageDashboard .balance-earn-go,
+  #pageDashboard .balance-toggle,
+  #pageDashboard .add-fund-btn {
+    transition: none;
+  }
+}
+
+/* ============ END DASHBOARD BALANCE ============ */
+
+
+
 
 
 
