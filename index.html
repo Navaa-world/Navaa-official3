@@ -1807,6 +1807,46 @@ button:focus-visible {
         function showStatus(message) {
           balanceStatus.textContent = message;
         }
+
+        /*============================================
+              Balance down status show for staking 
+          ===========================================*/
+        
+function updateEarnEligibility(rawBalance, tokenDecimals) {
+  const notice = document.getElementById("balanceEarnNotice");
+  const message = document.getElementById("balanceEarnText");
+  const icon = document.getElementById("balanceEarnIcon");
+
+  if (!notice || !message || !icon) return;
+
+  const minimum = ethers.parseUnits("1000", tokenDecimals);
+
+  if (rawBalance >= minimum) {
+    notice.classList.remove("is-ineligible");
+
+    icon.textContent = "↗";
+    message.textContent =
+      "You're eligible to earn up to 25.55% APR";
+
+  } else {
+    notice.classList.add("is-ineligible");
+
+    const remaining = minimum - rawBalance;
+
+    const remainingFormatted = Number(
+      ethers.formatUnits(remaining, tokenDecimals)
+    ).toLocaleString("en-US", {
+      maximumFractionDigits: 4
+    });
+
+    icon.textContent = "◈";
+    message.textContent =
+      "Only " + remainingFormatted +
+      " NAVAA more to reach staking eligibility.";
+  }
+}
+/*========================================================*/
+        
         
         async function readNavaaBalance() {
           if (!walletAddress || !window.ethereum) return;
@@ -1841,6 +1881,7 @@ button:focus-visible {
             });
      
             showBalance(formatted);
+            updateEarnEligibility(rawBalance, decimals);
             showStatus(
               shortAddress(walletAddress) +
               ' · ' + symbol + ' balance on Polygon'
@@ -1933,6 +1974,12 @@ button:focus-visible {
               connectBtn.textContent = 'Connect wallet';
               showBalance('—');
               showStatus('Connect wallet to view your balance');
+              const earnNotice = document.getElementById("balanceEarnNotice");
+              const earnText = document.getElementById("balanceEarnText");
+              const earnIcon = document.getElementById("balanceEarnIcon");
+              if (earnNotice) earnNotice.classList.remove("is-ineligible");
+              if (earnText) earnText.textContent = "Connect wallet to check your Earn eligibility.";
+              if (earnIcon) earnIcon.textContent = "↗";
               return;
             }
 
@@ -2007,6 +2054,13 @@ button:focus-visible {
           window.scrollTo({
             top: 0,
             behavior: 'smooth'
+          });
+        }
+
+        const goEarnButton = document.getElementById("goEarnBtn");
+        if (goEarnButton) {
+          goEarnButton.addEventListener("click", () => {
+            showPage("earn");
           });
         }
         
