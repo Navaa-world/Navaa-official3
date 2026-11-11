@@ -1931,6 +1931,89 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
             showPage("earn");
           });
         }
+
+              
+/* ==========================================
+   DASHBOARD CARD CAROUSEL NAVIGATION
+========================================== */
+
+const dashboardTrack = document.getElementById(
+  "dashboardEarningCards"
+);
+
+const dashboardTabs = document.querySelectorAll(
+  ".dashboard-card-tab"
+);
+
+if (dashboardTrack && dashboardTabs.length) {
+
+  const dashboardCards = Array.from(
+    dashboardTrack.querySelectorAll(".dashboard-earning-card")
+  );
+
+  function activateDashboardTab(index) {
+    dashboardTabs.forEach((tab, i) => {
+      const active = i === index;
+
+      tab.classList.toggle("active", active);
+      tab.setAttribute("aria-pressed", String(active));
+    });
+  }
+
+  function centreDashboardCard(index) {
+    const card = dashboardCards[index];
+    if (!card) return;
+
+    const targetLeft =
+      card.offsetLeft -
+      (dashboardTrack.clientWidth - card.offsetWidth) / 2;
+
+    dashboardTrack.scrollTo({
+      left: targetLeft,
+      behavior: "smooth"
+    });
+
+    activateDashboardTab(index);
+  }
+
+  dashboardTabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => {
+      centreDashboardCard(index);
+    });
+  });
+
+  /* Keep active tab synchronized with manual swipe */
+  let carouselScrollFrame = null;
+
+  dashboardTrack.addEventListener("scroll", () => {
+    if (carouselScrollFrame) {
+      cancelAnimationFrame(carouselScrollFrame);
+    }
+
+    carouselScrollFrame = requestAnimationFrame(() => {
+      const trackCentre =
+        dashboardTrack.getBoundingClientRect().left +
+        dashboardTrack.clientWidth / 2;
+
+      let nearestIndex = 0;
+      let nearestDistance = Infinity;
+
+      dashboardCards.forEach((card, index) => {
+        const rect = card.getBoundingClientRect();
+        const cardCentre = rect.left + rect.width / 2;
+        const distance = Math.abs(trackCentre - cardCentre);
+
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestIndex = index;
+        }
+      });
+
+      activateDashboardTab(nearestIndex);
+    });
+  });
+}
+
         
         /*========== Bottom navigation clicks ==============*/
           bottomNavItems.forEach(button => {
