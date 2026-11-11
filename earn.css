@@ -1837,5 +1837,104 @@
 
 
 
+/* ============================================
+   NAVAA DASHBOARD — PREMIUM CARD TABS
+   Independent styling; existing slider untouched
+============================================ */
+
+#pageDashboard .dashboard-card-tabs {
+  width: min(100% - 24px, 460px);
+  margin: 0 auto 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(22px, 7vw, 44px);
+
+  border-bottom: 1px solid var(--line);
+}
+
+#pageDashboard .dashboard-card-tab {
+  position: relative;
+  isolation: isolate;
+  padding: 13px 5px 15px;
+
+  border: 0;
+  outline: 0;
+  background: transparent;
+
+  color: var(--muted);
+  font-family: 'BinancePlex', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .15px;
+
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    color .3s ease,
+    transform .3s ease,
+    text-shadow .3s ease;
+}
+
+#pageDashboard .dashboard-card-tab::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  width: 0;
+  height: 3px;
+  border-radius: 10px;
+
+  background: var(--accent);
+  box-shadow: 0 0 7px var(--accent),
+              0 0 16px rgba(24,214,197,.35);
+
+  transform: translateX(-50%);
+  transition: width .35s cubic-bezier(.2,.8,.2,1);
+}
+
+#pageDashboard .dashboard-card-tab.active {
+  color: var(--accent);
+  font-weight: 600;
+  text-shadow: 0 0 12px rgba(24,214,197,.22);
+}
+
+#pageDashboard .dashboard-card-tab.active::after {
+  width: 100%;
+}
+
+#pageDashboard .dashboard-card-tab:active {
+  transform: scale(.94);
+}
+
+#pageDashboard .dashboard-card-tab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+@media (max-width: 480px) {
+  #pageDashboard .dashboard-card-tabs {
+    gap: clamp(20px, 8vw, 34px);
+    margin-bottom: 22px;
+  }
+
+  #pageDashboard .dashboard-card-tab {
+    font-size: 12px;
+    padding: 12px 4px 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #pageDashboard .dashboard-card-tab,
+  #pageDashboard .dashboard-card-tab::after {
+    transition: none;
+  }
+}
+
+
+
 
 
