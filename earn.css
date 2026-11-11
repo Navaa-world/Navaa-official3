@@ -1227,7 +1227,7 @@
   border-radius: 4px;
 }
 
-/* Below minimum balance */
+/* Below minimum balance 
 .balance-earn-notice.is-ineligible .balance-earn-message {
   color: #d6a84b;
 }
