@@ -1527,7 +1527,13 @@ button:focus-visible {
               </div>
               <div class="refer-token-mark">N</div>
             </div>
-            <button class="refer-withdraw-btn" id="referWithdrawBtn" type="button" disabled>Withdraw referral rewards</button>
+            <label class="refer-field-label refer-amount-label" for="referWithdrawAmount">Withdrawal amount (NAVAA)</label>
+            <div class="refer-amount-row">
+              <input id="referWithdrawAmount" type="number" inputmode="decimal" min="0" step="any" placeholder="Enter amount" autocomplete="off" disabled>
+              <button id="referMaxBtn" type="button" disabled>MAX</button>
+            </div>
+            <p class="refer-amount-hint" id="referAmountHint">Enter an amount or choose MAX to withdraw your full available balance.</p>
+            <button class="refer-withdraw-btn" id="referWithdrawBtn" type="button" disabled>Withdraw selected amount</button>
             <p class="refer-status" id="referStatus" role="status">Connect your wallet to view referral rewards.</p>
             <p class="refer-note">The existing staking contract applies its withdrawal rules and fee. Confirm the final amount in your wallet before signing.</p>
           </section>
