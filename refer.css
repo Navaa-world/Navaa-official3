@@ -95,3 +95,28 @@
  .refer-steps article { padding:12px; }
 }
 @media(prefers-reduced-motion:reduce) { .refer-page * { scroll-behavior:auto!important; transition:none!important; } }
+
+
+/* Referral custom withdrawal amount + MAX */
+.refer-amount-label { display:block; margin-top:17px; }
+.refer-amount-row { display:flex; align-items:stretch; gap:9px; }
+.refer-amount-row input {
+  flex:1; min-width:0; height:46px; padding:0 13px;
+  border:1px solid var(--rf-line); border-radius:10px;
+  outline:none; background:var(--rf-bg); color:var(--rf-text);
+  font:inherit; font-size:13px;
+}
+.refer-amount-row input:focus { border-color:var(--rf-accent); }
+.refer-amount-row input:disabled { opacity:.5; }
+.refer-amount-row button {
+  min-width:72px; padding:0 16px; border:1px solid var(--rf-accent);
+  border-radius:10px; background:rgba(24,214,197,.1);
+  color:var(--rf-accent); font:inherit; font-size:12px; font-weight:800;
+  cursor:pointer;
+}
+.refer-amount-row button:disabled { opacity:.4; cursor:not-allowed; }
+.refer-amount-hint { min-height:16px; margin:8px 0 0; color:var(--rf-muted); font-size:10px; line-height:1.5; }
+@media(max-width:560px) {
+  .refer-amount-row input { height:45px; }
+  .refer-amount-row button { min-width:66px; }
+}
