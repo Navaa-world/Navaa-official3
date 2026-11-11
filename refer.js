@@ -85,24 +85,46 @@
     return true;
   }
 
-  async function loadReferralEvents() {
-    const latest=await provider.getBlockNumber();
-    const from=Math.max(0,latest-SCAN_WINDOW);
-    const filter=staking.filters.Staked(null,null,account);
-    const withdrawFilter=staking.filters.ReferralWithdrawn(account);
-    const results=await Promise.allSettled([
-      staking.queryFilter(filter,from,latest),
-      staking.queryFilter(withdrawFilter,from,latest)
-    ]);
-    if(results[0].status!=="fulfilled") throw results[0].reason;
-    const stakes=results[0].value;
-    const withdrawals=results[1].status==="fulfilled"?results[1].value:[];
-    const unique=new Map();
-    for(const ev of stakes) {
-      const user=String(ev.args.user).toLowerCase();
-      if(!unique.has(user)) unique.set(user,ev);
+  async function queryEventsInChunks(filter, from, latest) {
+    const chunkSize = 5000;
+    const ranges = [];
+    for (let start = from; start <= latest; start += chunkSize) {
+      ranges.push([start, Math.min(start + chunkSize - 1, latest)]);
     }
-    return {latest,from,stakes:[...unique.values()],withdrawals};
+
+    const output = [];
+    let cursor = 0;
+    const workers = Array.from({ length: 3 }, async () => {
+      while (cursor < ranges.length) {
+        const index = cursor++;
+        const [start, end] = ranges[index];
+        const logs = await staking.queryFilter(filter, start, end);
+        output.push(...logs);
+      }
+    });
+    await Promise.all(workers);
+    return output;
+  }
+
+  async function loadReferralEvents() {
+    const latest = await provider.getBlockNumber();
+    const from = Math.max(0, latest - SCAN_WINDOW);
+    const stakeFilter = staking.filters.Staked(null, null, account);
+    const withdrawFilter = staking.filters.ReferralWithdrawn(account);
+
+    // Public Polygon RPC endpoints often reject large eth_getLogs ranges.
+    // Scan in smaller batches so one oversized request cannot break the page.
+    const [stakes, withdrawals] = await Promise.all([
+      queryEventsInChunks(stakeFilter, from, latest),
+      queryEventsInChunks(withdrawFilter, from, latest)
+    ]);
+
+    const unique = new Map();
+    for (const ev of stakes) {
+      const user = String(ev.args.user).toLowerCase();
+      if (!unique.has(user)) unique.set(user, ev);
+    }
+    return { latest, from, stakes: [...unique.values()], withdrawals };
   }
 
   function renderReferrals(events) {
@@ -148,31 +170,54 @@
   }
 
   async function refresh() {
-    if(!account || !staking || !provider) { reset(); return; }
+    if (!account || !staking || !provider) { reset(); return; }
+
+    decimals = 18;
+
+    // Read the actual contract balance independently from event history.
+    // If the RPC refuses log queries, the user's claimable balance must
+    // still be visible and the withdrawal button must still work.
+    let balance;
     try {
-      decimals=18;
-      const [balance,events]=await Promise.all([
-        staking.referralBalance(account),
-        loadReferralEvents()
-      ]);
-      lastEvents=events.stakes;
-      const earned=events.stakes.reduce((sum,ev)=>sum+BigInt(ev.args.referralReward),0n);
-      const withdrawn=events.withdrawals.reduce((sum,ev)=>sum+BigInt(ev.args.net),0n);
-      setText("referLifetimeEarned",amount(earned)+" NAVAA");
-      setText("referTotalCount",String(events.stakes.length));
-      setText("referAvailable",amount(balance));
-      setText("referWithdrawn",amount(withdrawn));
-      setText("referClaimable",amount(balance)+" NAVAA");
-      const btn=$("referWithdrawBtn"); if(btn) btn.disabled=balance===0n || busy;
+      balance = await staking.referralBalance(account);
+      setText("referAvailable", amount(balance));
+      setText("referClaimable", amount(balance) + " NAVAA");
+      const btn = $("referWithdrawBtn");
+      if (btn) btn.disabled = balance === 0n || busy;
+      setStatus("On-chain referral balance loaded.");
+    } catch (error) {
+      console.warn("NAVAA referral balance read failed:", error);
+      setText("referAvailable", "Read error");
+      setText("referClaimable", "Read error");
+      const btn = $("referWithdrawBtn");
+      if (btn) btn.disabled = true;
+      setStatus(error?.shortMessage || error?.reason || error?.message || "Could not read referral balance.", true);
+      return;
+    }
+
+    try {
+      const events = await loadReferralEvents();
+      lastEvents = events.stakes;
+      const earned = events.stakes.reduce((sum, ev) => sum + BigInt(ev.args.referralReward), 0n);
+      const withdrawn = events.withdrawals.reduce((sum, ev) => sum + BigInt(ev.args.net), 0n);
+
+      setText("referLifetimeEarned", amount(earned) + " NAVAA");
+      setText("referTotalCount", String(events.stakes.length));
+      setText("referWithdrawn", amount(withdrawn));
       renderReferrals(events.stakes);
-      renderHistory(events.stakes,events.withdrawals);
-      setText("referScanNote","Showing matching events from Polygon blocks "+events.from.toLocaleString()+"–"+events.latest.toLocaleString()+". Older referrals may not appear in this limited scan.");
-      setStatus("Referral data updated from Polygon Mainnet.");
-    } catch(error) {
-      console.warn("NAVAA referral data:",error);
-      setStatus(error?.shortMessage||error?.reason||error?.message||"Referral data could not be loaded. Try refreshing.",true);
-      const body=$("referListBody");
-      if(body) setEmpty("referListBody","Referral event history is temporarily unavailable.",4);
+      renderHistory(events.stakes, events.withdrawals);
+      setText("referScanNote", "Showing matching events from Polygon blocks " + events.from.toLocaleString() + "–" + events.latest.toLocaleString() + ". Older referrals may not appear in this limited scan.");
+      setStatus("Referral balance loaded from the contract. Referral history scan completed.");
+    } catch (error) {
+      console.warn("NAVAA referral event scan failed:", error);
+      setText("referLifetimeEarned", "History unavailable");
+      setText("referTotalCount", "—");
+      setText("referWithdrawn", "—");
+      setEmpty("referListBody", "Referral event scan failed. Your on-chain available balance above is still accurate.", 4);
+      const history = $("referHistoryList");
+      if (history) history.replaceChildren(make("div", "refer-empty", "Referral event history is temporarily unavailable."));
+      setText("referScanNote", "The RPC could not return event history. The available reward balance is read directly from the staking contract.");
+      setStatus("Your contract balance is loaded. Referral history is temporarily unavailable.", true);
     }
   }
 
