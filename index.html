@@ -1605,6 +1605,100 @@ button:focus-visible {
       });
       
     </script>
+
+    
+<script>
+/* ==========================================
+   NAVAA DASHBOARD — CARD TAB CONTROLLER
+   Uses the existing card slider without
+   changing its CSS or swipe behavior.
+========================================== */
+
+(() => {
+  const track = document.getElementById("dashboardEarningCards");
+
+  const tabs = document.querySelectorAll(
+    "#pageDashboard .dashboard-card-tab"
+  );
+
+  if (!track || !tabs.length) return;
+
+  const cards = Array.from(
+    track.querySelectorAll(".dashboard-earning-card")
+  );
+
+  if (cards.length !== 3 || tabs.length !== 3) return;
+
+  let scrollFrame = null;
+
+  function setActiveTab(index) {
+    tabs.forEach((tab, i) => {
+      const active = i === index;
+
+      tab.classList.toggle("active", active);
+      tab.setAttribute("aria-pressed", String(active));
+    });
+  }
+
+  function goToCard(index) {
+    const card = cards[index];
+    if (!card) return;
+
+    /* Preserve the current desktop grid.
+       Use the existing horizontal slider when available. */
+    if (track.scrollWidth > track.clientWidth + 2) {
+      const firstCardLeft = cards[0].offsetLeft;
+
+      track.scrollTo({
+        left: card.offsetLeft - firstCardLeft,
+        behavior: "smooth"
+      });
+    }
+
+    setActiveTab(index);
+  }
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => {
+      goToCard(index);
+    });
+  });
+
+  /* Update selected tab during manual swipe */
+  track.addEventListener("scroll", () => {
+    if (scrollFrame) {
+      cancelAnimationFrame(scrollFrame);
+    }
+
+    scrollFrame = requestAnimationFrame(() => {
+      if (track.scrollWidth <= track.clientWidth + 2) return;
+
+      const trackRect = track.getBoundingClientRect();
+      const trackCentre = trackRect.left + trackRect.width / 2;
+
+      let nearestIndex = 0;
+      let nearestDistance = Infinity;
+
+      cards.forEach((card, index) => {
+        const rect = card.getBoundingClientRect();
+        const centre = rect.left + rect.width / 2;
+        const distance = Math.abs(centre - trackCentre);
+
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestIndex = index;
+        }
+      });
+
+      setActiveTab(nearestIndex);
+    });
+  });
+
+})();
+</script>
+
+
+    
 <!--==================================================
           JAVASCRIPT : Wallet Balance 
     ===============================================--->
