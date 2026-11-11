@@ -1155,4 +1155,122 @@
 
 
 
+/* =========================================
+   NAVAA BALANCE - EARN ELIGIBILITY NOTICE
+========================================= */
+
+.balance-earn-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  margin-top: 8px;
+  min-width: 0;
+}
+
+.balance-earn-message {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.balance-earn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.balance-earn-go {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  gap: 3px;
+  padding: 3px 0 3px 7px;
+  border: 0;
+  background: transparent;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+.balance-earn-go svg {
+  width: 14px;
+  height: 14px;
+}
+
+.balance-earn-go:hover {
+  opacity: .8;
+  transform: translateY(-1px);
+}
+
+.balance-earn-go:active {
+  transform: scale(.94);
+}
+
+.balance-earn-go:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Below minimum balance */
+.balance-earn-notice.is-ineligible .balance-earn-message {
+  color: #d6a84b;
+}
+
+.balance-earn-notice.is-ineligible .balance-earn-icon,
+.balance-earn-notice.is-ineligible .balance-earn-go {
+  color: #d6a84b;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .balance-earn-notice {
+    gap: 5px;
+    margin-top: 7px;
+  }
+
+  .balance-earn-message {
+    font-size: 10px;
+    gap: 4px;
+  }
+
+  .balance-earn-go {
+    font-size: 11px;
+  }
+
+  .balance-earn-go svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .balance-earn-message {
+    font-size: 9px;
+  }
+
+  .balance-earn-go {
+    font-size: 10px;
+  }
+}
+
+
+
+
+
 
