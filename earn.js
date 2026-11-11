@@ -167,10 +167,10 @@
       if (el) el.disabled = value;
     });
 
-    if (value) {
-      const copy = $("earnCopyReferralBtn");
-      if (copy) copy.disabled = true;
-    }
+    const copy = $("earnCopyReferralBtn");
+     if (copy) {
+        copy.disabled = value || !account;
+     }
   }
 
   function parseAmount(value) {
@@ -432,6 +432,13 @@
       const alreadyStaked = getValue(7);
       const nextClaim = getValue(8);
       const isPaused = getValue(9);
+       const allowance = getValue(10);
+
+/* Sync live blockchain values */
+walletBalanceRaw = walletBalance ?? 0n;
+capacityRaw = capacity ?? 0n;
+allowanceRaw = allowance ?? 0n;
+pausedState = isPaused === true;
 
       setText(
         "earnWalletBalance",
@@ -514,6 +521,10 @@
       if (referralAddress) {
         referralAddress.value = account;
       }
+       const copyReferralButton = $("earnCopyReferralBtn");
+       if (copyReferralButton) {
+          copyReferralButton.disabled = !account || busy;
+       }
 
       if (nextClaim !== null) {
         const claimDate = Number(nextClaim);
@@ -851,8 +862,9 @@
         token.balanceOf(account),
         staking.maxStakeCapacity(account),
         token.allowance(account, STAKE_ADDRESS),
-        staking.hasStaked(account),
-        staking.paused()
+        staking.hasStaked(account), 
+         staking.paused(),
+         token.allowance(account, STAKE_ADDRESS)
       ]);
 
       if (isPaused) throw new Error("Staking is paused.");
