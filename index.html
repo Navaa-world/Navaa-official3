@@ -1067,8 +1067,9 @@ button:focus-visible {
   
 
 </style>
-  <link rel="stylesheet" href="./earn.css?v=3">
-  <!--<link rel="stylesheet" href="./earn.css?v=1"> -->
+  <link rel="stylesheet" href="./earn.css?v=4">
+  <!--<link rel="stylesheet" href="./earn.css?v=3">
+  <link rel="stylesheet" href="./earn.css?v=1"> -->
 </head>
   <body>
     <main>
@@ -1165,7 +1166,8 @@ button:focus-visible {
             <button
               type="button"
               class="balance-earn-go"
-              id="goEarnBtn">
+              id="goEarnBtn"
+              hidden>
               Go
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M7 17 17 7M7 7h10v10"
@@ -1798,6 +1800,12 @@ button:focus-visible {
 
           balanceVisibilityBtn.title =
             balanceHidden ? 'Show balance' : 'Hide balance';
+
+          /* Balance status slide animation */
+          const earnNotice = document.getElementById("balanceEarnNotice");
+          if (earnNotice) {
+            earnNotice.classList.toggle("is-collapsed", balanceHidden);
+          }
         });
  
         function showStatus(message) {
@@ -1812,12 +1820,14 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
   const notice = document.getElementById("balanceEarnNotice");
   const message = document.getElementById("balanceEarnText");
   const icon = document.getElementById("balanceEarnIcon");
+  const goButton = document.getElementById("goEarnBtn");
 
   if (!notice || !message || !icon) return;
 
   const minimum = ethers.parseUnits("1000", tokenDecimals);
 
   if (rawBalance >= minimum) {
+    if (goButton) goButton.hidden = false;
     notice.classList.remove("is-ineligible");
 
     icon.textContent = "↗";
@@ -1825,6 +1835,7 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
       "Eligible to Earn ~25.55% APR";
 
   } else {
+    if (goButton) goButton.hidden = true;
     notice.classList.add("is-ineligible");
 
     const remaining = minimum - rawBalance;
@@ -1974,6 +1985,8 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
               const earnText = document.getElementById("balanceEarnText");
               const earnIcon = document.getElementById("balanceEarnIcon");
               if (earnNotice) earnNotice.classList.remove("is-ineligible");
+              const goButton = document.getElementById("goEarnBtn");
+              if (goButton) goButton.hidden = true;
               if (earnText) earnText.textContent = "Connect wallet to check your Earn eligibility.";
               if (earnIcon) earnIcon.textContent = "↗";
               return;
