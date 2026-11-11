@@ -1164,12 +1164,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /*gap: 16px; */
-   gap: 10px;
+  gap: 16px;
   width: 100%;
   min-width: 0;
-  /*padding: 20px 28px; */
-   padding: 14px 20px;
+  padding: 20px 28px;
   margin: 0;
   background: var(--bg);
 }
@@ -1224,11 +1222,9 @@
 
 /* Balance amount */
 #pageDashboard .balance-value {
-/*  margin-top: 5px; */
-   margin-top: 3px;
+  margin-top: 5px;
   color: var(--text);
- /* font-size: clamp(28px, 3.5vw, 36px); */
-   font-size: 30px
+  font-size: clamp(28px, 3.5vw, 36px);
   font-weight: 600;
   line-height: 1.2;
   letter-spacing: 0;
@@ -1260,12 +1256,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
- /* gap: 10px; */
-   gap: 6px;
+  gap: 10px;
   width: 100%;
   min-width: 0;
- /* margin-top: 8px;*/
-   margin-top: 5px;
+  margin-top: 8px;
 
   max-height: 90px;
   overflow: hidden;
@@ -1362,17 +1356,14 @@
 /* Add Funds button */
 #pageDashboard .add-fund-btn {
   flex: 0 0 auto;
-  /*min-height: 42px; */
-   min-height: 38px;
- /* padding: 0 23px;*/
-   padding: 0 18px;
+  min-height: 42px;
+  padding: 0 23px;
   border: 0;
-/*  border-radius: 8px; */
-   border-radius: 7px;
+  border-radius: 7px;
   background: var(--accent);
   color: var(--accent-text);
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 500;
   white-space: nowrap;
   transition: background .2s ease, transform .2s ease;
 }
@@ -1389,14 +1380,12 @@
 /* Tablet and mobile */
 @media (max-width: 600px) {
   #pageDashboard .balance-card {
-  /*  padding: 17px 12px; */
-     padding: 13px 10px;
+    padding: 17px 12px;
     gap: 8px;
   }
 
   #pageDashboard .balance-value {
-   /* font-size: 24px; */
-     font-size: 22px;
+    font-size: 24px;
   }
 
   #pageDashboard .balance-label {
@@ -1423,8 +1412,7 @@
   }
 
   #pageDashboard .add-fund-btn {
-   /* min-height: 36px; */
-     min-height: 34px;
+    min-height: 36px;
     padding: 0 13px;
     font-size: 12px;
   }
