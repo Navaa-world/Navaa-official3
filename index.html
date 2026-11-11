@@ -1835,6 +1835,13 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
           }
         }
 
+        /* NAVAA LIVE BALANCE REFRESH */
+        window.addEventListener("navaa:refresh-balance", () => {
+          if (walletAddress) {
+            readNavaaBalance();
+          }
+        });
+
         async function connectWallet() {
           try {
             if (!window.ethereum) {
@@ -1955,6 +1962,15 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
         }
 
         restoreWallet();
+        /* Auto-sync wallet balance */
+        setInterval(() => {
+          if (
+            walletAddress &&
+            document.visibilityState === "visible"
+          ) {
+            readNavaaBalance();
+          }
+        }, 10000);
         
          /* =================================
              NAVAA PAGE NAVIGATION SYSTEM
