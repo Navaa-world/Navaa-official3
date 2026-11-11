@@ -914,9 +914,15 @@ pausedState = isPaused === true;
       setStatus(showError(error), true);
 
     } finally {
-      setBusy(false);
-      await refreshDashboard();
-      await loadHistory();
+           
+       setBusy(false);
+       await refreshDashboard();
+       
+       window.dispatchEvent(
+          new Event("navaa:refresh-balance")
+       );
+       
+       await loadHistory();
     }
   }
 
