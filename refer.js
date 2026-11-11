@@ -7,7 +7,7 @@
   const STAKE_ADDRESS = "0xE46E8b1AC4CDFAE9CF9d1D9B0BD6D1705CB5B8C9";
   const CHAIN_ID = 137n;
   const SCAN_WINDOW = 500000;
-  const CHUNK_SIZE = 25000;
+  const CHUNK_SIZE = 5000;
   const RPC_URLS = [
     "https://polygon.drpc.org",
     "https://polygon-bor-rpc.publicnode.com"
@@ -120,21 +120,30 @@
     const latest=await readProvider.getBlockNumber();
     const from=Math.max(0,latest-SCAN_WINDOW);
     const addressTopic=ethers.zeroPadValue(account,32).toLowerCase();
-    const events=[];
-    // Both events index the wallet in topic 1, so fetch them in one log query.
+    const ranges=[];
     for(let start=from;start<=latest;start+=CHUNK_SIZE) {
-      const end=Math.min(start+CHUNK_SIZE-1,latest);
-      const logs=await readProvider.getLogs({
-        address:STAKE_ADDRESS,
-        fromBlock:start,
-        toBlock:end,
-        topics:[[STAKED_TOPIC,WITHDRAW_TOPIC],addressTopic]
-      });
-      for(const log of logs) {
-        const parsed=iface.parseLog(log);
-        if(parsed) events.push({parsed,blockNumber:log.blockNumber,transactionHash:log.transactionHash});
-      }
+      ranges.push([start,Math.min(start+CHUNK_SIZE-1,latest)]);
     }
+    const events=[];
+    let cursor=0;
+    // Small, concurrent batches avoid common Polygon eth_getLogs range limits.
+    const workers=Array.from({length:4},async()=>{
+      while(cursor<ranges.length) {
+        const index=cursor++;
+        const [start,end]=ranges[index];
+        const logs=await readProvider.getLogs({
+          address:STAKE_ADDRESS,
+          fromBlock:start,
+          toBlock:end,
+          topics:[[STAKED_TOPIC,WITHDRAW_TOPIC],addressTopic]
+        });
+        for(const log of logs) {
+          const parsed=iface.parseLog(log);
+          if(parsed) events.push({parsed,blockNumber:log.blockNumber,transactionHash:log.transactionHash});
+        }
+      }
+    });
+    await Promise.all(workers);
     const stakes=events.filter(x=>x.parsed.name==="Staked");
     const withdrawals=events.filter(x=>x.parsed.name==="ReferralWithdrawn");
     return {latest,from,stakes,withdrawals};
@@ -267,8 +276,11 @@
       return;
     }
     const shareUrl="https://wa.me/?text="+encodeURIComponent(text);
-    const opened=window.open(shareUrl,"_blank","noopener,noreferrer");
-    if(opened) setText("referLinkStatus","WhatsApp opened. Choose the contact or group to share with.");
+    const opened=window.open(shareUrl,"_blank");
+    if(opened) {
+      opened.opener=null;
+      setText("referLinkStatus","WhatsApp opened. Choose the contact or group to share with.");
+    }
     else setText("referLinkStatus","Pop-up blocked. Copy the link and share it manually.");
   }
 
