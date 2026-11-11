@@ -414,7 +414,8 @@
         staking.maxStakeCapacity(account),
         staking.hasStaked(account),
         staking.nextRewardClaimAt(account),
-        staking.paused()
+        staking.paused(),
+        token.allowance(account, STAKE_ADDRESS)
       ]);
 
       const getValue = (index, fallback = null) =>
