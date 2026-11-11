@@ -125,6 +125,38 @@
 
     return address.slice(0, 6) + "..." + address.slice(-4);
   }
+   
+/* REFERRAL LINK HELPERS */
+function getReferralFromUrl() {
+  try {
+    const ref = new URLSearchParams(
+      window.location.search
+    ).get("ref");
+
+    if (ref && ethers.isAddress(ref)) {
+      return ethers.getAddress(ref);
+    }
+  } catch (error) {
+    console.warn("Invalid referral URL:", error);
+  }
+
+  return "";
+}
+
+function getReferralLink() {
+  if (!account) return "";
+
+  const url = new URL(
+    window.location.pathname,
+    window.location.origin
+  );
+
+  url.searchParams.set("ref", account);
+
+  return url.toString();
+}
+/*=====================*/
+   
 
   function showError(error) {
     console.error("NAVAA Earn Error:", error);
@@ -504,7 +536,7 @@ pausedState = isPaused === true;
         };
       }
 
-      const referralInput = $("earnReferrer");
+    /*  const referralInput = $("earnReferrer");
 
       if (referralInput) {
         if (alreadyStaked === true) {
@@ -515,13 +547,49 @@ pausedState = isPaused === true;
           referralInput.disabled = false;
           referralInput.placeholder = "Enter referrer's wallet address";
         }
-      }
+      }  */
 
-      const referralAddress = $("earnReferralLink");
+       const referralInput = $("earnReferrer");
+
+if (referralInput) {
+  if (alreadyStaked === true) {
+    referralInput.value = "";
+    referralInput.placeholder = "Not required for subsequent stakes";
+    referralInput.disabled = true;
+
+  } else {
+    referralInput.disabled = false;
+    referralInput.placeholder = "Enter referrer's wallet address";
+
+    if (!referralInput.value.trim()) {
+      const incomingReferral = getReferralFromUrl();
+
+      if (
+        incomingReferral &&
+        incomingReferral.toLowerCase() !== account.toLowerCase()
+      ) {
+        referralInput.value = incomingReferral;
+      }
+    }
+  }
+}
+
+
+       
+
+     /* const referralAddress = $("earnReferralLink");
 
       if (referralAddress) {
         referralAddress.value = account;
-      }
+      } */
+
+       const referralAddress = $("earnReferralLink");
+       if (referralAddress) {
+          referralAddress.value = getReferralLink();
+       }
+
+
+       
        const copyReferralButton = $("earnCopyReferralBtn");
        if (copyReferralButton) {
           copyReferralButton.disabled = !account || busy;
@@ -1057,7 +1125,7 @@ pausedState = isPaused === true;
      COPY REFERRAL ADDRESS
   ========================================= */
 
-  async function copyReferralAddress() {
+/*  async function copyReferralAddress() {
     if (!account) {
       setReferralStatus("Connect your wallet first.", true);
       return;
@@ -1085,7 +1153,49 @@ pausedState = isPaused === true;
         true
       );
     }
+  } */
+
+   async function copyReferralAddress() {
+  if (!account) {
+    setReferralStatus("Connect your wallet first.", true);
+    return;
   }
+
+  try {
+    const field = $("earnReferralLink");
+    const referralLink = getReferralLink();
+
+    if (!referralLink) {
+      throw new Error("Referral link could not be generated.");
+    }
+
+    if (field) {
+      field.value = referralLink;
+    }
+
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(referralLink);
+
+    } else if (field) {
+      field.focus();
+      field.select();
+
+      if (!document.execCommand("copy")) {
+        throw new Error("Copy unavailable.");
+      }
+    }
+
+    setReferralStatus("Your referral link has been copied.");
+
+  } catch (error) {
+    setReferralStatus(
+      "Copy failed. Please copy your referral link manually.",
+      true
+    );
+  }
+}
+
+   
 
   /* =========================================
      RECENT TRANSACTION HISTORY
