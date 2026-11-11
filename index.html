@@ -1149,38 +1149,34 @@ button:focus-visible {
             <span class="balance-symbol">NAVAA</span>
           </div>
 
-          
-<!-- NAVAA EARN ELIGIBILITY NOTICE -->
-<div class="balance-earn-notice" id="balanceEarnNotice">
-
-  <div class="balance-earn-message">
-    <span class="balance-earn-icon" id="balanceEarnIcon">
-      ↗
-    </span>
-    <span id="balanceEarnText">
-      Connect wallet to check your Earn eligibility.
-    </span>
-  </div>
-
-  <button
-    type="button"
-    class="balance-earn-go"
-    id="goEarnBtn">
-    Go
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M7 17 17 7M7 7h10v10"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"/>
-    </svg>
-  </button>
-
-</div>
-<!-- END EARN ELIGIBILITY NOTICE -->
-
-
-          
+          <!--========================================
+                 NAVAA EARN ELIGIBILITY NOTICE 
+          ==========================================-->
+          <div class="balance-earn-notice" id="balanceEarnNotice">
+            <div class="balance-earn-message">
+              <span class="balance-earn-icon" id="balanceEarnIcon">
+                ↗
+              </span>
+              <span id="balanceEarnText">
+                Connect wallet to check your Earn eligibility.
+              </span>
+            </div>
+            
+            <button
+              type="button"
+              class="balance-earn-go"
+              id="goEarnBtn">
+              Go
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M7 17 17 7M7 7h10v10"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+          <!--============ END EARN ELIGIBILITY NOTICE ===============-->
           
           <div class="balance-status" id="navaaBalanceStatus">
             Connect wallet to view your balance
@@ -1826,7 +1822,7 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
 
     icon.textContent = "↗";
     message.textContent =
-      "You're eligible to earn up to 25.55% APR";
+      "Eligible to Earn up to 25.55% APR";
 
   } else {
     notice.classList.add("is-ineligible");
@@ -1842,7 +1838,7 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
     icon.textContent = "◈";
     message.textContent =
       "Only " + remainingFormatted +
-      " NAVAA more to reach staking eligibility.";
+      "more Earn up to 25.55% APR";
   }
 }
 /*========================================================*/
