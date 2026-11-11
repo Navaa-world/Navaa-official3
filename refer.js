@@ -194,7 +194,13 @@
       setText("referAvailable",format(balance));
       setText("referClaimable",format(balance)+" NAVAA");
       const withdrawBtn=$("referWithdrawBtn");
+      const amountInput=$("referWithdrawAmount");
+      const maxBtn=$("referMaxBtn");
       if(withdrawBtn) withdrawBtn.disabled=balance===0n || busy;
+      if(amountInput) amountInput.disabled=balance===0n || busy;
+      if(maxBtn) maxBtn.disabled=balance===0n || busy;
+      if(amountInput && balance===0n) amountInput.value="";
+      updateWithdrawalHint(balance);
       status("Available referral balance loaded from the staking contract.");
 
       try {
@@ -231,18 +237,77 @@
     }
   }
 
+  function updateWithdrawalHint(balance) {
+    const input=$("referWithdrawAmount");
+    const hint=$("referAmountHint");
+    if(!input || !hint) return;
+    if(balance===undefined) {
+      hint.textContent="Connect your wallet to enter a withdrawal amount.";
+      return;
+    }
+    const selected=(input.value||"").trim();
+    if(!selected) {
+      hint.textContent="Available: "+format(balance)+" NAVAA. Enter an amount or choose MAX.";
+      return;
+    }
+    try {
+      const parsed=ethers.parseUnits(selected,18);
+      if(parsed<=0n) hint.textContent="Enter an amount greater than zero.";
+      else if(parsed>balance) hint.textContent="Amount exceeds your available referral balance.";
+      else hint.textContent="You selected "+format(parsed)+" NAVAA. The contract may deduct its configured fee.";
+    } catch(error) {
+      hint.textContent="Enter a valid amount with up to 18 decimal places.";
+    }
+  }
+
+  function setMaxWithdrawal() {
+    const input=$("referWithdrawAmount");
+    if(!input || !readContract || !account) return;
+    readContract.referralBalance(account).then(balance=>{
+      input.value=ethers.formatUnits(balance,18);
+      updateWithdrawalHint(balance);
+    }).catch(error=>{
+      console.error("Could not load max referral balance:",error);
+      setText("referAmountHint","Could not load balance. Please refresh the dashboard.");
+    });
+  }
+
   async function withdraw() {
-    if(busy || !account || !writeContract) return;
+    if(busy || !account || !writeContract || !readContract) return;
+    const input=$("referWithdrawAmount");
+    const entered=(input?.value||"").trim();
+    if(!entered) {
+      status("Enter a withdrawal amount or press MAX.",true);
+      input?.focus();
+      return;
+    }
+
+    let requested;
+    try { requested=ethers.parseUnits(entered,18); }
+    catch(error) {
+      status("Enter a valid NAVAA amount with up to 18 decimal places.",true);
+      input?.focus();
+      return;
+    }
+    if(requested<=0n) {
+      status("Withdrawal amount must be greater than zero.",true);
+      return;
+    }
+
     busy=true;
-    const btn=$("referWithdrawBtn"); if(btn) btn.disabled=true;
+    const btn=$("referWithdrawBtn"),maxBtn=$("referMaxBtn");
+    if(btn) btn.disabled=true;
+    if(maxBtn) maxBtn.disabled=true;
+    if(input) input.disabled=true;
     try {
       const balance=await readContract.referralBalance(account);
-      if(balance===0n) throw new Error("No referral rewards are available to withdraw.");
-      status("Confirm referral reward withdrawal in your wallet.");
-      const tx=await writeContract.withdrawReferralReward(balance);
+      if(requested>balance) throw new Error("Insufficient referral balance. Available: "+format(balance)+" NAVAA.");
+      status("Confirm withdrawal of "+format(requested)+" NAVAA in your wallet.");
+      const tx=await writeContract.withdrawReferralReward(requested);
       status("Withdrawal submitted. Waiting for Polygon confirmation...");
       await tx.wait();
-      status("Withdrawal confirmed. Updating referral balance.");
+      if(input) input.value="";
+      status("Withdrawal confirmed. Remaining referral balance is refreshing.");
       await refresh();
     } catch(error) {
       console.error("NAVAA referral withdrawal failed:",error);
@@ -288,6 +353,13 @@
     $("referCopyBtn")?.addEventListener("click",copyLink);
     $("referShareBtn")?.addEventListener("click",shareLink);
     $("referWithdrawBtn")?.addEventListener("click",withdraw);
+    $("referMaxBtn")?.addEventListener("click",setMaxWithdrawal);
+    $("referWithdrawAmount")?.addEventListener("input",async()=>{
+      try {
+        const balance=account && readContract ? await readContract.referralBalance(account) : undefined;
+        updateWithdrawalHint(balance);
+      } catch(error) { updateWithdrawalHint(undefined); }
+    });
     $("connectBtn")?.addEventListener("click",async()=>{
       for(let i=0;i<30;i++) {
         try {
