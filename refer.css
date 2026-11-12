@@ -120,3 +120,45 @@
   .refer-amount-row input { height:45px; }
   .refer-amount-row button { min-width:66px; }
 }
+
+
+/* NAVAA Refer & Earn — polished responsive refinements */
+.refer-page { max-width:1180px; padding-top:clamp(18px,3vw,34px); }
+.refer-header { align-items:center; }
+.refer-header h1 { letter-spacing:-.7px; }
+.refer-hero { min-height:150px; position:relative; overflow:hidden; }
+.refer-hero::after { content:""; position:absolute; width:220px; height:220px; right:30px; top:-120px; border:1px solid rgba(24,214,197,.13); border-radius:50%; box-shadow:0 0 0 24px rgba(24,214,197,.035),0 0 0 48px rgba(24,214,197,.025); pointer-events:none; }
+.refer-stat-card { transition:border-color .18s ease,transform .18s ease; }
+.refer-stat-card:hover { border-color:rgba(24,214,197,.32); transform:translateY(-2px); }
+.refer-panel { box-shadow:0 8px 28px rgba(0,0,0,.08); }
+.refer-panel-heading h2 { letter-spacing:-.25px; }
+.refer-link-row input { overflow:hidden; text-overflow:ellipsis; }
+.refer-link-row button,.refer-share-row button,.refer-withdraw-btn,.refer-amount-row button { transition:filter .18s ease,transform .18s ease; }
+.refer-link-row button:hover:not(:disabled),.refer-share-row button:hover:not(:disabled),.refer-withdraw-btn:hover:not(:disabled),.refer-amount-row button:hover:not(:disabled) { filter:brightness(1.08); transform:translateY(-1px); }
+.refer-history-item { gap:16px; }
+.refer-history-amount { min-width:115px; }
+.refer-history-amount a { display:inline-block; margin-top:6px; font-size:10px; }
+.refer-wallet-cell { font-variant-numeric:tabular-nums; }
+@media(max-width:760px) {
+ .refer-page { padding-left:16px; padding-right:16px; }
+ .refer-stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .refer-steps { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:560px) {
+ .refer-page { padding:18px 12px 112px; }
+ .refer-hero { min-height:128px; padding:18px 15px; }
+ .refer-hero-copy>strong { font-size:clamp(25px,8vw,34px); }
+ .refer-stat-card { min-height:110px; }
+ .refer-panel { padding:16px 12px; }
+ .refer-history-item { align-items:flex-start; }
+ .refer-history-amount { min-width:100px; }
+ .refer-table { min-width:560px; }
+}
+@media(max-width:360px) {
+ .refer-stats-grid { grid-template-columns:1fr; }
+ .refer-steps { grid-template-columns:1fr; }
+ .refer-network { font-size:10px; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .refer-stat-card,.refer-link-row button,.refer-share-row button,.refer-withdraw-btn,.refer-amount-row button { transition:none; }
+}
