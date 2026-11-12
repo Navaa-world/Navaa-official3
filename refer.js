@@ -24,7 +24,7 @@
   const $ = id => document.getElementById(id);
 
   let walletProvider=null, signer=null, readContract=null, writeContract=null, account=null;
-  let eventProviders=[], eventProvider=null, deploymentBlock=null, historyStart=null;
+  let eventProviders=[], eventProvider=null, deploymentBlock=null, historyStart=null, deploymentBlockKnown=false;
   let lastScannedBlock=null, cachedStakes=[], cachedWithdrawals=[];
   let busy=false, refreshRunning=false, refreshTimer=null, lastRefreshAt=0;
 
@@ -120,10 +120,12 @@
       }
       deploymentBlock=low;
       historyStart=low;
+      deploymentBlockKnown=true;
     }catch(error){
       console.warn("Could not determine contract deployment block; using recent history window.",error);
       deploymentBlock=Math.max(0,latest-RECENT_FALLBACK_BLOCKS);
       historyStart=deploymentBlock;
+      deploymentBlockKnown=false;
     }
     return deploymentBlock;
   }
@@ -155,7 +157,7 @@
       lastScannedBlock=historyStart-1;
     }
     const from=Math.max(historyStart,lastScannedBlock+1);
-    if(from>latest)return {latest,from:historyStart,stakes:cachedStakes,withdrawals:cachedWithdrawals,fullHistory:historyStart===deploymentBlock};
+    if(from>latest)return {latest,from:historyStart,stakes:cachedStakes,withdrawals:cachedWithdrawals,fullHistory:deploymentBlockKnown};
     const ranges=[];
     for(let start=from;start<=latest;start+=LOG_CHUNK)ranges.push([start,Math.min(start+LOG_CHUNK-1,latest)]);
     let cursor=0;
@@ -173,7 +175,7 @@
     cachedStakes.sort((a,b)=>a.blockNumber-b.blockNumber||(a.logIndex||0)-(b.logIndex||0));
     cachedWithdrawals.sort((a,b)=>a.blockNumber-b.blockNumber||(a.logIndex||0)-(b.logIndex||0));
     lastScannedBlock=latest;
-    return {latest,from:historyStart,stakes:cachedStakes,withdrawals:cachedWithdrawals,fullHistory:historyStart===deploymentBlock};
+    return {latest,from:historyStart,stakes:cachedStakes,withdrawals:cachedWithdrawals,fullHistory:deploymentBlockKnown};
   }
 
   function renderReferrals(events){
@@ -366,7 +368,7 @@
     if(window.ethereum?.on){
       window.ethereum.on("accountsChanged",async()=>{
         account=null;signer=null;readContract=null;writeContract=null;
-        eventProviders=[];eventProvider=null;deploymentBlock=null;historyStart=null;
+        eventProviders=[];eventProvider=null;deploymentBlock=null;historyStart=null;deploymentBlockKnown=false;
         lastScannedBlock=null;cachedStakes=[];cachedWithdrawals=[];
         try{if(await connectWallet()){updateLink();await refresh();}else reset();}
         catch(error){reset();status(error.message||"Wallet account changed.",true);}
