@@ -7,7 +7,7 @@
   const STAKE_ADDRESS = "0xE46E8b1AC4CDFAE9CF9d1D9B0BD6D1705CB5B8C9";
   const CHAIN_ID = 137n;
   const RECENT_FALLBACK_BLOCKS = 500000;
-  const LOG_CHUNK = 5000;
+  const LOG_CHUNK = 10000;
   const RPC_URLS = [
     "https://polygon.drpc.org",
     "https://polygon-bor-rpc.publicnode.com"
@@ -25,8 +25,46 @@
 
   let walletProvider=null, signer=null, readContract=null, writeContract=null, account=null;
   let eventProviders=[], eventProvider=null, deploymentBlock=null, historyStart=null, deploymentBlockKnown=false;
+  let cacheLoadedFor=null;
   let lastScannedBlock=null, cachedStakes=[], cachedWithdrawals=[];
   let busy=false, refreshRunning=false, refreshTimer=null, lastRefreshAt=0;
+
+  function cacheKey(){return 'navaa_ref_history_v2_'+String(account||'').toLowerCase();}
+  function persistHistoryCache(){
+    if(!account||lastScannedBlock===null)return;
+    try{
+      const pack=items=>items.map(x=>({name:x.parsed.name,args:Object.fromEntries(Object.entries(x.parsed.args).filter(([k])=>!/^\\d+$/.test(k)).map(([k,v])=>[k,typeof v==='bigint'?v.toString():v])),blockNumber:x.blockNumber,transactionHash:x.transactionHash,logIndex:x.logIndex}));
+      const payload={lastScannedBlock,deploymentBlock,historyStart,deploymentBlockKnown,stakes:pack(cachedStakes),withdrawals:pack(cachedWithdrawals)};
+      localStorage.setItem(cacheKey(),JSON.stringify(payload));
+    }catch(error){console.warn('Could not save NAVAA referral cache:',error);}
+  }
+  function restoreHistoryCache(){
+    if(!account||cacheLoadedFor===account)return;
+    cacheLoadedFor=account;
+    try{
+      const raw=localStorage.getItem(cacheKey());if(!raw)return;
+      const data=JSON.parse(raw);
+      const restore=items=>(Array.isArray(items)?items:[]).map(x=>({parsed:{name:x.name,args:x.args||{}},blockNumber:Number(x.blockNumber),transactionHash:x.transactionHash,logIndex:Number(x.logIndex||0)}));
+      if(Number.isFinite(Number(data.lastScannedBlock))){
+        lastScannedBlock=Number(data.lastScannedBlock);
+        deploymentBlock=data.deploymentBlock==null?null:Number(data.deploymentBlock);
+        historyStart=data.historyStart==null?null:Number(data.historyStart);
+        deploymentBlockKnown=!!data.deploymentBlockKnown;
+        cachedStakes=restore(data.stakes);cachedWithdrawals=restore(data.withdrawals);
+        renderDashboardEvents(cachedStakes,cachedWithdrawals);
+        setText('referScanNote','Showing saved referral history while checking for new Polygon activity…');
+      }
+    }catch(error){console.warn('Could not restore NAVAA referral cache:',error);}
+  }
+  function renderDashboardEvents(stakes,withdrawals){
+    const lifetime=stakes.reduce((sum,x)=>sum+BigInt(x.parsed.args.referralReward||0),0n);
+    const withdrawn=withdrawals.reduce((sum,x)=>sum+BigInt(x.parsed.args.net||0),0n);
+    const unique=new Set(stakes.map(x=>String(x.parsed.args.user).toLowerCase()));
+    setText('referLifetimeEarned',format(lifetime)+' NAVAA');
+    setText('referTotalCount',String(unique.size));
+    setText('referWithdrawn',format(withdrawn)+' NAVAA');
+    renderReferrals(stakes);renderHistory(stakes,withdrawals);
+  }
 
   const setText=(id,value)=>{const el=$(id);if(el)el.textContent=value;};
   const short=value=>value?value.slice(0,6)+"..."+value.slice(-4):"—";
@@ -81,6 +119,7 @@
     const network=await walletProvider.getNetwork();
     if(network.chainId!==CHAIN_ID)throw new Error("Please switch your wallet to Polygon Mainnet.");
     account=ethers.getAddress(accounts[0]);
+    restoreHistoryCache();
     signer=await walletProvider.getSigner();
     readContract=new ethers.Contract(STAKE_ADDRESS,ABI,walletProvider);
     writeContract=new ethers.Contract(STAKE_ADDRESS,ABI,signer);
@@ -90,16 +129,15 @@
 
   async function setupEventProviders(){
     if(eventProviders.length)return;
-    for(const url of RPC_URLS){
+    const candidates=await Promise.all(RPC_URLS.map(async url=>{
       try{
         const p=new ethers.JsonRpcProvider(url,{name:"polygon",chainId:137});
         const network=await p.getNetwork();
-        if(network.chainId===CHAIN_ID){
-          await p.getBlockNumber();
-          eventProviders.push(p);
-        }
+        if(network.chainId===CHAIN_ID){await p.getBlockNumber();return p;}
       }catch(error){console.warn("NAVAA referral RPC unavailable:",url,error);}
-    }
+      return null;
+    }));
+    eventProviders.push(...candidates.filter(Boolean));
     if(walletProvider)eventProviders.push(walletProvider);
     if(!eventProviders.length)throw new Error("No Polygon RPC is available for referral history.");
     eventProvider=eventProviders[0];
@@ -162,7 +200,7 @@
     for(let start=from;start<=latest;start+=LOG_CHUNK)ranges.push([start,Math.min(start+LOG_CHUNK-1,latest)]);
     let cursor=0;
     const newStakes=[],newWithdrawals=[];
-    const workers=Array.from({length:3},async()=>{
+    const workers=Array.from({length:6},async()=>{
       while(cursor<ranges.length){
         const index=cursor++,[start,end]=ranges[index];
         const events=await scanRange(start,end);
@@ -175,6 +213,7 @@
     cachedStakes.sort((a,b)=>a.blockNumber-b.blockNumber||(a.logIndex||0)-(b.logIndex||0));
     cachedWithdrawals.sort((a,b)=>a.blockNumber-b.blockNumber||(a.logIndex||0)-(b.logIndex||0));
     lastScannedBlock=latest;
+    persistHistoryCache();
     return {latest,from:historyStart,stakes:cachedStakes,withdrawals:cachedWithdrawals,fullHistory:deploymentBlockKnown};
   }
 
@@ -244,13 +283,7 @@
 
       try{
         const events=await loadAllReferralEvents();
-        const lifetime=events.stakes.reduce((sum,x)=>sum+BigInt(x.parsed.args.referralReward),0n);
-        const withdrawn=events.withdrawals.reduce((sum,x)=>sum+BigInt(x.parsed.args.net),0n);
-        const unique=new Set(events.stakes.map(x=>String(x.parsed.args.user).toLowerCase()));
-        setText("referLifetimeEarned",format(lifetime)+" NAVAA");
-        setText("referTotalCount",String(unique.size));
-        setText("referWithdrawn",format(withdrawn)+" NAVAA");
-        renderReferrals(events.stakes);renderHistory(events.stakes,events.withdrawals);
+        renderDashboardEvents(events.stakes,events.withdrawals);
         setText("referScanNote",events.fullHistory?"Complete event history scanned from staking contract deployment block "+events.from.toLocaleString()+".":"Showing recent referral events from block "+events.from.toLocaleString()+". Earlier activity may be missing.");
         status("Referral dashboard updated from Polygon Mainnet.");
       }catch(error){
