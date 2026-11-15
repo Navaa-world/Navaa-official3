@@ -1,0 +1,2965 @@
+/* ============================================================
+   NAVAA OFFICIAL — CONSOLIDATED STYLESHEET
+   Active order preserved: Global → Earn/Staking → Refer & Earn
+   ============================================================ */
+
+/* 01. GLOBAL / HEADER / DASHBOARD / NAVIGATION (formerly index.html) */
+
+
+
+  /* =====================================
+       BINANCE PLEX TYPOGRAPHY
+===================================== */
+
+@font-face {
+  font-family: 'BinancePlex';
+  src: url('https://bin.bnbstatic.com/static/fonts/bp/BinancePlex-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BinancePlex';
+  src: url('https://bin.bnbstatic.com/static/fonts/bp/BinancePlex-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BinancePlex';
+  src: url('https://bin.bnbstatic.com/static/fonts/bp/BinancePlex-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BinancePlex';
+  src: url('https://bin.bnbstatic.com/static/fonts/bp/BinancePlex-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+  
+/* ====================================================
+      NAVAA EXCHANGE — PREMIUM DESIGN SYSTEM
+                   RESPONSIVE
+====================================================== */
+  
+  :root {
+    color-scheme: dark;
+    --bg: #080D1C;
+    --surface: #101A32;
+    --surface2: #172443;
+    --surface3: #223354;
+    --line: #263657;
+    --text: #F4F7FF;
+    --muted: #9AA9C7;
+    --accent: #18D6C5;
+    --accent-hover: #32E6D5;
+    --accent-text: #071522;
+    --green: #0ecb81;
+    --red: #f6465d;
+    --header-bg: #080D1C;
+    --radius: 8px;
+    --header-height: 68px;
+    --transition: 0.25s ease;
+  }
+  
+/* =====================================
+           LIGHT THEME
+====================================== */
+  
+  [data-theme="light"] {
+    color-scheme: light;
+    --bg: #F5F8FC;
+    --surface: #FFFFFF;
+    --surface2: #EDF3F8;
+    --surface3: #E3ECF3;
+    --line: #DCE5EF;
+    --text: #14213A;
+    --muted: #65758B;
+    --accent: #0FBFB2;
+    --accent-hover: #0AA99E;
+    --accent-text: #061A24;
+    --green: #0ecb81;
+    --red: #f6465d;
+    --header-bg: #FFFFFF;
+  }
+
+/* =================================
+             RESET
+================================== */
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'BinancePlex', -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+
+  button,
+  input,
+  select {
+    font: inherit;
+  }
+
+  button {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  main {
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding-bottom: calc(100px + env(safe-area-inset-bottom));
+  }
+
+/* ==========================================
+            NAVIGATION HEADER
+========================================== */
+
+.top {
+  width: 100%;
+  min-height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 28px;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* ==========================================
+   NAVAA — PREMIUM ANIMATED BRAND VFX
+========================================== */
+
+  .brand {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 50px;
+    isolation: isolate;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+    /*---Logo button reset */
+    border: 0;
+    padding: 0;
+    background: transparent;
+  }
+
+/*--------ROTATING ENERGY RING----------*/
+
+  .brand::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      transparent 45deg,
+      rgba(24,214,197,0.18) 90deg,
+      #18D6C5 145deg,
+      #8FFFF4 175deg,
+      rgba(24,214,197,0.35) 205deg,
+      transparent 260deg,
+      transparent 360deg
+    );
+
+    -webkit-mask:
+      radial-gradient(
+        farthest-side,
+        transparent calc(100% - 2px),
+        #000 calc(100% - 1.5px)
+      );
+
+    mask:
+      radial-gradient(
+        farthest-side,
+        transparent calc(100% - 2px),
+        #000 calc(100% - 1.5px)
+      );
+
+    animation: navaaOrbit 4s linear infinite;
+
+    z-index: 0;
+  }
+
+/*-----------SOFT NEON PULSE-------------*/
+
+  .brand::after {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border-radius: 50%;
+    background: rgba(24,214,197,0.13);
+    filter: blur(10px);
+    animation: navaaPulse 3s ease-in-out infinite;
+    z-index: -1;
+  }
+
+  /*-------OFFICIAL TOKEN IMAGE---------*/
+  
+  .brand-logo {
+    position: relative;
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+    display: block;
+    object-fit: contain;
+    object-position: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+    animation: navaaFloat 4s ease-in-out infinite;
+    transition:
+      transform 0.35s cubic-bezier(.2,.8,.2,1),
+      filter 0.35s ease;
+  }
+
+/*----------CONTINUOUS ROTATION------------*/
+
+  @keyframes navaaOrbit {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+/*-----------BREATHING LIGHT------------*/
+
+  @keyframes navaaPulse {
+    0%, 100% {
+      opacity: 0.35;
+      transform: scale(0.88);
+    }
+    50% {
+      opacity: 0.85;
+      transform: scale(1.12);
+    }
+  }
+
+/*------- GENTLE FLOATING LOGO -------*/
+
+  @keyframes navaaFloat {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-2px);
+    }
+  }
+
+/*---------- DESKTOP HOVER ----------*/
+
+  .brand:hover .brand-logo {
+    transform: scale(1.09);
+    filter:
+      drop-shadow(0 0 5px rgba(24,214,197,0.65))
+      drop-shadow(0 0 12px rgba(24,214,197,0.35));
+  }
+
+  /*--------- TOUCH FEEDBACK ---------*/
+
+  .brand:active .brand-logo {
+    transform: scale(0.91);
+    filter:
+      drop-shadow(0 0 9px rgba(24,214,197,0.7));
+  }
+
+/* ==========================================
+         HEADER ACTIONS
+========================================== */
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  flex: 0 0 auto;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+}
+
+/* ==========================================
+   CONNECT WALLET BUTTON
+========================================== */
+
+.btn {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--accent-text);
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px rgba(24,214,197,0.22);
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+/* ==========================================
+        THEME SWITCH BUTTON
+========================================== */
+
+.theme-btn {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 19px;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.25s ease;
+}
+
+.theme-btn:hover {
+  background: var(--surface2);
+  border-color: var(--accent);
+  transform: rotate(15deg);
+}
+
+.theme-btn:active {
+  transform: scale(0.92);
+}
+
+/* ==========================================
+         ACCESSIBILITY
+========================================== */
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ==========================================
+            RESPONSIVE : TABLET
+========================================== */
+
+  @media (max-width: 850px) {
+
+    .top {
+      gap: 14px;
+      padding: 0 18px;
+    }
+
+    .brand {
+      width: 46px;
+      height: 46px;
+      flex-basis: 46px;
+    }
+  
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+    }
+
+  .top-actions {
+    gap: 8px;
+  }
+
+}
+
+/* ==========================================
+         RESPONSIVE : MOBILE
+========================================== */
+
+@media (max-width: 600px) {
+
+  :root {
+    --header-height: 58px;
+  }
+
+  .top {
+    min-height: var(--header-height);
+    gap: 4px;
+    padding: 0 8px;
+  }
+
+  .brand {
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .top-actions {
+    flex: 0 0 auto;
+    gap: 6px;
+  }
+
+  .brand-logo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .theme-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 17px;
+  }
+
+  .btn {
+    min-height: 34px;
+    padding: 0 10px;
+    font-size: 12px;
+  }
+}
+
+/* ==========================================
+       RESPONSIVE : SMALL MOBILE
+========================================== */
+
+@media (max-width: 380px) {
+
+  .top {
+    gap: 4px;
+    padding: 0 8px;
+  }
+
+    .brand {
+      width: 40px;
+      height: 40px;
+      flex-basis: 40px;
+    }
+
+  .brand-logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .top-actions {
+    gap: 5px;
+  }
+
+  .theme-btn {
+    width: 31px;
+    height: 31px;
+    font-size: 16px;
+  }
+
+  .btn {
+    min-height: 32px;
+    padding: 0 7px;
+    font-size: 10px;
+  }
+}
+
+/* ==========================================
+         REDUCED MOTION ACCESSIBILITY
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+/* ===================================================
+           END : HEADER DESIGN 
+  ===================================================*/
+  
+/* =================================
+   NAVAA ADD FUNDS — RESPONSIVE
+================================= */
+
+.fund-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.fund-sheet.show {
+  display: flex;
+}
+
+.fund-sheet-box {
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100dvh - 32px);
+  padding: 24px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 22px 22px 0 0;
+  box-shadow: 0 -10px 40px rgba(0,0,0,.25);
+  animation: fundSheetUp .25s ease;
+}
+
+.fund-sheet-box .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  min-width: 0;
+}
+
+.fund-option {
+  display: block;
+  width: 100%;
+  min-height: 50px;
+  margin-top: 10px;
+  padding: 15px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .2s ease,
+              background .2s ease,
+              transform .2s ease;
+}
+
+.fund-option:hover {
+  border-color: var(--accent);
+  background: var(--surface3);
+}
+
+.fund-option:active {
+  transform: scale(.98);
+}
+
+.fund-option:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.fund-sheet .muted {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.fund-sheet .btn.secondary {
+  min-width: 40px;
+  min-height: 40px;
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+
+/* Animation */
+@keyframes fundSheetUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tablets and small laptops */
+@media (min-width: 600px) {
+  .fund-sheet {
+    align-items: center;
+  }
+
+  .fund-sheet-box {
+    border-radius: 22px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 599px) {
+  .fund-sheet {
+    padding: 0;
+  }
+
+  .fund-sheet-box {
+    max-width: 100%;
+    padding: 22px 16px;
+    padding-bottom: max(22px, env(safe-area-inset-bottom));
+    border-radius: 22px 22px 0 0;
+  }
+}
+
+/*====== Very small phones ====== */
+@media (max-width: 360px) {
+  .fund-sheet-box {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .fund-option {
+    padding: 13px 12px;
+    font-size: 13px;
+  }
+}
+
+/* Short landscape screens */
+@media (max-height: 450px) {
+  .fund-sheet {
+    align-items: flex-start;
+  }
+
+  .fund-sheet-box {
+    max-height: calc(100dvh - 16px);
+    margin: 8px 0;
+    border-radius: 16px;
+  }
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .fund-sheet-box {
+    animation: none;
+  }
+
+  .fund-option {
+    transition: none;
+  }
+}
+
+  
+/* ==========================================
+   NAVAA PREMIUM BOTTOM NAVIGATION
+========================================== */
+
+/* Page switching */
+.app-page {
+  display: none;
+  width: 100%;
+  min-height: 55vh;
+  animation: pageFadeIn .28s ease;
+}
+
+.app-page.active {
+  display: block;
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Placeholder sections */
+.page-placeholder {
+  width: min(100% - 32px, 900px);
+  min-height: 42vh;
+  margin: 30px auto;
+  padding: 35px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(24,214,197,.09),
+      transparent 65%
+    ),
+    var(--surface);
+}
+
+.page-placeholder h2 {
+  margin-bottom: 8px;
+  color: var(--text);
+  font-size: clamp(21px, 4vw, 28px);
+  font-weight: 750;
+}
+
+.page-placeholder p {
+  max-width: 420px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.page-placeholder .coming-soon {
+  margin-top: 18px;
+  padding: 7px 14px;
+  border: 1px solid rgba(24,214,197,.3);
+  border-radius: 30px;
+  background: rgba(24,214,197,.08);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* Fixed bottom navigation */
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2000;
+
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+
+  width: 100%;
+  min-height: 74px;
+  padding: 8px 8px max(8px, env(safe-area-inset-bottom));
+
+  background: rgba(8,13,28,.94);
+  border-top: 1px solid var(--line);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow: 0 -8px 30px rgba(0,0,0,.22);
+}
+
+[data-theme="light"] .bottom-nav {
+  background: rgba(255,255,255,.95);
+  box-shadow: 0 -8px 30px rgba(20,33,58,.08);
+}
+
+/* Individual navigation item */
+.bottom-nav-item {
+  position: relative;
+  isolation: isolate;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  min-width: 0;
+  min-height: 58px;
+  padding: 5px 2px;
+
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--muted);
+
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+
+  transition:
+    color .22s ease,
+    background .22s ease,
+    transform .18s ease;
+}
+
+/* Navigation icons */
+.bottom-nav-item svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  transition:
+    transform .25s ease,
+    filter .25s ease;
+}
+
+/* Active glow */
+.bottom-nav-item.active {
+  color: var(--accent);
+  background: rgba(24,214,197,.08);
+}
+
+.bottom-nav-item.active svg {
+  filter: drop-shadow(0 0 6px rgba(24,214,197,.65));
+  transform: translateY(-2px);
+}
+
+.bottom-nav-item.active::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 35%;
+  width: 30%;
+  height: 2px;
+  border-radius: 10px;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+/* Touch feedback */
+.bottom-nav-item:active {
+  transform: scale(.93);
+  background: rgba(24,214,197,.12);
+}
+
+.bottom-nav-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* Tablet and desktop */
+@media (min-width: 700px) {
+  .bottom-nav {
+    min-height: 78px;
+    padding: 8px 12px;
+  }
+
+  .bottom-nav-item {
+    max-width: 180px;
+    width: 100%;
+    justify-self: center;
+    font-size: 12px;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 360px) {
+  .bottom-nav {
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+
+  .bottom-nav-item {
+    font-size: 10px;
+    gap: 3px;
+  }
+
+  .bottom-nav-item svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+
+  
+
+
+
+/* 02. EARN & STAKING — responsive section styles (formerly earn.css) */
+
+
+/* =================================================
+   NAVAA EARN — OFFICIAL RESPONSIVE DESIGN
+   Matches current index.html class names
+   Dark + Light theme supported
+================================================= */
+
+.earn-page {
+  --ec-bg: var(--bg);
+  --ec-card: var(--surface);
+  --ec-inner: var(--surface2);
+  --ec-border: var(--line);
+  --ec-text: var(--text);
+  --ec-muted: var(--muted);
+  --ec-accent: var(--accent);
+  --ec-green: var(--green);
+  --ec-radius: 16px;
+
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 30px 24px 115px;
+  color: var(--ec-text);
+  font-family: inherit;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+
+.earn-page *,
+.earn-page *::before,
+.earn-page *::after {
+  box-sizing: border-box;
+}
+
+.earn-page button,
+.earn-page input {
+  font: inherit;
+}
+
+.earn-page button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* =================================
+   PAGE HEADER
+================================= */
+
+.earn-page .earn-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.earn-page .earn-eyebrow,
+.earn-page .earn-info-eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--ec-accent);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 1.5px;
+}
+
+.earn-page .earn-header h1 {
+  margin: 0;
+  color: var(--ec-text);
+  font-size: clamp(25px, 3.2vw, 34px);
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: -.7px;
+}
+
+.earn-page .earn-header p {
+  margin-top: 9px;
+  color: var(--ec-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.earn-page .earn-network {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+  padding: 10px 15px;
+  border: 1px solid var(--ec-border);
+  border-radius: 30px;
+  background: var(--ec-card);
+  color: var(--ec-text);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.earn-page .earn-network-dot,
+.earn-page .earn-network::before {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ec-green);
+  box-shadow: 0 0 9px rgba(14,203,129,.5);
+}
+
+.earn-page .earn-network::before {
+  content: "";
+}
+
+.earn-page .earn-network-dot {
+  display: none;
+}
+
+/* =================================
+   STATISTICS CARDS
+================================= */
+
+.earn-page .earn-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.earn-page .earn-stat-card {
+  min-width: 0;
+  min-height: 116px;
+  padding: 19px;
+  border: 1px solid var(--ec-border);
+  border-radius: var(--ec-radius);
+  background:
+    linear-gradient(145deg, rgba(24,214,197,.055), transparent 75%),
+    var(--ec-card);
+  transition: border-color .2s ease, transform .2s ease;
+}
+
+.earn-page .earn-stat-card:hover {
+  border-color: var(--ec-accent);
+  transform: translateY(-2px);
+}
+
+.earn-page .earn-stat-card > span {
+  display: block;
+  margin-bottom: 13px;
+  color: var(--ec-muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.earn-page .earn-stat-card strong {
+  display: block;
+  overflow-wrap: anywhere;
+  color: var(--ec-text);
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 750;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+}
+
+.earn-page .earn-stat-card small {
+  display: block;
+  margin-top: 5px;
+  color: var(--ec-muted);
+  font-size: 10px;
+}
+
+/* =================================
+   SECTION HEADINGS
+================================= */
+
+.earn-page .earn-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 30px 0 15px;
+}
+
+.earn-page .earn-section-heading h2 {
+  margin: 0;
+  color: var(--ec-text);
+  font-size: 19px;
+  font-weight: 750;
+  letter-spacing: -.3px;
+}
+
+.earn-page .earn-section-heading p {
+  margin-top: 5px;
+  color: var(--ec-muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* =================================
+   MAIN STAKING LAYOUT
+================================= */
+
+.earn-page .earn-main-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.earn-page .earn-panel {
+  min-width: 0;
+  padding: 23px;
+  border: 1px solid var(--ec-border);
+  border-radius: var(--ec-radius);
+  background: var(--ec-card);
+  box-shadow: 0 5px 22px rgba(0,0,0,.07);
+}
+
+/* =================================
+   PANEL HEADINGS
+================================= */
+
+.earn-page .earn-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.earn-page .earn-panel-heading h3 {
+  margin: 0;
+  color: var(--ec-text);
+  font-size: 16px;
+  font-weight: 750;
+}
+
+.earn-page .earn-panel-heading p {
+  margin-top: 5px;
+  color: var(--ec-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.earn-page .earn-token-badge {
+  flex-shrink: 0;
+  padding: 7px 11px;
+  border: 1px solid rgba(24,214,197,.25);
+  border-radius: 8px;
+  background: rgba(24,214,197,.08);
+  color: var(--ec-accent);
+  font-size: 11px;
+  font-weight: 750;
+}
+
+/* =================================
+   STAKE INPUT
+================================= */
+
+.earn-page .earn-field-label {
+  display: block;
+  margin: 16px 0 9px;
+  color: var(--ec-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.earn-page .earn-amount-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 55px;
+  padding: 0 13px;
+  border: 1px solid var(--ec-border);
+  border-radius: 10px;
+  background: var(--ec-inner);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.earn-page .earn-amount-box:focus-within {
+  border-color: var(--ec-accent);
+  box-shadow: 0 0 0 3px rgba(24,214,197,.09);
+}
+
+.earn-page .earn-amount-box input {
+  width: 100%;
+  min-width: 0;
+  min-height: 50px;
+  padding: 12px 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ec-text);
+  font-size: 16px;
+}
+
+.earn-page .earn-amount-box input::placeholder {
+  color: var(--ec-muted);
+  opacity: .75;
+}
+
+.earn-page .earn-amount-box button {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 7px;
+  background: rgba(24,214,197,.12);
+  color: var(--ec-accent);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.earn-page .earn-amount-box button:active {
+  transform: scale(.95);
+}
+
+.earn-page .earn-balance-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 11px;
+  color: var(--ec-muted);
+  font-size: 11px;
+}
+
+.earn-page .earn-balance-line strong {
+  color: var(--ec-text);
+  font-weight: 650;
+}
+
+/* =================================
+   REFERRAL INPUT IN STAKE FORM
+================================= */
+
+.earn-page .earn-referral-field {
+  margin-top: 22px;
+}
+
+.earn-page .earn-referral-field input {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 13px;
+  border: 1px solid var(--ec-border);
+  border-radius: 9px;
+  outline: none;
+  background: var(--ec-inner);
+  color: var(--ec-text);
+  font-size: 13px;
+}
+
+.earn-page .earn-referral-field input:focus {
+  border-color: var(--ec-accent);
+}
+
+.earn-page .earn-referral-field input::placeholder {
+  color: var(--ec-muted);
+  opacity: .75;
+}
+
+.earn-page .earn-referral-field input:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+.earn-page .earn-referral-field small {
+  display: block;
+  margin-top: 8px;
+  color: var(--ec-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* =================================
+   STAKING SUMMARY
+================================= */
+
+.earn-page .earn-stake-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 22px;
+  padding: 14px 0;
+  border-top: 1px solid var(--ec-border);
+  border-bottom: 1px solid var(--ec-border);
+}
+
+.earn-page .earn-stake-summary > div {
+  min-width: 0;
+}
+
+.earn-page .earn-stake-summary span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ec-muted);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.earn-page .earn-stake-summary strong {
+  display: block;
+  color: var(--ec-text);
+  font-size: 12px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
+/* =================================
+   ACTION BUTTONS
+================================= */
+
+.earn-page .earn-action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.earn-page .earn-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  min-height: 46px;
+  padding: 11px 15px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 750;
+  text-align: center;
+  cursor: pointer;
+  transition: transform .18s ease, filter .18s ease, opacity .18s ease;
+}
+
+.earn-page .earn-btn:active:not(:disabled) {
+  transform: scale(.97);
+}
+
+.earn-page .earn-btn:disabled {
+  opacity: .42;
+  cursor: not-allowed;
+}
+
+.earn-page .earn-btn-primary {
+  background: var(--ec-accent);
+  color: var(--accent-text);
+}
+
+.earn-page .earn-btn-secondary {
+  border-color: var(--ec-border);
+  background: var(--ec-inner);
+  color: var(--ec-text);
+}
+
+.earn-page .earn-btn-full {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.earn-page .earn-form-status {
+  min-height: 20px;
+  margin-top: 13px;
+  color: var(--ec-muted);
+  font-size: 11px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+/* =================================
+   STAKING INFORMATION PANEL
+================================= */
+
+.earn-page .earn-info-panel {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 90% 0%, rgba(24,214,197,.13), transparent 55%),
+    var(--ec-card);
+}
+
+.earn-page .earn-info-panel h3 {
+  margin: 0;
+  color: var(--ec-text);
+  font-size: 22px;
+  font-weight: 750;
+}
+
+.earn-page .earn-info-panel > p {
+  margin-top: 9px;
+  color: var(--ec-muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.earn-page .earn-rate-display {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 23px 0 17px;
+  padding: 19px;
+  border: 1px solid rgba(24,214,197,.22);
+  border-radius: 12px;
+  background: rgba(24,214,197,.07);
+}
+
+.earn-page .earn-rate-display strong {
+  color: var(--ec-accent);
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.earn-page .earn-rate-display span {
+  color: var(--ec-muted);
+  font-size: 11px;
+}
+
+.earn-page .earn-info-list {
+  display: grid;
+}
+
+.earn-page .earn-info-list > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--ec-border);
+}
+
+.earn-page .earn-info-list > div:last-child {
+  border-bottom: 0;
+}
+
+.earn-page .earn-info-list span {
+  color: var(--ec-muted);
+  font-size: 11px;
+}
+
+.earn-page .earn-info-list strong {
+  color: var(--ec-text);
+  font-size: 12px;
+  text-align: right;
+}
+
+.earn-page .earn-info-note {
+  margin-top: 13px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--ec-inner);
+  color: var(--ec-muted);
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+/* =================================
+   POSITIONS PANEL
+================================= */
+
+.earn-page .earn-positions-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.earn-page .earn-empty-state {
+  grid-column: 1 / -1;
+  padding: 30px 16px;
+  border: 1px dashed var(--ec-border);
+  border-radius: 12px;
+  color: var(--ec-muted);
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.earn-page .earn-empty-icon {
+  margin-bottom: 10px;
+  color: var(--ec-accent);
+  font-size: 27px;
+}
+
+.earn-page .earn-empty-state strong {
+  display: block;
+  color: var(--ec-text);
+  font-size: 13px;
+}
+
+.earn-page .earn-empty-state p {
+  margin-top: 5px;
+  color: var(--ec-muted);
+}
+
+.earn-page .earn-count {
+  flex-shrink: 0;
+  padding: 6px 11px;
+  border: 1px solid var(--ec-border);
+  border-radius: 20px;
+  color: var(--ec-muted);
+  font-size: 11px;
+}
+
+/* Dynamic cards created by earn.js */
+
+.earn-page .earn-position-item,
+.earn-page .earn-reward-item {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--ec-border);
+  border-radius: 12px;
+  background: var(--ec-inner);
+}
+
+.earn-page .earn-item-top {
+  margin-bottom: 13px;
+  color: var(--ec-text);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.earn-page .earn-item-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  color: var(--ec-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.earn-page .earn-item-bottom strong {
+  color: var(--ec-text);
+  text-align: right;
+}
+
+.earn-page .earn-progress {
+  width: 100%;
+  height: 6px;
+  margin: 13px 0;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--ec-border);
+}
+
+.earn-page .earn-progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--ec-accent);
+}
+
+/* =================================
+   REWARD CENTER
+================================= */
+
+.earn-page .earn-reward-overview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+  margin-bottom: 18px;
+}
+
+.earn-page .earn-reward-overview > div {
+  min-width: 0;
+  padding: 17px;
+  border: 1px solid var(--ec-border);
+  border-radius: 11px;
+  background: var(--ec-inner);
+}
+
+.earn-page .earn-reward-overview span {
+  display: block;
+  margin-bottom: 9px;
+  color: var(--ec-muted);
+  font-size: 11px;
+}
+
+.earn-page .earn-reward-overview strong {
+  display: block;
+  color: var(--ec-text);
+  font-size: 15px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
+.earn-page .earn-reward-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.earn-page .earn-reward-list > p {
+  grid-column: 1 / -1;
+  padding: 20px;
+  color: var(--ec-muted);
+  text-align: center;
+  font-size: 12px;
+}
+
+/* =================================
+   REFERRAL PANEL
+================================= */
+
+.earn-page .earn-referral-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+  margin-bottom: 20px;
+}
+
+.earn-page .earn-referral-top > div {
+  min-width: 0;
+  padding: 17px;
+  border: 1px solid var(--ec-border);
+  border-radius: 11px;
+  background: var(--ec-inner);
+}
+
+.earn-page .earn-referral-top span,
+.earn-page .earn-referral-address > span {
+  display: block;
+  margin-bottom: 9px;
+  color: var(--ec-muted);
+  font-size: 11px;
+}
+
+.earn-page .earn-referral-top strong {
+  color: var(--ec-accent);
+  font-size: 20px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.earn-page .earn-referral-address {
+  margin-bottom: 15px;
+}
+
+.earn-page .earn-referral-address > div {
+  display: flex;
+  align-items: stretch;
+  gap: 9px;
+}
+
+.earn-page .earn-referral-address input {
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid var(--ec-border);
+  border-radius: 8px;
+  outline: none;
+  background: var(--ec-inner);
+  color: var(--ec-text);
+  font-size: 12px;
+}
+
+.earn-page .earn-referral-address button {
+  flex-shrink: 0;
+  min-width: 65px;
+  padding: 0 14px;
+  border: 1px solid var(--ec-border);
+  border-radius: 8px;
+  background: var(--ec-inner);
+  color: var(--ec-accent);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.earn-page .earn-referral-address button:disabled {
+  opacity: .4;
+}
+
+/* =================================
+   TRANSACTION HISTORY
+================================= */
+
+.earn-page .earn-history-header {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr .7fr;
+  gap: 10px;
+  padding: 13px 15px;
+  border-bottom: 1px solid var(--ec-border);
+  color: var(--ec-muted);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.earn-page .earn-history-panel .earn-empty-state {
+  margin-top: 13px;
+}
+
+/* =================================
+   TABLET RESPONSIVE
+================================= */
+
+@media (max-width: 1023px) {
+  .earn-page {
+    padding: 25px 18px 110px;
+  }
+
+  .earn-page .earn-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .earn-page .earn-main-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(250px, .85fr);
+  }
+}
+
+/* =================================
+   MOBILE RESPONSIVE
+================================= */
+
+@media (max-width: 700px) {
+  .earn-page {
+    padding: 21px 14px 105px;
+  }
+
+  .earn-page .earn-header {
+    align-items: flex-start;
+  }
+
+  .earn-page .earn-header h1 {
+    font-size: 26px;
+  }
+
+  .earn-page .earn-main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .earn-page .earn-panel {
+    padding: 19px;
+  }
+
+  .earn-page .earn-section-heading {
+    margin-top: 25px;
+  }
+
+  .earn-page .earn-positions-list,
+  .earn-page .earn-reward-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =================================
+   SMALL MOBILE
+================================= */
+
+@media (max-width: 420px) {
+  .earn-page {
+    padding-right: 11px;
+    padding-left: 11px;
+  }
+
+  .earn-page .earn-header {
+    flex-direction: column;
+    gap: 13px;
+  }
+
+  .earn-page .earn-network {
+    padding: 8px 11px;
+  }
+
+  .earn-page .earn-stats {
+    gap: 9px;
+  }
+
+  .earn-page .earn-stat-card {
+    min-height: 105px;
+    padding: 13px;
+  }
+
+  .earn-page .earn-stat-card > span {
+    font-size: 10px;
+  }
+
+  .earn-page .earn-stat-card strong {
+    font-size: 17px;
+  }
+
+  .earn-page .earn-panel {
+    padding: 15px;
+  }
+
+  .earn-page .earn-stake-summary {
+    gap: 6px;
+  }
+
+  .earn-page .earn-stake-summary span {
+    font-size: 9px;
+  }
+
+  .earn-page .earn-stake-summary strong {
+    font-size: 10px;
+  }
+
+  .earn-page .earn-action-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .earn-page .earn-referral-top,
+  .earn-page .earn-reward-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .earn-page .earn-referral-address > div {
+    flex-wrap: wrap;
+  }
+
+  .earn-page .earn-referral-address input {
+    flex: 1 1 100%;
+  }
+
+  .earn-page .earn-referral-address button {
+    width: 100%;
+    min-height: 42px;
+  }
+
+  .earn-page .earn-history-header {
+    font-size: 10px;
+    padding: 11px 8px;
+  }
+}
+
+/* =================================
+   ACCESSIBILITY
+================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .earn-page *,
+  .earn-page *::before,
+  .earn-page *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* =============================================================
+   NAVAA DASHBOARD - STAKED & REWARD CARDS : MODIFICATION 
+================================================================ */
+#pageDashboard .dashboard-earning-cards {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 16px 0 22px;
+}
+
+#pageDashboard .dashboard-earning-card {
+  position: relative;
+  min-width: 0;
+  padding: 19px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at top right, rgba(24,214,197,.13), transparent 55%),
+    var(--surface);
+  box-shadow: 0 8px 24px rgba(0,0,0,.16);
+  transition: transform .25s ease, border-color .25s ease;
+}
+
+#pageDashboard .dashboard-earning-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+}
+
+#pageDashboard .dashboard-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+#pageDashboard .dashboard-card-icon {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 43px;
+  border-radius: 13px;
+}
+
+#pageDashboard .dashboard-card-icon svg {
+  width: 23px;
+  height: 23px;
+}
+
+#pageDashboard .staked-icon {
+  color: #e5bd69;
+  background: rgba(214,168,75,.13);
+}
+
+#pageDashboard .reward-icon {
+  color: #b99aff;
+  background: rgba(164,119,255,.14);
+}
+
+#pageDashboard .dashboard-card-label {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+#pageDashboard .dashboard-card-amount {
+  color: var(--text);
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 750;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+
+#pageDashboard .dashboard-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 12px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+#pageDashboard .dashboard-card-description {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 400;
+}
+
+@media (max-width: 480px) {
+  #pageDashboard .dashboard-earning-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+    margin: 12px 0 17px;
+  }
+
+  #pageDashboard .dashboard-earning-card {
+    padding: 13px 11px;
+    border-radius: 14px;
+  }
+
+  #pageDashboard .dashboard-card-icon {
+    width: 35px;
+    height: 35px;
+    flex-basis: 35px;
+  }
+
+  #pageDashboard .dashboard-card-icon svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  #pageDashboard .dashboard-card-label {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  #pageDashboard .dashboard-card-amount {
+    font-size: clamp(17px, 4.8vw, 23px);
+  }
+
+  #pageDashboard .dashboard-card-description {
+    width: 100%;
+    font-size: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #pageDashboard .dashboard-earning-card {
+    transition: none;
+  }
+}
+
+/* =========================================
+   NAVAA DASHBOARD - MOBILE SWIPE SLIDER
+   Desktop layout remains unchanged
+========================================= */
+
+@media (max-width: 1023px) {
+
+  #pageDashboard .dashboard-earning-cards {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    gap: 12px;
+    padding: 3px 2px 12px;
+
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  #pageDashboard .dashboard-earning-cards::-webkit-scrollbar {
+    display: none;
+  }
+
+  #pageDashboard .dashboard-earning-card {
+    flex: 0 0 76%;
+    width: 76%;
+    min-width: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
+
+/* Smaller mobile screens */
+@media (max-width: 600px) {
+
+  #pageDashboard .dashboard-earning-cards {
+    gap: 10px;
+    padding-bottom: 10px;
+  }
+
+  #pageDashboard .dashboard-earning-card {
+    flex: 0 0 87%;
+    width: 87%;
+  }
+}
+
+/* Very small mobile screens */
+@media (max-width: 360px) {
+
+  #pageDashboard .dashboard-earning-card {
+    flex-basis: 91%;
+    width: 91%;
+  }
+}
+
+
+/* ALL POSITIONS CARD ICON */
+
+#pageDashboard .positions-icon {
+  color: #55d6c2;
+  background: rgba(45, 205, 180, 0.13);
+  border: 1px solid rgba(45, 205, 180, 0.20);
+}
+
+/* Desktop: show all 3 cards in one row */
+
+@media (min-width: 1024px) {
+  #pageDashboard .dashboard-earning-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+
+/* =================================================================================
+              NAVAA DASHBOARD — COMPLETE BALANCE SECTION
+              Balance + Eye + Earn Eligibility + Add Funds Button
+              Responsive: Desktop / Tablet / Mobile
+================================================================================= */
+
+/* Main balance container */
+#pageDashboard .balance-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+  padding: 20px 28px;
+  margin: 0;
+  background: var(--bg);
+}
+
+#pageDashboard .balance-info {
+  min-width: 0;
+}
+
+/* Balance heading */
+#pageDashboard .balance-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+#pageDashboard .balance-label {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+/* Eye visibility button */
+#pageDashboard .balance-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color .2s ease, background .2s ease;
+}
+
+#pageDashboard .balance-toggle:hover {
+  color: var(--accent);
+  background: var(--surface2);
+}
+
+#pageDashboard .balance-toggle svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Balance amount */
+#pageDashboard .balance-value {
+  margin-top: 5px;
+  color: var(--text);
+  font-size: clamp(28px, 3.5vw, 36px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+#pageDashboard .balance-symbol {
+  margin-left: 3px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* Dashboard wallet status */
+#pageDashboard .balance-status {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+#pageDashboard .balance-info > .balance-status {
+  display: none;
+}
+
+/* Earn eligibility notice */
+#pageDashboard .balance-earn-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+  margin-top: 8px;
+
+  max-height: 90px;
+  overflow: hidden;
+  opacity: 1;
+  transform: translateY(0);
+
+  transition:
+    max-height .32s ease,
+    opacity .24s ease,
+    transform .32s ease,
+    margin-top .32s ease;
+}
+
+/* Eye closed: slide status upward */
+#pageDashboard .balance-earn-notice.is-collapsed {
+  max-height: 0;
+  margin-top: 0;
+  opacity: 0;
+  transform: translateY(-9px);
+  pointer-events: none;
+}
+
+/* Eligibility message */
+#pageDashboard .balance-earn-message {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+#pageDashboard .balance-earn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+/* Go button */
+#pageDashboard .balance-earn-go {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  gap: 3px;
+  padding: 3px 0 3px 7px;
+  border: 0;
+  background: transparent;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+#pageDashboard .balance-earn-go[hidden] {
+  display: none !important;
+}
+
+#pageDashboard .balance-earn-go svg {
+  width: 14px;
+  height: 14px;
+}
+
+#pageDashboard .balance-earn-go:hover {
+  opacity: .8;
+  transform: translateY(-1px);
+}
+
+#pageDashboard .balance-earn-go:active {
+  transform: scale(.94);
+}
+
+#pageDashboard .balance-earn-go:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Below minimum balance */
+#pageDashboard .balance-earn-notice.is-ineligible .balance-earn-message,
+#pageDashboard .balance-earn-notice.is-ineligible .balance-earn-icon,
+#pageDashboard .balance-earn-notice.is-ineligible .balance-earn-go {
+  color: #d6a84b;
+}
+
+/* Add Funds button */
+#pageDashboard .add-fund-btn {
+  flex: 0 0 auto;
+  min-height: 42px;
+  padding: 0 23px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background .2s ease, transform .2s ease;
+}
+
+#pageDashboard .add-fund-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+#pageDashboard .add-fund-btn:active {
+  transform: scale(.96);
+}
+
+/* Tablet and mobile */
+@media (max-width: 600px) {
+  #pageDashboard .balance-card {
+    padding: 17px 12px;
+    gap: 8px;
+  }
+
+  #pageDashboard .balance-value {
+    font-size: 24px;
+  }
+
+  #pageDashboard .balance-label {
+    font-size: 12px;
+  }
+
+  #pageDashboard .balance-earn-notice {
+    gap: 5px;
+    margin-top: 7px;
+  }
+
+  #pageDashboard .balance-earn-message {
+    font-size: 10px;
+    gap: 4px;
+  }
+
+  #pageDashboard .balance-earn-go {
+    font-size: 11px;
+  }
+
+  #pageDashboard .balance-earn-go svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  #pageDashboard .add-fund-btn {
+    min-height: 36px;
+    padding: 0 13px;
+    font-size: 12px;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 380px) {
+  #pageDashboard .balance-card {
+    padding: 15px 9px;
+  }
+
+  #pageDashboard .balance-value {
+    font-size: 21px;
+  }
+
+  #pageDashboard .balance-earn-message {
+    font-size: 9px;
+  }
+
+  #pageDashboard .balance-earn-go {
+    font-size: 10px;
+  }
+
+  #pageDashboard .add-fund-btn {
+    padding: 0 10px;
+    font-size: 11px;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  #pageDashboard .balance-earn-notice,
+  #pageDashboard .balance-earn-go {
+    transition: none;
+  }
+}
+
+/* =============== END DASHBOARD BALANCE CSS =============== */
+
+
+/* =========================================================
+   NAVAA DASHBOARD — PREMIUM LAYOUT & BALANCE PANEL
+   Desktop / Tablet / Mobile / Dark + Light
+========================================================= */
+
+/* Dashboard outer container */
+#pageDashboard {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 28px 24px 115px;
+}
+
+/* =========================================
+   BALANCE PANEL
+========================================= */
+
+#pageDashboard .balance-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  width: 100%;
+  min-width: 0;
+  margin: 0 0 16px;
+  padding: 23px 25px;
+
+  border: 1px solid var(--line);
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      125deg,
+      rgba(24,214,197,.065),
+      transparent 60%
+    ),
+    var(--surface);
+
+  box-shadow: 0 6px 22px rgba(0,0,0,.08);
+}
+
+/* Balance information */
+#pageDashboard .balance-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Heading + eye */
+
+
+#pageDashboard .balance-label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Eye button */
+#pageDashboard .balance-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 30px;
+
+  width: 30px;
+  height: 30px;
+
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+
+  cursor: pointer;
+  transition: color .2s ease, background .2s ease;
+}
+
+
+
+
+
+/* Main amount */
+#pageDashboard .balance-value {
+  margin-top: 4px;
+  color: var(--text);
+
+  font-size: clamp(27px, 3vw, 34px);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -.5px;
+
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+#pageDashboard .balance-symbol {
+  margin-left: 4px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* Original wallet status */
+
+
+/* =========================================
+   EARN ELIGIBILITY NOTICE
+========================================= */
+
+#pageDashboard .balance-earn-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  width: 100%;
+  min-width: 0;
+  margin-top: 7px;
+
+  max-height: 90px;
+  overflow: hidden;
+  opacity: 1;
+  transform: translateY(0);
+
+  transition:
+    max-height .32s ease,
+    opacity .24s ease,
+    transform .32s ease,
+    margin-top .32s ease;
+}
+
+/* Eye closed */
+
+
+#pageDashboard .balance-earn-message {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+#pageDashboard .balance-earn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 16px;
+
+  width: 16px;
+  height: 16px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+/* Go button */
+#pageDashboard .balance-earn-go {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  gap: 3px;
+
+  padding: 3px 0 3px 7px;
+  border: 0;
+  background: transparent;
+  color: var(--green);
+
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+
+  transition: opacity .2s ease, transform .2s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Below minimum */
+
+
+/* =========================================
+   ADD FUNDS BUTTON
+========================================= */
+
+#pageDashboard .add-fund-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+
+  min-height: 40px;
+  padding: 0 19px;
+
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--accent-text);
+
+  font-size: 13px;
+  font-weight: 650;
+  white-space: nowrap;
+
+  transition:
+    background .2s ease,
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+#pageDashboard .add-fund-btn:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 4px 14px rgba(24,214,197,.16);
+  transform: translateY(-1px);
+}
+
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 850px) {
+  #pageDashboard {
+    padding: 23px 18px 110px;
+  }
+
+  #pageDashboard .balance-card {
+    padding: 20px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  #pageDashboard {
+    padding: 17px 13px 108px;
+  }
+
+  #pageDashboard .balance-card {
+    gap: 10px;
+    padding: 16px 14px;
+    margin-bottom: 14px;
+    border-radius: 13px;
+  }
+
+  #pageDashboard .balance-value {
+    font-size: 24px;
+    letter-spacing: -.3px;
+  }
+  }
+
+  #pageDashboard .balance-earn-notice {
+    gap: 5px;
+    margin-top: 6px;
+  }
+
+  #pageDashboard .balance-earn-message {
+    gap: 4px;
+    font-size: 10px;
+  }
+  }
+  }
+
+  #pageDashboard .add-fund-btn {
+    min-height: 35px;
+    padding: 0 12px;
+    font-size: 12px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 380px) {
+  #pageDashboard {
+    padding: 14px 10px 105px;
+  }
+
+  #pageDashboard .balance-card {
+    padding: 14px 11px;
+    gap: 7px;
+  }
+  }
+  }
+  }
+
+  #pageDashboard .add-fund-btn {
+    min-height: 33px;
+    padding: 0 9px;
+    font-size: 11px;
+  }
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  #pageDashboard .balance-earn-notice,
+  #pageDashboard .balance-earn-go,
+  #pageDashboard .balance-toggle,
+  #pageDashboard .add-fund-btn {
+    transition: none;
+  }
+}
+
+/* ============ END DASHBOARD BALANCE ============ */
+
+
+
+/* ============================================
+   NAVAA DASHBOARD — PREMIUM CARD TABS
+   Independent styling; existing slider untouched
+============================================ */
+
+#pageDashboard .dashboard-card-tabs {
+  width: min(100% - 24px, 460px);
+  margin: 0 auto 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(22px, 7vw, 44px);
+
+  border-bottom: 1px solid var(--line);
+}
+
+#pageDashboard .dashboard-card-tab {
+  position: relative;
+  isolation: isolate;
+  padding: 13px 5px 15px;
+
+  border: 0;
+  outline: 0;
+  background: transparent;
+
+  color: var(--muted);
+  font-family: 'BinancePlex', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .15px;
+
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    color .3s ease,
+    transform .3s ease,
+    text-shadow .3s ease;
+}
+
+#pageDashboard .dashboard-card-tab::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  width: 0;
+  height: 3px;
+  border-radius: 10px;
+
+  background: var(--accent);
+  box-shadow: 0 0 7px var(--accent),
+              0 0 16px rgba(24,214,197,.35);
+
+  transform: translateX(-50%);
+  transition: width .35s cubic-bezier(.2,.8,.2,1);
+}
+
+#pageDashboard .dashboard-card-tab.active {
+  color: var(--accent);
+  font-weight: 600;
+  text-shadow: 0 0 12px rgba(24,214,197,.22);
+}
+
+#pageDashboard .dashboard-card-tab.active::after {
+  width: 100%;
+}
+
+#pageDashboard .dashboard-card-tab:active {
+  transform: scale(.94);
+}
+
+#pageDashboard .dashboard-card-tab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+@media (max-width: 480px) {
+  #pageDashboard .dashboard-card-tabs {
+    gap: clamp(20px, 8vw, 34px);
+    margin-bottom: 22px;
+  }
+
+  #pageDashboard .dashboard-card-tab {
+    font-size: 12px;
+    padding: 12px 4px 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #pageDashboard .dashboard-card-tab,
+  #pageDashboard .dashboard-card-tab::after {
+    transition: none;
+  }
+}
+
+
+
+
+
+
+
+/* 03. REFER & EARN — responsive section styles (formerly refer.css) */
+
+/* =====================================================
+   NAVAA REFER & EARN — RESPONSIVE DASHBOARD
+   Separate stylesheet; does not alter Earn or Exchange.
+===================================================== */
+.refer-page {
+  --rf-card: var(--surface, #111a2c);
+  --rf-bg: var(--bg, #080d1c);
+  --rf-line: var(--line, rgba(255,255,255,.09));
+  --rf-text: var(--text, #f4f7fb);
+  --rf-muted: var(--muted, #929db0);
+  --rf-accent: var(--accent, #18d6c5);
+  width: min(100%, 1240px);
+  margin: 0 auto;
+  padding: 30px 24px 120px;
+  color: var(--rf-text);
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.refer-page *, .refer-page *::before, .refer-page *::after { box-sizing: border-box; }
+.refer-header { display:flex; justify-content:space-between; align-items:flex-start; gap:18px; margin-bottom:24px; }
+.refer-eyebrow { display:block; color:var(--rf-accent); font-size:11px; font-weight:700; letter-spacing:1.5px; margin-bottom:8px; }
+.refer-header h1 { margin:0; font-size:clamp(26px,3vw,34px); line-height:1.2; font-weight:650; }
+.refer-header p, .refer-panel-heading p { color:var(--rf-muted); font-size:13px; margin:8px 0 0; line-height:1.55; }
+.refer-network { display:inline-flex; align-items:center; gap:8px; padding:8px 11px; border:1px solid var(--rf-line); border-radius:999px; color:var(--rf-muted); font-size:11px; white-space:nowrap; }
+.refer-network i { width:7px; height:7px; border-radius:50%; background:#22c98a; box-shadow:0 0 9px rgba(34,201,138,.5); }
+.refer-hero { display:flex; justify-content:space-between; align-items:center; gap:20px; padding:25px 27px; margin-bottom:15px; border:1px solid rgba(24,214,197,.2); border-radius:18px; background:linear-gradient(115deg,rgba(24,214,197,.12),rgba(24,214,197,.025) 60%),var(--rf-card); }
+.refer-label { display:block; color:var(--rf-muted); font-size:11px; font-weight:650; letter-spacing:1px; }
+.refer-hero-copy > strong { display:block; margin-top:10px; font-size:clamp(28px,4vw,40px); line-height:1.1; letter-spacing:-1px; overflow-wrap:anywhere; }
+.refer-hero-copy > strong small { font-size:14px; color:var(--rf-accent); letter-spacing:0; }
+.refer-hero-copy p { margin:8px 0 0; color:var(--rf-muted); font-size:12px; }
+.refer-hero-icon { display:grid; place-items:center; width:58px; height:58px; border-radius:17px; background:rgba(24,214,197,.12); color:var(--rf-accent); font-size:32px; flex:0 0 auto; }
+.refer-stats-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-bottom:15px; }
+.refer-stat-card, .refer-panel { min-width:0; border:1px solid var(--rf-line); border-radius:16px; background:var(--rf-card); }
+.refer-stat-card { padding:17px 18px; }
+.refer-stat-card span { display:block; color:var(--rf-muted); font-size:12px; }
+.refer-stat-card strong { display:block; margin:10px 0 5px; font-size:clamp(19px,2vw,25px); font-weight:650; overflow-wrap:anywhere; }
+.refer-stat-card small { color:var(--rf-muted); font-size:10px; line-height:1.4; }
+.refer-panel { padding:22px; margin-top:15px; }
+.refer-panel-heading { display:flex; align-items:flex-start; justify-content:space-between; gap:15px; margin-bottom:19px; }
+.refer-panel-heading h2 { margin:0; font-size:17px; font-weight:650; }
+.refer-panel-icon { color:var(--rf-accent); font-size:24px; }
+.refer-field-label { display:block; margin-bottom:8px; color:var(--rf-muted); font-size:12px; }
+.refer-link-row { display:flex; gap:9px; }
+.refer-link-row input { width:100%; min-width:0; height:46px; padding:0 13px; border:1px solid var(--rf-line); border-radius:10px; outline:none; background:var(--rf-bg); color:var(--rf-text); font:inherit; font-size:12px; }
+.refer-link-row input:focus { border-color:var(--rf-accent); }
+.refer-link-row button, .refer-share-row button { min-height:44px; padding:0 18px; border:0; border-radius:10px; background:var(--rf-accent); color:#07151a; font:inherit; font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap; }
+.refer-page button:disabled { opacity:.42; cursor:not-allowed; }
+.refer-share-row { display:flex; align-items:center; gap:12px; margin-top:11px; }
+.refer-share-row button { background:transparent; border:1px solid var(--rf-line); color:var(--rf-text); }
+.refer-share-row span, .refer-status { color:var(--rf-muted); font-size:11px; line-height:1.5; }
+.refer-note { margin:13px 0 0; color:var(--rf-muted); font-size:11px; line-height:1.55; }
+.refer-rate-pill { padding:7px 11px; border-radius:999px; background:rgba(24,214,197,.1); color:var(--rf-accent); font-size:11px; font-weight:700; white-space:nowrap; }
+.refer-reward-balance { display:flex; justify-content:space-between; align-items:center; gap:15px; padding:18px; border:1px solid var(--rf-line); border-radius:12px; background:var(--rf-bg); }
+.refer-reward-balance span { display:block; color:var(--rf-muted); font-size:11px; }
+.refer-reward-balance strong { display:block; margin-top:7px; font-size:clamp(22px,3vw,30px); overflow-wrap:anywhere; }
+.refer-reward-balance strong small { color:var(--rf-accent); font-size:12px; }
+.refer-token-mark { display:grid; place-items:center; width:44px; height:44px; border-radius:50%; background:rgba(24,214,197,.12); color:var(--rf-accent); font-weight:800; font-size:20px; }
+.refer-withdraw-btn { width:100%; min-height:46px; margin-top:12px; border:0; border-radius:10px; background:var(--rf-accent); color:#07151a; font:inherit; font-size:13px; font-weight:750; cursor:pointer; }
+.refer-status { min-height:17px; margin:10px 0 0; }
+.refer-table-wrap { width:100%; overflow-x:auto; }
+.refer-table { width:100%; border-collapse:collapse; min-width:600px; text-align:left; }
+.refer-table th { padding:11px 12px; color:var(--rf-muted); font-size:10px; font-weight:600; border-bottom:1px solid var(--rf-line); white-space:nowrap; }
+.refer-table td { padding:13px 12px; border-bottom:1px solid var(--rf-line); font-size:11px; white-space:nowrap; }
+.refer-table a, .refer-history-list a { color:var(--rf-accent); text-decoration:none; }
+.refer-empty { padding:22px 12px!important; color:var(--rf-muted); text-align:center; font-size:12px!important; white-space:normal!important; }
+.refer-history-list { display:grid; gap:0; }
+.refer-history-item { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:13px 2px; border-bottom:1px solid var(--rf-line); }
+.refer-history-item:last-child { border-bottom:0; }
+.refer-history-item strong { display:block; font-size:12px; font-weight:600; }
+.refer-history-item small { display:block; margin-top:5px; color:var(--rf-muted); font-size:10px; }
+.refer-history-amount { text-align:right; font-size:12px; font-weight:650; white-space:nowrap; }
+.refer-steps { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+.refer-steps article { display:flex; flex-direction:column; gap:8px; padding:15px; border:1px solid var(--rf-line); border-radius:12px; background:var(--rf-bg); }
+.refer-steps b { color:var(--rf-accent); font-size:11px; letter-spacing:1px; }
+.refer-steps strong { font-size:12px; }
+.refer-steps span { color:var(--rf-muted); font-size:10px; line-height:1.5; }
+.refer-disclaimer { margin:17px 0 0; color:var(--rf-muted); font-size:10px; line-height:1.6; }
+@media(max-width:850px) { .refer-stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .refer-steps { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:560px) {
+ .refer-page { padding:22px 14px 112px; }
+ .refer-header { flex-direction:column; gap:12px; margin-bottom:18px; }
+ .refer-header h1 { font-size:27px; }
+ .refer-hero { padding:20px 17px; border-radius:14px; }
+ .refer-hero-icon { width:45px; height:45px; border-radius:13px; font-size:25px; }
+ .refer-stats-grid { gap:9px; }
+ .refer-stat-card { padding:14px 13px; border-radius:13px; }
+ .refer-stat-card strong { font-size:20px; }
+ .refer-panel { padding:17px 14px; border-radius:14px; }
+ .refer-panel-heading h2 { font-size:16px; }
+ .refer-link-row { flex-direction:column; }
+ .refer-link-row button { width:100%; }
+ .refer-share-row { align-items:flex-start; flex-direction:column; }
+ .refer-share-row button { width:100%; }
+ .refer-steps { gap:9px; }
+ .refer-steps article { padding:12px; }
+}
+@media(prefers-reduced-motion:reduce) { .refer-page * { scroll-behavior:auto!important; transition:none!important; } }
+
+
+/* Referral custom withdrawal amount + MAX */
+.refer-amount-label { display:block; margin-top:17px; }
+.refer-amount-row { display:flex; align-items:stretch; gap:9px; }
+.refer-amount-row input {
+  flex:1; min-width:0; height:46px; padding:0 13px;
+  border:1px solid var(--rf-line); border-radius:10px;
+  outline:none; background:var(--rf-bg); color:var(--rf-text);
+  font:inherit; font-size:13px;
+}
+.refer-amount-row input:focus { border-color:var(--rf-accent); }
+.refer-amount-row input:disabled { opacity:.5; }
+.refer-amount-row button {
+  min-width:72px; padding:0 16px; border:1px solid var(--rf-accent);
+  border-radius:10px; background:rgba(24,214,197,.1);
+  color:var(--rf-accent); font:inherit; font-size:12px; font-weight:800;
+  cursor:pointer;
+}
+.refer-amount-row button:disabled { opacity:.4; cursor:not-allowed; }
+.refer-amount-hint { min-height:16px; margin:8px 0 0; color:var(--rf-muted); font-size:10px; line-height:1.5; }
+@media(max-width:560px) {
+  .refer-amount-row input { height:45px; }
+  .refer-amount-row button { min-width:66px; }
+}
+
+
+/* NAVAA Refer & Earn — polished responsive refinements */
+.refer-page { max-width:1180px; padding-top:clamp(18px,3vw,34px); }
+.refer-header { align-items:center; }
+.refer-header h1 { letter-spacing:-.7px; }
+.refer-hero { min-height:150px; position:relative; overflow:hidden; }
+.refer-hero::after { content:""; position:absolute; width:220px; height:220px; right:30px; top:-120px; border:1px solid rgba(24,214,197,.13); border-radius:50%; box-shadow:0 0 0 24px rgba(24,214,197,.035),0 0 0 48px rgba(24,214,197,.025); pointer-events:none; }
+.refer-stat-card { transition:border-color .18s ease,transform .18s ease; }
+.refer-stat-card:hover { border-color:rgba(24,214,197,.32); transform:translateY(-2px); }
+.refer-panel { box-shadow:0 8px 28px rgba(0,0,0,.08); }
+.refer-panel-heading h2 { letter-spacing:-.25px; }
+.refer-link-row input { overflow:hidden; text-overflow:ellipsis; }
+.refer-link-row button,.refer-share-row button,.refer-withdraw-btn,.refer-amount-row button { transition:filter .18s ease,transform .18s ease; }
+.refer-link-row button:hover:not(:disabled),.refer-share-row button:hover:not(:disabled),.refer-withdraw-btn:hover:not(:disabled),.refer-amount-row button:hover:not(:disabled) { filter:brightness(1.08); transform:translateY(-1px); }
+.refer-history-item { gap:16px; }
+.refer-history-amount { min-width:115px; }
+.refer-history-amount a { display:inline-block; margin-top:6px; font-size:10px; }
+.refer-wallet-cell { font-variant-numeric:tabular-nums; }
+@media(max-width:760px) {
+ .refer-page { padding-left:16px; padding-right:16px; }
+ .refer-stats-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .refer-steps { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:560px) {
+ .refer-page { padding:18px 12px 112px; }
+ .refer-hero { min-height:128px; padding:18px 15px; }
+ .refer-hero-copy>strong { font-size:clamp(25px,8vw,34px); }
+ .refer-stat-card { min-height:110px; }
+ .refer-panel { padding:16px 12px; }
+ .refer-history-item { align-items:flex-start; }
+ .refer-history-amount { min-width:100px; }
+ .refer-table { min-width:560px; }
+}
+@media(max-width:360px) {
+ .refer-stats-grid { grid-template-columns:1fr; }
+ .refer-steps { grid-template-columns:1fr; }
+ .refer-network { font-size:10px; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .refer-stat-card,.refer-link-row button,.refer-share-row button,.refer-withdraw-btn,.refer-amount-row button { transition:none; }
+}
