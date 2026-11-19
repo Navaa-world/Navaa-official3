@@ -620,6 +620,10 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
   let capacityRaw = 0n;
   let allowanceRaw = 0n;
   let refreshTimer = null;
+  let dashboardRewardTimer = null;
+  let dashboardRewardBase = 0n;
+  let dashboardRewardPrincipal = 0n;
+  let dashboardRewardStartedAt = 0;
 
   const $ = id => document.getElementById(id);
 
@@ -666,6 +670,39 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
     if (!value) return "Not available";
 
     return new Date(value * 1000).toLocaleString();
+  }
+
+  /* Dashboard-only visual estimate between on-chain reward reads.
+     The contract preview remains the source of truth. */
+  function stopDashboardRewardTicker() {
+    if (dashboardRewardTimer) {
+      clearInterval(dashboardRewardTimer);
+      dashboardRewardTimer = null;
+    }
+  }
+
+  function startDashboardRewardTicker(baseReward, activePrincipal) {
+    stopDashboardRewardTicker();
+    dashboardRewardBase = BigInt(baseReward);
+    dashboardRewardPrincipal = BigInt(activePrincipal);
+    dashboardRewardStartedAt = Date.now();
+
+    const render = () => {
+      const elapsedMs = Math.max(0, Date.now() - dashboardRewardStartedAt);
+      const estimatedIncrease =
+        dashboardRewardPrincipal * 7n * BigInt(Math.floor(elapsedMs)) /
+        (10000n * 86400000n);
+      const liveEstimate = dashboardRewardBase + estimatedIncrease;
+      const display = $("dashboardEligibleReward");
+
+      if (display) {
+        display.textContent = formatAmount(liveEstimate, 8);
+        display.title = "Live estimate between Polygon contract refreshes.";
+      }
+    };
+
+    render();
+    dashboardRewardTimer = setInterval(render, 10);
   }
 
   function shorten(address) {
@@ -864,6 +901,10 @@ function getReferralLink() {
      setText("dashboardStakedAmount", "—");
      setText("dashboardEligibleReward", "—");
      setText("dashboardAllPositions", "—");
+    stopDashboardRewardTicker();
+    dashboardRewardBase = 0n;
+    dashboardRewardPrincipal = 0n;
+    dashboardRewardStartedAt = 0;
     setText("earnPositionCount", "0");
 
     const positions = $("earnPositionsList");
@@ -1233,6 +1274,7 @@ if (referralInput) {
        setText("dashboardStakedAmount", "0");
        setText("dashboardEligibleReward", "0");
        setText("dashboardAllPositions", "0");
+       startDashboardRewardTicker(0n, 0n);
       return;
     }
 
@@ -1388,12 +1430,15 @@ if (referralInput) {
      );
      setText(
         "dashboardEligibleReward",
-        formatAmount(totalPreview)
+        formatAmount(totalPreview, 8)
      );
      setText(
         "dashboardAllPositions",
         totalActivePositions.toString()
      );
+
+     /* Animate the Dashboard total locally; no 10ms blockchain requests. */
+     startDashboardRewardTicker(totalPreview, totalDashboardStaked);
   }
 
   /* =========================================
@@ -1575,6 +1620,8 @@ if (referralInput) {
 
       await tx.wait();
 
+      stopDashboardRewardTicker();
+      setText("dashboardEligibleReward", "Syncing…");
       setStatus("Staking reward claimed successfully.");
 
     } catch (error) {
@@ -2003,7 +2050,10 @@ function bindWalletEvents() {
       if (
         account &&
         !busy &&
-        $("pageEarn")?.classList.contains("active")
+        (
+          $("pageEarn")?.classList.contains("active") ||
+          $("pageDashboard")?.classList.contains("active")
+        )
       ) {
         try {
           await refreshDashboard();
