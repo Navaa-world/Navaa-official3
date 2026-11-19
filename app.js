@@ -458,7 +458,6 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
 
         function showPage(pageName) {
           const validPages = [
-            'home',
             'dashboard',
             'earn',
             'refer',
@@ -510,9 +509,9 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
           });
         });
         
-        /*=========== Logo always opens Home ==============*/
+        /*=========== Logo always opens Dashboard ==============*/
         document.getElementById('homeLogoBtn').addEventListener('click', () => {
-          showPage('home');
+          showPage('dashboard');
         });
 
 
