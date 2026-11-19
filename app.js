@@ -620,9 +620,9 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
   let capacityRaw = 0n;
   let allowanceRaw = 0n;
   let refreshTimer = null;
-  let dashboardRewardTimer = null;
-  let dashboardRewardBase = 0n;
-  let dashboardRewardPrincipal = 0n;
+  let dashboardRewardFrame = null;
+  let dashboardRewardBase = 0;
+  let dashboardRewardPrincipal = 0;
   let dashboardRewardStartedAt = 0;
 
   const $ = id => document.getElementById(id);
@@ -674,35 +674,40 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
 
   /* Dashboard-only visual estimate between on-chain reward reads.
      The contract preview remains the source of truth. */
+  /* Dashboard reward counter: smooth local interpolation between contract reads.
+     The on-chain preview remains authoritative; this never sends 10ms RPC calls. */
   function stopDashboardRewardTicker() {
-    if (dashboardRewardTimer) {
-      clearInterval(dashboardRewardTimer);
-      dashboardRewardTimer = null;
+    if (dashboardRewardFrame !== null) {
+      cancelAnimationFrame(dashboardRewardFrame);
+      dashboardRewardFrame = null;
     }
   }
 
   function startDashboardRewardTicker(baseReward, activePrincipal) {
     stopDashboardRewardTicker();
-    dashboardRewardBase = BigInt(baseReward);
-    dashboardRewardPrincipal = BigInt(activePrincipal);
-    dashboardRewardStartedAt = Date.now();
 
-    const render = () => {
-      const elapsedMs = Math.max(0, Date.now() - dashboardRewardStartedAt);
-      const estimatedIncrease =
-        dashboardRewardPrincipal * 7n * BigInt(Math.floor(elapsedMs)) /
-        (10000n * 86400000n);
-      const liveEstimate = dashboardRewardBase + estimatedIncrease;
+    dashboardRewardBase = Number(ethers.formatUnits(baseReward, decimals));
+    dashboardRewardPrincipal = Number(ethers.formatUnits(activePrincipal, decimals));
+    dashboardRewardStartedAt = performance.now();
+
+    const render = (now) => {
+      const elapsedSeconds = Math.max(0, (now - dashboardRewardStartedAt) / 1000);
+      const rewardPerSecond = dashboardRewardPrincipal * 0.0007 / 86400;
+      const liveEstimate = dashboardRewardBase + rewardPerSecond * elapsedSeconds;
       const display = $("dashboardEligibleReward");
 
       if (display) {
-        display.textContent = formatAmount(liveEstimate, 8);
-        display.title = "Live estimate between Polygon contract refreshes.";
+        display.textContent = liveEstimate.toLocaleString("en-US", {
+          minimumFractionDigits: 8,
+          maximumFractionDigits: 10
+        });
+        display.title = "Live estimated reward. The Polygon contract preview is periodically synchronized.";
       }
+
+      dashboardRewardFrame = requestAnimationFrame(render);
     };
 
-    render();
-    dashboardRewardTimer = setInterval(render, 10);
+    dashboardRewardFrame = requestAnimationFrame(render);
   }
 
   function shorten(address) {
@@ -902,8 +907,8 @@ function getReferralLink() {
      setText("dashboardEligibleReward", "—");
      setText("dashboardAllPositions", "—");
     stopDashboardRewardTicker();
-    dashboardRewardBase = 0n;
-    dashboardRewardPrincipal = 0n;
+    dashboardRewardBase = 0;
+    dashboardRewardPrincipal = 0;
     dashboardRewardStartedAt = 0;
     setText("earnPositionCount", "0");
 
