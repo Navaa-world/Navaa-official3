@@ -2983,7 +2983,7 @@ main {
 /* NAVAA Earn stake panel + amount input — Binance-inspired dark/light styling */
 /* Outer Amount/staking section: flat surface, no border or rounded corners */
 #pageEarn .earn-stake-panel {
-  background: #1e2329;
+  background: var(--bg);
   border: 0;
   border-radius: 0;
   box-shadow: none;
