@@ -259,7 +259,7 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
       maximumFractionDigits: 4
     });
 
-    icon.textContent = "◈";
+    icon.textContent = "";
     message.textContent =
       "Only " + remainingFormatted +
       " more Earn ~25.55% APR";
@@ -408,7 +408,7 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
               const goButton = document.getElementById("goEarnBtn");
               if (goButton) goButton.hidden = true;
               if (earnText) earnText.textContent = "Connect wallet to check your Earn eligibility.";
-              if (earnIcon) earnIcon.textContent = "↗";
+              if (earnIcon) earnIcon.textContent = "";
               return;
             }
 
