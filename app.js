@@ -56,95 +56,6 @@
 /* 02. DASHBOARD CARD TABS — formerly inline script 2 in index.html */
 
 
-/* ==========================================
-   NAVAA DASHBOARD — CARD TAB CONTROLLER
-   Uses the existing card slider without
-   changing its CSS or swipe behavior.
-========================================== */
-
-(() => {
-  const track = document.getElementById("dashboardEarningCards");
-
-  const tabs = document.querySelectorAll(
-    "#pageDashboard .dashboard-card-tab"
-  );
-
-  if (!track || !tabs.length) return;
-
-  const cards = Array.from(
-    track.querySelectorAll(".dashboard-earning-card")
-  );
-
-  if (cards.length !== 3 || tabs.length !== 3) return;
-
-  let scrollFrame = null;
-
-  function setActiveTab(index) {
-    tabs.forEach((tab, i) => {
-      const active = i === index;
-
-      tab.classList.toggle("active", active);
-      tab.setAttribute("aria-pressed", String(active));
-    });
-  }
-
-  function goToCard(index) {
-    const card = cards[index];
-    if (!card) return;
-
-    /* Preserve the current desktop grid.
-       Use the existing horizontal slider when available. */
-    if (track.scrollWidth > track.clientWidth + 2) {
-      const firstCardLeft = cards[0].offsetLeft;
-
-      track.scrollTo({
-        left: card.offsetLeft - firstCardLeft,
-        behavior: "smooth"
-      });
-    }
-
-    setActiveTab(index);
-  }
-
-  tabs.forEach((tab, index) => {
-    tab.addEventListener("click", () => {
-      goToCard(index);
-    });
-  });
-
-  /* Update selected tab during manual swipe */
-  track.addEventListener("scroll", () => {
-    if (scrollFrame) {
-      cancelAnimationFrame(scrollFrame);
-    }
-
-    scrollFrame = requestAnimationFrame(() => {
-      if (track.scrollWidth <= track.clientWidth + 2) return;
-
-      const trackRect = track.getBoundingClientRect();
-      const trackCentre = trackRect.left + trackRect.width / 2;
-
-      let nearestIndex = 0;
-      let nearestDistance = Infinity;
-
-      cards.forEach((card, index) => {
-        const rect = card.getBoundingClientRect();
-        const centre = rect.left + rect.width / 2;
-        const distance = Math.abs(centre - trackCentre);
-
-        if (distance < nearestDistance) {
-          nearestDistance = distance;
-          nearestIndex = index;
-        }
-      });
-
-      setActiveTab(nearestIndex);
-    });
-  });
-
-})();
-
-
 /* 03. WALLET / TOKEN BALANCE / PAGE NAVIGATION — formerly inline script 3 in index.html */
 
 
@@ -619,10 +530,6 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
   let capacityRaw = 0n;
   let allowanceRaw = 0n;
   let refreshTimer = null;
-  let dashboardRewardFrame = null;
-  let dashboardRewardBase = 0;
-  let dashboardRewardPrincipal = 0;
-  let dashboardRewardStartedAt = 0;
 
   const $ = id => document.getElementById(id);
 
@@ -673,42 +580,6 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
 
   /* Dashboard-only visual estimate between on-chain reward reads.
      The contract preview remains the source of truth. */
-  /* Dashboard reward counter: smooth local interpolation between contract reads.
-     The on-chain preview remains authoritative; this never sends 10ms RPC calls. */
-  function stopDashboardRewardTicker() {
-    if (dashboardRewardFrame !== null) {
-      cancelAnimationFrame(dashboardRewardFrame);
-      dashboardRewardFrame = null;
-    }
-  }
-
-  function startDashboardRewardTicker(baseReward, activePrincipal) {
-    stopDashboardRewardTicker();
-
-    dashboardRewardBase = Number(ethers.formatUnits(baseReward, decimals));
-    dashboardRewardPrincipal = Number(ethers.formatUnits(activePrincipal, decimals));
-    dashboardRewardStartedAt = performance.now();
-
-    const render = (now) => {
-      const elapsedSeconds = Math.max(0, (now - dashboardRewardStartedAt) / 1000);
-      const rewardPerSecond = dashboardRewardPrincipal * 0.0007 / 86400;
-      const liveEstimate = dashboardRewardBase + rewardPerSecond * elapsedSeconds;
-      const display = $("dashboardEligibleReward");
-
-      if (display) {
-        display.textContent = liveEstimate.toLocaleString("en-US", {
-          minimumFractionDigits: 8,
-          maximumFractionDigits: 10
-        });
-        display.title = "Live estimated reward. The Polygon contract preview is periodically synchronized.";
-      }
-
-      dashboardRewardFrame = requestAnimationFrame(render);
-    };
-
-    dashboardRewardFrame = requestAnimationFrame(render);
-  }
-
   function shorten(address) {
     if (!address) return "—";
 
@@ -902,13 +773,6 @@ function getReferralLink() {
     ].forEach(id => setText(id, "—"));
 
     setText("earnWalletBalance", "Connect wallet to continue");
-     setText("dashboardStakedAmount", "—");
-     setText("dashboardEligibleReward", "—");
-     setText("dashboardAllPositions", "—");
-    stopDashboardRewardTicker();
-    dashboardRewardBase = 0;
-    dashboardRewardPrincipal = 0;
-    dashboardRewardStartedAt = 0;
     setText("earnPositionCount", "0");
 
     const positions = $("earnPositionsList");
@@ -1275,16 +1139,10 @@ if (referralInput) {
       );
 
        setText("earnAccruedRewards", "0 NAVAA");
-       setText("dashboardStakedAmount", "0");
-       setText("dashboardEligibleReward", "0");
-       setText("dashboardAllPositions", "0");
-       startDashboardRewardTicker(0n, 0n);
       return;
     }
 
      let totalPreview = 0n;
-     let totalDashboardStaked = 0n;
-     let totalActivePositions = 0;
     const now = currentTime();
     const canClaim = nextClaim <= now;
 
@@ -1313,12 +1171,6 @@ if (referralInput) {
       const principal = position.principal ?? position[0];
       const started = position.started ?? position[2];
       const unlocksAt = position.unlocksAt ?? position[3];
-      const withdrawn = position.principalWithdrawn ?? position[5];
-
-       if (!withdrawn) {
-          totalDashboardStaked += BigInt(principal.toString());
-          totalActivePositions++;
-       }
       totalPreview += reward;
 
       const unlocked = now >= unlocksAt;
@@ -1428,21 +1280,6 @@ if (referralInput) {
       "earnAccruedRewards",
       formatAmount(totalPreview) + " NAVAA"
     );
-     setText(
-        "dashboardStakedAmount",
-        formatAmount(totalDashboardStaked)
-     );
-     setText(
-        "dashboardEligibleReward",
-        formatAmount(totalPreview, 8)
-     );
-     setText(
-        "dashboardAllPositions",
-        totalActivePositions.toString()
-     );
-
-     /* Animate the Dashboard total locally; no 10ms blockchain requests. */
-     startDashboardRewardTicker(totalPreview, totalDashboardStaked);
   }
 
   /* =========================================
@@ -1624,8 +1461,6 @@ if (referralInput) {
 
       await tx.wait();
 
-      stopDashboardRewardTicker();
-      setText("dashboardEligibleReward", "Syncing…");
       setStatus("Staking reward claimed successfully.");
 
     } catch (error) {
