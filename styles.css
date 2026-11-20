@@ -2204,6 +2204,8 @@ button:focus-visible {
 #pageDashboard .balance-earn-message {
   display: flex;
   align-items: center;
+  flex: 0 1 auto;
+  width: fit-content;
   gap: 6px;
   min-width: 0;
   color: var(--green);
@@ -2233,6 +2235,7 @@ button:focus-visible {
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
+  margin-left: 0;
   gap: 3px;
   padding: 3px 0 3px 7px;
   border: 0;
