@@ -884,7 +884,7 @@ function getReferralLink() {
       return;
     }
 
-    if (!/^\\d+(\\.\\d+)?$/.test(raw)) {
+    if (!/^\d+(\.\d+)?$/.test(raw)) {
       setAmountHint("Please enter a valid amount.");
       return;
     }
