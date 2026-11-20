@@ -843,12 +843,13 @@ function getReferralLink() {
     if (!hint) return;
 
     hint.replaceChildren();
-    hint.dataset.type = message ? type : "";
-    hint.hidden = !message;
+    const hasShortfall = shortfall !== null;
+    hint.dataset.type = (message || hasShortfall) ? type : "";
+    hint.hidden = !(message || hasShortfall);
 
-    if (!message) return;
+    if (!message && !hasShortfall) return;
 
-    if (shortfall !== null) {
+    if (hasShortfall) {
       const text = document.createElement("span");
       text.textContent = "You need " + formatAmount(shortfall) + " NAVAA ";
       const topUp = document.createElement("button");
