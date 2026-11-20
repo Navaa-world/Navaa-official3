@@ -405,6 +405,12 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
           });
         }
 
+        // Referral visitors land directly on the Earn staking page.
+        const incomingRef = new URLSearchParams(window.location.search).get("ref");
+        if (incomingRef && /^0x[a-fA-F0-9]{40}$/.test(incomingRef)) {
+          showPage("earn");
+        }
+
         const goEarnButton = document.getElementById("goEarnBtn");
         if (goEarnButton) {
           goEarnButton.addEventListener("click", () => {
