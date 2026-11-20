@@ -103,6 +103,12 @@
     scroll-behavior: smooth;
   }
 
+/* NAVAA: prevent browser-level rubber-band overscroll */
+  html,
+  body {
+    overscroll-behavior-y: none;
+  }
+
   body {
     min-height: 100vh;
     background: var(--bg);
