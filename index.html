@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
   
 <!-- 01. STYLES: consolidated responsive stylesheet -->
-  <link rel="stylesheet" href="./styles.css?v=2">
+  <link rel="stylesheet" href="./styles.css?v=3">
   </head>
   <body>
     <main>
@@ -116,107 +116,7 @@
         </button>
       </section>
 
-      <!--=============================================================
-             DASHBOARD : STAKED | REWARD | ALL POSITION CARDS 
-      ==============================================================-->
-      <section class="dashboard-earning-cards" id="dashboardEarningCards">
 
-        <div class="dashboard-earning-card staked-card">
-          <div class="dashboard-card-top">
-            <div class="dashboard-card-icon staked-icon">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect x="4" y="10" width="16" height="11" rx="2"
-                  stroke="currentColor" stroke-width="1.7"/>
-                <path d="M8 10V7a4 4 0 0 1 8 0v3"
-                  stroke="currentColor" stroke-width="1.7"/>
-                <path d="M12 14v3" stroke="currentColor" stroke-width="1.7"/>
-              </svg>
-            </div>
-            <span class="dashboard-card-label">STAKED</span>
-          </div>
-          <div class="dashboard-card-amount" id="dashboardStakedAmount">—</div>
-          <div class="dashboard-card-footer">
-            <span>NAVAA</span>
-            <span class="dashboard-card-description">Across all positions</span>
-          </div>
-        </div>
-
-        <div class="dashboard-earning-card reward-card">
-          <div class="dashboard-card-top">
-            <div class="dashboard-card-icon reward-icon">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M20 12v9H4v-9M2 7h20v5H2zM12 7v14"
-                  stroke="currentColor" stroke-width="1.7"/>
-                <path d="M12 7H7.5a2.5 2.5 0 1 1 2.5-2.5L12 7Z"
-                  stroke="currentColor" stroke-width="1.5"/>
-                <path d="M12 7h4.5A2.5 2.5 0 1 0 14 4.5L12 7Z"
-                  stroke="currentColor" stroke-width="1.5"/>
-              </svg>
-            </div>
-            <span class="dashboard-card-label">REWARD</span>
-          </div>
-          <div class="dashboard-card-amount" id="dashboardEligibleReward">—</div>
-          <div class="dashboard-card-footer">
-            <span>NAVAA</span>
-            <span class="dashboard-card-description">Accrued staking rewards</span>
-          </div>
-        </div>
-
-        <div class="dashboard-earning-card positions-card">
-          <div class="dashboard-card-top">
-            <div class="dashboard-card-icon positions-icon">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect x="3" y="3" width="7" height="7" rx="1.5"
-                  stroke="currentColor" stroke-width="1.7"/>
-                <rect x="14" y="3" width="7" height="7" rx="1.5"
-                  stroke="currentColor" stroke-width="1.7"/>
-                <rect x="3" y="14" width="7" height="7" rx="1.5"
-                  stroke="currentColor" stroke-width="1.7"/>
-                <rect x="14" y="14" width="7" height="7" rx="1.5"
-                  stroke="currentColor" stroke-width="1.7"/>
-              </svg>
-            </div>
-            <span class="dashboard-card-label">ALL POSITIONS</span>
-          </div>
-          <div class="dashboard-card-amount" id="dashboardAllPositions">
-            —
-          </div>
-          <div class="dashboard-card-footer">
-            <span>POSITIONS</span>
-            <span class="dashboard-card-description">
-              Active staking positions
-            </span>
-          </div>
-        </div>
-      </section>
-      <!--=============== END DASHBOARD CARDS =====================-->
-
-    
-<!-- NAVAA DASHBOARD CARD TABS -->
-<nav class="dashboard-card-tabs" aria-label="Dashboard card navigation">
-
-  <button type="button"
-    class="dashboard-card-tab active"
-    data-dashboard-tab="0"
-    aria-pressed="true">
-    Staked
-  </button>
-
-  <button type="button"
-    class="dashboard-card-tab"
-    data-dashboard-tab="1"
-    aria-pressed="false">
-    Reward
-  </button>
-
-  <button type="button"
-    class="dashboard-card-tab"
-    data-dashboard-tab="2"
-    aria-pressed="false">
-    Position
-  </button>
-
-</nav>
     
       
         <!--*******************************
@@ -744,6 +644,6 @@
           JAVASCRIPT : Wallet Balance 
     ===============================================--->
     <!-- Application logic moved to app.js -->
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
