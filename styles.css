@@ -2654,189 +2654,105 @@ button:focus-visible {
 
 
 /* ================================================
-   NAVAA EARN — FUTURISTIC STAKING PLAN HIGHLIGHT
+   NAVAA EARN — COMPACT BINANCE-STYLE PLAN TAB
    Scoped only to the Earn page. Dark/light theme aware.
 ================================================ */
 .earn-page .earn-plan-tab {
   --plan-accent: var(--accent, #18d6c5);
-  position: relative;
-  isolation: isolate;
-  display: grid;
-  grid-template-columns: minmax(0, 0.85fr) 1px minmax(0, 1.15fr);
-  align-items: center;
-  gap: clamp(18px, 4vw, 38px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
   width: 100%;
-  min-height: 116px;
-  margin: 0 0 27px;
-  padding: 21px clamp(20px, 3vw, 34px);
-  overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--plan-accent) 42%, var(--ec-border));
-  border-radius: 19px;
-  background:
-    radial-gradient(ellipse at 8% 0%, color-mix(in srgb, var(--plan-accent) 16%, transparent), transparent 54%),
-    radial-gradient(ellipse at 100% 100%, color-mix(in srgb, var(--plan-accent) 11%, transparent), transparent 48%),
-    var(--ec-card);
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--plan-accent) 7%, transparent),
-    0 9px 28px rgba(0, 0, 0, .10),
-    inset 0 1px 0 rgba(255,255,255,.07);
-  transition: border-color .28s ease, box-shadow .28s ease, transform .28s ease, background .28s ease;
+  min-height: 104px;
+  margin: 0 0 25px;
+  padding: 17px 21px;
+  border: 1px solid var(--ec-border);
+  border-radius: 14px;
+  background: var(--ec-card);
+  color: var(--ec-text);
+  box-shadow: 0 4px 16px rgba(0,0,0,.055);
+  transition: border-color .22s ease, background .22s ease, box-shadow .22s ease, transform .22s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
-.earn-page .earn-plan-tab::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(115deg,
-    color-mix(in srgb, var(--plan-accent) 78%, transparent),
-    transparent 38%,
-    color-mix(in srgb, var(--plan-accent) 32%, transparent) 72%,
-    transparent);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
-
 .earn-page .earn-plan-tab:hover {
-  transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--plan-accent) 70%, var(--ec-border));
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--plan-accent) 12%, transparent),
-    0 0 24px color-mix(in srgb, var(--plan-accent) 13%, transparent),
-    0 13px 32px rgba(0,0,0,.13),
-    inset 0 1px 0 rgba(255,255,255,.09);
+  border-color: color-mix(in srgb, var(--plan-accent) 55%, var(--ec-border));
+  box-shadow: 0 5px 19px color-mix(in srgb, var(--plan-accent) 10%, transparent);
 }
 
-.earn-page .earn-plan-duration,
-.earn-page .earn-plan-return {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-width: 0;
+.earn-page .earn-plan-duration {
+  color: var(--ec-muted);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: .15px;
+  font-variant-numeric: tabular-nums;
 }
 
-.earn-page .earn-plan-label {
+.earn-page .earn-plan-duration small {
+  margin-left: 2px;
   color: var(--ec-muted);
   font-size: 10px;
-  font-weight: 750;
-  letter-spacing: 1.45px;
-  line-height: 1.35;
+  font-weight: 600;
 }
 
-.earn-page .earn-plan-duration strong {
+.earn-page .earn-plan-return {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  line-height: 1;
+}
+
+.earn-page .earn-plan-return strong {
   color: var(--ec-text);
-  font-size: clamp(27px, 4vw, 38px);
-  font-weight: 760;
+  font-size: clamp(27px, 3.6vw, 34px);
+  font-weight: 750;
   line-height: 1;
   letter-spacing: -.8px;
   font-variant-numeric: tabular-nums;
 }
 
-.earn-page .earn-plan-duration strong small {
-  color: var(--ec-muted);
-  font-size: .53em;
-  font-weight: 650;
-  letter-spacing: .3px;
-}
-
-.earn-page .earn-plan-return strong {
-  color: var(--plan-accent);
-  font-size: clamp(28px, 4.2vw, 40px);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -1px;
-  text-shadow: 0 0 17px color-mix(in srgb, var(--plan-accent) 25%, transparent);
-  font-variant-numeric: tabular-nums;
-}
-
 .earn-page .earn-plan-return strong span {
-  font-size: .72em;
+  font-size: .78em;
 }
 
-.earn-page .earn-plan-return strong small {
-  margin-left: 4px;
-  color: var(--ec-text);
-  font-size: .36em;
+.earn-page .earn-plan-return > small {
+  color: var(--ec-muted);
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 1px;
-  vertical-align: .2em;
+  letter-spacing: .65px;
 }
 
-.earn-page .earn-plan-divider {
-  width: 1px;
-  height: 54px;
-  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--plan-accent) 58%, var(--ec-border)), transparent);
-}
-
-.earn-page .earn-plan-glow {
-  position: absolute;
-  z-index: 0;
-  top: -70px;
-  right: 12%;
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  background: var(--plan-accent);
-  opacity: .055;
-  filter: blur(48px);
-  pointer-events: none;
-  transition: opacity .28s ease, transform .28s ease;
-}
-
-.earn-page .earn-plan-tab:hover .earn-plan-glow {
-  opacity: .12;
-  transform: scale(1.18);
-}
-
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .earn-page .earn-plan-tab {
-    min-height: 102px;
-    gap: 14px;
-    margin-bottom: 23px;
-    padding: 18px 17px;
-    border-radius: 16px;
+    min-height: 94px;
+    margin-bottom: 22px;
+    padding: 15px 17px;
+    border-radius: 13px;
   }
 
-  .earn-page .earn-plan-label {
+  .earn-page .earn-plan-duration {
+    font-size: 12px;
+  }
+
+  .earn-page .earn-plan-duration small {
     font-size: 9px;
-    letter-spacing: 1px;
-  }
-
-  .earn-page .earn-plan-duration strong {
-    font-size: clamp(25px, 7vw, 32px);
   }
 
   .earn-page .earn-plan-return strong {
-    font-size: clamp(26px, 7.3vw, 34px);
+    font-size: clamp(26px, 7vw, 31px);
   }
 
-  .earn-page .earn-plan-divider {
-    height: 46px;
-  }
-}
-
-@media (max-width: 360px) {
-  .earn-page .earn-plan-tab {
-    gap: 10px;
-    padding-inline: 13px;
-  }
-
-  .earn-page .earn-plan-label {
-    font-size: 8px;
-    letter-spacing: .75px;
+  .earn-page .earn-plan-return > small {
+    font-size: 10px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .earn-page .earn-plan-tab,
-  .earn-page .earn-plan-glow {
+  .earn-page .earn-plan-tab {
     transition: none;
   }
 }
