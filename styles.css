@@ -2842,3 +2842,78 @@ button:focus-visible {
 .earn-page .earn-main-grid {
   grid-template-columns: minmax(0, 1fr);
 }
+
+
+/* NAVAA Earn page: spacing and mobile scroll stability fixes */
+#pageEarn {
+  overflow-x: clip;
+  overscroll-behavior-y: contain;
+}
+
+#pageEarn .earn-page {
+  padding: 18px 20px 38px;
+  overflow-x: clip;
+  overscroll-behavior-y: contain;
+  transform: none;
+  animation: none;
+}
+
+#pageEarn .earn-plan-tab {
+  margin-bottom: 12px;
+}
+
+#pageEarn .earn-plan-divider {
+  margin-bottom: 12px;
+}
+
+#pageEarn .earn-main-grid {
+  margin-top: 0;
+  gap: 0;
+}
+
+#pageEarn .earn-stake-panel {
+  padding: 19px;
+  transform: none;
+  animation: none;
+}
+
+#pageEarn .earn-stake-panel .earn-field-label:first-child {
+  margin-top: 0;
+}
+
+#pageEarn .earn-stake-panel .earn-stake-summary {
+  margin-top: 14px;
+}
+
+#pageEarn .earn-stake-panel .earn-action-buttons {
+  margin-top: 16px;
+}
+
+#pageEarn .earn-stake-panel .earn-form-status {
+  margin-bottom: 0;
+}
+
+@media (max-width: 700px) {
+  #pageEarn .earn-page {
+    padding: 14px 14px 30px;
+  }
+
+  #pageEarn .earn-stake-panel {
+    padding: 16px;
+  }
+
+  #pageEarn .earn-plan-divider {
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 380px) {
+  #pageEarn .earn-page {
+    padding-right: 11px;
+    padding-left: 11px;
+  }
+
+  #pageEarn .earn-stake-panel {
+    padding: 14px;
+  }
+}
