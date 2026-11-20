@@ -2917,3 +2917,13 @@ button:focus-visible {
     padding: 14px;
   }
 }
+
+
+/* NAVAA Earn page: remove duplicated global bottom spacing */
+main:has(> #pageEarn.active) {
+  padding-bottom: 0;
+}
+
+#pageEarn .earn-page {
+  padding-bottom: calc(78px + env(safe-area-inset-bottom));
+}
