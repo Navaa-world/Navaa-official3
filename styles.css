@@ -2836,3 +2836,9 @@ button:focus-visible {
     margin-bottom: 14px;
   }
 }
+
+
+/* Earn page: stake form is the only remaining main panel */
+.earn-page .earn-main-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
