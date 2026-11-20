@@ -3077,3 +3077,78 @@ main {
 [data-theme="light"] .earn-page .earn-balance-line strong {
   color: #1e2329;
 }
+
+/* NAVAA Earn plan tile — refined alignment, typography and responsive sizing */
+#pageEarn .earn-plan-tab {
+  width: min(176px, calc(100% - 19px));
+  min-height: 78px;
+  margin: 0 0 12px 19px;
+  padding: 12px 14px;
+  gap: 6px;
+}
+
+#pageEarn .earn-plan-duration {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: .15px;
+}
+
+#pageEarn .earn-plan-return strong {
+  font-weight: 500;
+}
+
+#pageEarn .earn-plan-return > small {
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .45px;
+}
+
+@media (max-width: 700px) {
+  #pageEarn .earn-plan-tab {
+    width: min(166px, calc(100% - 16px));
+    min-height: 74px;
+    margin: 0 0 10px 16px;
+    padding: 10px 12px;
+    gap: 6px;
+  }
+
+  #pageEarn .earn-plan-duration {
+    font-size: 12px;
+  }
+
+  #pageEarn .earn-plan-return strong {
+    font-size: 19px;
+    font-weight: 500;
+  }
+
+  #pageEarn .earn-plan-return > small {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 380px) {
+  #pageEarn .earn-plan-tab {
+    width: min(158px, calc(100% - 14px));
+    min-height: 71px;
+    margin-left: 14px;
+    padding: 9px 11px;
+  }
+
+  #pageEarn .earn-plan-duration {
+    font-size: 12px;
+  }
+
+  #pageEarn .earn-plan-return strong {
+    font-size: 18px;
+  }
+}
+
+[data-theme="light"] #pageEarn .earn-plan-duration {
+  color: var(--ec-text);
+}
+
+[data-theme="light"] #pageEarn .earn-plan-return > small {
+  color: var(--ec-muted);
+}
