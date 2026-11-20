@@ -2958,6 +2958,11 @@ main {
   overflow-y: auto;
   overscroll-behavior-y: none;
   -webkit-overflow-scrolling: auto;
+  padding-bottom: 0;
+}
+
+/* Pages without their own bottom spacing still clear the fixed navigation */
+#pageExchange {
   padding-bottom: calc(78px + env(safe-area-inset-bottom));
 }
 
