@@ -2654,7 +2654,7 @@ button:focus-visible {
 
 
 /* ================================================
-   NAVAA EARN — COMPACT BINANCE-STYLE PLAN TAB
+   NAVAA EARN — COMPACT FLEXIBLE-EARN STYLE PLAN TAB
    Scoped only to the Earn page. Dark/light theme aware.
 ================================================ */
 .earn-page .earn-plan-tab {
@@ -2663,55 +2663,55 @@ button:focus-visible {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  gap: 5px;
+  gap: 4px;
   width: 100%;
-  min-height: 104px;
-  margin: 0 0 25px;
-  padding: 17px 21px;
+  min-height: 78px;
+  margin: 0 0 20px;
+  padding: 11px 16px;
   border: 1px solid var(--ec-border);
-  border-radius: 14px;
+  border-radius: 12px;
   background: var(--ec-card);
   color: var(--ec-text);
-  box-shadow: 0 4px 16px rgba(0,0,0,.055);
-  transition: border-color .22s ease, background .22s ease, box-shadow .22s ease, transform .22s ease;
+  box-shadow: 0 2px 10px rgba(0,0,0,.045);
+  transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
 .earn-page .earn-plan-tab:hover {
-  border-color: color-mix(in srgb, var(--plan-accent) 55%, var(--ec-border));
-  box-shadow: 0 5px 19px color-mix(in srgb, var(--plan-accent) 10%, transparent);
+  border-color: color-mix(in srgb, var(--plan-accent) 42%, var(--ec-border));
+  box-shadow: 0 3px 12px color-mix(in srgb, var(--plan-accent) 7%, transparent);
 }
 
 .earn-page .earn-plan-duration {
   color: var(--ec-muted);
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 500;
   line-height: 1.2;
-  letter-spacing: .15px;
+  letter-spacing: .1px;
   font-variant-numeric: tabular-nums;
 }
 
 .earn-page .earn-plan-duration small {
   margin-left: 2px;
   color: var(--ec-muted);
-  font-size: 10px;
-  font-weight: 600;
+  font-size: 9px;
+  font-weight: 500;
 }
 
 .earn-page .earn-plan-return {
   display: flex;
   align-items: baseline;
-  gap: 6px;
+  gap: 5px;
   min-width: 0;
   line-height: 1;
 }
 
 .earn-page .earn-plan-return strong {
   color: var(--ec-text);
-  font-size: clamp(27px, 3.6vw, 34px);
-  font-weight: 750;
+  font-size: clamp(22px, 2.8vw, 26px);
+  font-weight: 650;
   line-height: 1;
-  letter-spacing: -.8px;
+  letter-spacing: -.45px;
   font-variant-numeric: tabular-nums;
 }
 
@@ -2721,33 +2721,45 @@ button:focus-visible {
 
 .earn-page .earn-plan-return > small {
   color: var(--ec-muted);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .65px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .35px;
 }
 
 @media (max-width: 700px) {
   .earn-page .earn-plan-tab {
-    min-height: 94px;
-    margin-bottom: 22px;
-    padding: 15px 17px;
-    border-radius: 13px;
+    min-height: 72px;
+    margin-bottom: 18px;
+    padding: 10px 14px;
+    border-radius: 11px;
   }
 
   .earn-page .earn-plan-duration {
-    font-size: 12px;
+    font-size: 10px;
   }
 
   .earn-page .earn-plan-duration small {
-    font-size: 9px;
+    font-size: 8px;
   }
 
   .earn-page .earn-plan-return strong {
-    font-size: clamp(26px, 7vw, 31px);
+    font-size: clamp(21px, 6vw, 24px);
+    font-weight: 650;
   }
 
   .earn-page .earn-plan-return > small {
-    font-size: 10px;
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 360px) {
+  .earn-page .earn-plan-tab {
+    min-height: 68px;
+    padding: 9px 12px;
+  }
+
+  .earn-page .earn-plan-return strong {
+    font-size: 21px;
   }
 }
 
