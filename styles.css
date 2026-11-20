@@ -3179,3 +3179,20 @@ main {
 [data-theme="light"] #pageEarn .earn-balance-line > span {
   color: var(--ec-muted);
 }
+
+/* Slightly narrower Earn plan tile */
+#pageEarn .earn-plan-tab {
+  width: min(148px, calc(100% - 14px));
+}
+
+@media (max-width: 700px) {
+  #pageEarn .earn-plan-tab {
+    width: min(142px, calc(100% - 12px));
+  }
+}
+
+@media (max-width: 380px) {
+  #pageEarn .earn-plan-tab {
+    width: min(136px, calc(100% - 10px));
+  }
+}
