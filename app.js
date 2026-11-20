@@ -780,7 +780,8 @@ function getReferralLink() {
       "earnReferralBalance"
     ].forEach(id => setText(id, "—"));
 
-    setText("earnWalletBalance", "Connect wallet to continue");
+    setText("earnWalletBalance", "—");
+    setAmountHint("");
     setText("earnPositionCount", "0");
 
     const positions = $("earnPositionsList");
@@ -832,6 +833,14 @@ function getReferralLink() {
      STAKE FORM VALIDATION
   ========================================= */
 
+  function setAmountHint(message = "", type = "error") {
+    const hint = $("earnAmountHint");
+    if (!hint) return;
+    hint.textContent = message;
+    hint.dataset.type = message ? type : "";
+    hint.hidden = !message;
+  }
+
   async function updateStakeButtons() {
     const input = $("earnStakeAmount");
     const approveButton = $("earnApproveBtn");
@@ -839,27 +848,69 @@ function getReferralLink() {
 
     if (!input || !approveButton || !stakeButton) return;
 
-    if (!account || !token || !staking || busy || pausedState) {
-      approveButton.disabled = true;
-      stakeButton.disabled = true;
+    const raw = String(input.value || "").trim();
+    approveButton.disabled = true;
+    stakeButton.disabled = true;
+
+    if (!account || !token || !staking) {
+      setAmountHint(raw ? "Please connect your wallet." : "");
       return;
     }
 
-    try {
-      const amount = parseAmount(input.value);
-
-      const valid =
-        amount >= ethers.parseUnits("1000", decimals) &&
-        amount <= walletBalanceRaw &&
-        amount <= capacityRaw;
-
-      approveButton.disabled = !valid || allowanceRaw >= amount;
-      stakeButton.disabled = !valid || allowanceRaw < amount;
-
-    } catch {
-      approveButton.disabled = true;
-      stakeButton.disabled = true;
+    if (!raw) {
+      setAmountHint("");
+      return;
     }
+
+    if (!/^\\d+(\\.\\d+)?$/.test(raw)) {
+      setAmountHint("Please enter a valid amount.");
+      return;
+    }
+
+    let amount;
+    try {
+      amount = parseAmount(raw);
+    } catch {
+      setAmountHint("Please enter a valid amount.");
+      return;
+    }
+
+    if (amount === 0n) {
+      setAmountHint("Please enter a valid amount.");
+      return;
+    }
+
+    if (amount < ethers.parseUnits("1000", decimals)) {
+      setAmountHint("The amount cannot be lower than 1,000 NAVAA.");
+      return;
+    }
+
+    if (amount > walletBalanceRaw) {
+      setAmountHint("Insufficient NAVAA balance.");
+      return;
+    }
+
+    if (amount > capacityRaw) {
+      setAmountHint(
+        "Maximum stake limit: " + formatAmount(capacityRaw) + " NAVAA.",
+        "warning"
+      );
+      return;
+    }
+
+    if (pausedState) {
+      setAmountHint("Staking is currently paused.");
+      return;
+    }
+
+    if (busy) {
+      setAmountHint("Please wait for the current transaction to finish.", "warning");
+      return;
+    }
+
+    setAmountHint("");
+    approveButton.disabled = allowanceRaw >= amount;
+    stakeButton.disabled = allowanceRaw < amount;
   }
 
   /* =========================================
@@ -884,6 +935,14 @@ function getReferralLink() {
 
       if (input) {
         input.value = ethers.formatUnits(max, decimals);
+        if (walletBalanceRaw > capacityRaw) {
+          setAmountHint(
+            "Maximum stake limit: " + formatAmount(capacityRaw) + " NAVAA.",
+            "warning"
+          );
+        } else {
+          setAmountHint("");
+        }
         updateStakeButtons();
       }
     };
@@ -1001,6 +1060,14 @@ pausedState = isPaused === true;
         maxButton.onclick = () => {
           if (input) {
             input.value = ethers.formatUnits(maxStake, decimals);
+            if (walletBalance !== null && capacity !== null && walletBalance > capacity) {
+              setAmountHint(
+                "Maximum stake limit: " + formatAmount(capacity) + " NAVAA.",
+                "warning"
+              );
+            } else {
+              setAmountHint("");
+            }
             updateStakeButtons();
           }
         };
