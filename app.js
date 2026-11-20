@@ -833,12 +833,34 @@ function getReferralLink() {
      STAKE FORM VALIDATION
   ========================================= */
 
-  function setAmountHint(message = "", type = "error") {
+  function openEarnTopUpSheet() {
+    const sheet = $("earnTopupSheet");
+    if (sheet) sheet.classList.add("show");
+  }
+
+  function setAmountHint(message = "", type = "error", shortfall = null) {
     const hint = $("earnAmountHint");
     if (!hint) return;
-    hint.textContent = message;
+
+    hint.replaceChildren();
     hint.dataset.type = message ? type : "";
     hint.hidden = !message;
+
+    if (!message) return;
+
+    if (shortfall !== null) {
+      const text = document.createElement("span");
+      text.textContent = "You need " + formatAmount(shortfall) + " NAVAA ";
+      const topUp = document.createElement("button");
+      topUp.type = "button";
+      topUp.id = "earnTopUpLink";
+      topUp.textContent = "+ TOP UP";
+      topUp.addEventListener("click", openEarnTopUpSheet);
+      hint.append(text, topUp);
+      return;
+    }
+
+    hint.textContent = message;
   }
 
   async function updateStakeButtons() {
@@ -885,15 +907,19 @@ function getReferralLink() {
       return;
     }
 
-    if (amount > walletBalanceRaw) {
-      setAmountHint("Insufficient NAVAA balance.");
-      return;
-    }
-
     if (amount > capacityRaw) {
       setAmountHint(
         "Maximum stake limit: " + formatAmount(capacityRaw) + " NAVAA.",
         "warning"
+      );
+      return;
+    }
+
+    if (amount > walletBalanceRaw) {
+      setAmountHint(
+        "",
+        "warning",
+        amount - walletBalanceRaw
       );
       return;
     }
@@ -1873,6 +1899,29 @@ if (referralInput) {
 
     if ($("earnCopyReferralBtn")) {
       $("earnCopyReferralBtn").addEventListener("click", copyReferralAddress);
+    }
+
+    const topupSheet = $("earnTopupSheet");
+    const topupClose = $("earnTopupClose");
+    const topupExchange = $("earnTopupExchange");
+
+    if (topupClose) {
+      topupClose.addEventListener("click", () => {
+        topupSheet?.classList.remove("show");
+      });
+    }
+
+    if (topupSheet) {
+      topupSheet.addEventListener("click", event => {
+        if (event.target === topupSheet) topupSheet.classList.remove("show");
+      });
+    }
+
+    if (topupExchange) {
+      topupExchange.addEventListener("click", () => {
+        topupSheet?.classList.remove("show");
+        document.querySelector('[data-page-target="exchange"]')?.click();
+      });
     }
 
     setupMaxButton();
