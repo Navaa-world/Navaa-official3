@@ -3196,3 +3196,22 @@ main {
     width: min(136px, calc(100% - 10px));
   }
 }
+
+/* Earn insufficient-balance top-up prompt */
+#pageEarn .earn-amount-hint[data-type="warning"] {
+  color: #f0b90b;
+}
+
+#pageEarn #earnTopUpLink {
+  display: inline;
+  margin: 0 0 0 3px;
+  padding: 0 0 1px;
+  border: 0;
+  border-bottom: 1px dotted currentColor;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
