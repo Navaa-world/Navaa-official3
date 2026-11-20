@@ -3152,3 +3152,30 @@ main {
 [data-theme="light"] #pageEarn .earn-plan-return > small {
   color: var(--ec-muted);
 }
+
+/* NAVAA Earn amount validation and balance microcopy */
+#pageEarn .earn-balance-line > span {
+  color: #ffffff;
+}
+
+#pageEarn .earn-amount-hint {
+  display: block;
+  min-height: 0;
+  margin: 5px 2px 0;
+  color: #f6465d;
+  font-size: 11px;
+  font-weight: 450;
+  line-height: 1.4;
+}
+
+#pageEarn .earn-amount-hint[hidden] {
+  display: none;
+}
+
+#pageEarn .earn-amount-hint[data-type="warning"] {
+  color: #f0b90b;
+}
+
+[data-theme="light"] #pageEarn .earn-balance-line > span {
+  color: var(--ec-muted);
+}
