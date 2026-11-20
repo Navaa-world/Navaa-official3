@@ -2933,3 +2933,40 @@ main:has(> #pageEarn.active) {
 #pageEarn .earn-page {
   padding-bottom: calc(78px + env(safe-area-inset-bottom));
 }
+
+
+/* NAVAA APP SHELL: single controlled scroll container for mobile WebViews */
+html {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: pan-y;
+}
+
+main {
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: auto;
+  padding-bottom: calc(78px + env(safe-area-inset-bottom));
+}
+
+.app-page {
+  min-height: 0;
+}
+
+@supports not (height: 100dvh) {
+  main {
+    height: 100vh;
+  }
+}
