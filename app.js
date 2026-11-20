@@ -587,6 +587,8 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
   }
    
 /* REFERRAL LINK HELPERS */
+let canGenerateReferralLink = false;
+
 function getReferralFromUrl() {
   try {
     const ref = new URLSearchParams(
@@ -604,7 +606,7 @@ function getReferralFromUrl() {
 }
 
 function getReferralLink() {
-  if (!account) return "";
+  if (!account || !canGenerateReferralLink) return "";
 
   const url = new URL(
     window.location.pathname,
@@ -661,7 +663,7 @@ function getReferralLink() {
 
     const copy = $("earnCopyReferralBtn");
      if (copy) {
-        copy.disabled = value || !account;
+        copy.disabled = value || !account || !canGenerateReferralLink;
      }
   }
 
@@ -805,6 +807,7 @@ function getReferralLink() {
       );
     }
 
+    canGenerateReferralLink = false;
     const referral = $("earnReferralLink");
     if (referral) referral.value = "";
 
@@ -904,7 +907,8 @@ function getReferralLink() {
         staking.hasStaked(account),
         staking.nextRewardClaimAt(account),
         staking.paused(),
-        token.allowance(account, STAKE_ADDRESS)
+        token.allowance(account, STAKE_ADDRESS),
+        staking.rootReferrer()
       ]);
 
       const getValue = (index, fallback = null) =>
@@ -923,6 +927,9 @@ function getReferralLink() {
       const nextClaim = getValue(8);
       const isPaused = getValue(9);
        const allowance = getValue(10);
+      const rootReferrer = getValue(11);
+
+      canGenerateReferralLink = alreadyStaked === true;
 
 /* Sync live blockchain values */
 walletBalanceRaw = walletBalance ?? 0n;
@@ -1013,19 +1020,26 @@ if (referralInput) {
     referralInput.value = "";
     referralInput.placeholder = "Not required for subsequent stakes";
     referralInput.disabled = true;
-
+    referralInput.readOnly = true;
   } else {
     referralInput.disabled = false;
     referralInput.placeholder = "Enter referrer's wallet address";
 
-    if (!referralInput.value.trim()) {
-      const incomingReferral = getReferralFromUrl();
+    const incomingReferral = getReferralFromUrl();
+    const validIncomingReferral =
+      incomingReferral &&
+      incomingReferral.toLowerCase() !== account.toLowerCase();
 
-      if (
-        incomingReferral &&
-        incomingReferral.toLowerCase() !== account.toLowerCase()
-      ) {
-        referralInput.value = incomingReferral;
+    if (validIncomingReferral) {
+      referralInput.value = incomingReferral;
+      referralInput.readOnly = true;
+    } else {
+      referralInput.readOnly = false;
+      if (!referralInput.value.trim() && rootReferrer && ethers.isAddress(rootReferrer)) {
+        const ownerReferral = ethers.getAddress(rootReferrer);
+        if (ownerReferral.toLowerCase() !== account.toLowerCase()) {
+          referralInput.value = ownerReferral;
+        }
       }
     }
   }
@@ -1045,11 +1059,9 @@ if (referralInput) {
           referralAddress.value = getReferralLink();
        }
 
-
-       
        const copyReferralButton = $("earnCopyReferralBtn");
        if (copyReferralButton) {
-          copyReferralButton.disabled = !account || busy;
+          copyReferralButton.disabled = !account || !canGenerateReferralLink || busy;
        }
 
       if (nextClaim !== null) {
@@ -1378,7 +1390,14 @@ if (referralInput) {
       let referrer = ethers.ZeroAddress;
 
       if (!alreadyStaked) {
-        const value = $("earnReferrer")?.value?.trim();
+        const incomingReferral = getReferralFromUrl();
+        const lockedIncomingReferral =
+          incomingReferral &&
+          incomingReferral.toLowerCase() !== account.toLowerCase()
+            ? incomingReferral
+            : "";
+
+        const value = lockedIncomingReferral || $("earnReferrer")?.value?.trim();
 
         if (!value) {
           throw new Error("A referral address is required for your first stake.");
@@ -1930,6 +1949,7 @@ function bindWalletEvents() {
   ];
   const ABI = [
     "function referralBalance(address user) view returns (uint256)",
+    "function hasStaked(address user) view returns (bool)",
     "function withdrawReferralReward(uint256 amount)",
     "event Staked(address indexed user,uint256 indexed positionId,uint256 amount,address indexed referrer,uint256 referralReward)",
     "event ReferralWithdrawn(address indexed user,uint256 gross,uint256 fee,uint256 net)"
@@ -1944,6 +1964,7 @@ function bindWalletEvents() {
   let cacheLoadedFor=null;
   let lastScannedBlock=null, cachedStakes=[], cachedWithdrawals=[];
   let busy=false, refreshRunning=false, refreshTimer=null, lastRefreshAt=0;
+  let canRefer=false;
 
   function cacheKey(){return 'navaa_ref_history_v2_'+String(account||'').toLowerCase();}
   function persistHistoryCache(){
@@ -2000,14 +2021,19 @@ function bindWalletEvents() {
     if(el){el.textContent=message;el.style.color=error?"#f6465d":"";}
   }
   function linkValue(){
-    return account?location.origin+location.pathname+"?ref="+encodeURIComponent(account):"";
+    return account&&canRefer?location.origin+location.pathname+"?ref="+encodeURIComponent(account):"";
   }
   function updateLink(){
     const input=$("referLinkInput"),copy=$("referCopyBtn"),share=$("referShareBtn");
-    if(input)input.value=linkValue();
-    if(copy)copy.disabled=!account;
-    if(share)share.disabled=!account;
-    setText("referLinkStatus",account?"Your personal referral link is ready.":"Connect your Polygon wallet to generate a link.");
+    const url=linkValue();
+    if(input)input.value=url;
+    if(copy)copy.disabled=!url;
+    if(share)share.disabled=!url;
+    setText("referLinkStatus",!account
+      ?"Connect your Polygon wallet to generate a link."
+      :canRefer
+        ?"Your personal referral link is ready."
+        :"Complete your first NAVAA stake to unlock your referral link.");
   }
   function emptyTable(message){
     const body=$("referListBody");if(!body)return;
@@ -2016,6 +2042,7 @@ function bindWalletEvents() {
     cell.colSpan=4;row.appendChild(cell);body.appendChild(row);
   }
   function reset(){
+    canRefer=false;
     ["referLifetimeEarned","referTotalCount","referAvailable","referWithdrawn","referClaimable"].forEach(id=>setText(id,"—"));
     emptyTable("Connect your wallet to load referral activity.");
     const history=$("referHistoryList");
@@ -2186,7 +2213,12 @@ function bindWalletEvents() {
     if(refreshRunning||!account||!readContract)return;
     refreshRunning=true;
     try{
-      const balance=await readContract.referralBalance(account);
+      const [balance,hasStaked]=await Promise.all([
+        readContract.referralBalance(account),
+        readContract.hasStaked(account)
+      ]);
+      canRefer=hasStaked===true;
+      updateLink();
       setText("referAvailable",format(balance));
       setText("referClaimable",format(balance)+" NAVAA");
       const input=$("referWithdrawAmount"),max=$("referMaxBtn"),btn=$("referWithdrawBtn");
@@ -2258,7 +2290,8 @@ function bindWalletEvents() {
   }
 
   async function copyLink(){
-    const url=linkValue();if(!url)return;
+    const url=linkValue();
+    if(!url){setText("referLinkStatus",account?"Complete your first NAVAA stake to unlock your referral link.":"Connect your wallet first.");return;}
     try{
       if(navigator.clipboard?.writeText)await navigator.clipboard.writeText(url);
       else{
@@ -2275,7 +2308,8 @@ function bindWalletEvents() {
     document.body.appendChild(anchor);anchor.click();anchor.remove();
   }
   function shareLink(){
-    const url=linkValue();if(!url)return;
+    const url=linkValue();
+    if(!url){setText("referLinkStatus",account?"Complete your first NAVAA stake to unlock your referral link.":"Connect your wallet first.");return;}
     const message="Join me on NAVAA and use my referral link: "+url;
     if(typeof navigator.share==="function"){
       navigator.share({title:"Join NAVAA",text:message,url}).then(
@@ -2316,7 +2350,7 @@ function bindWalletEvents() {
     });
     if(window.ethereum?.on){
       window.ethereum.on("accountsChanged",async()=>{
-        account=null;signer=null;readContract=null;writeContract=null;
+        account=null;signer=null;readContract=null;writeContract=null;canRefer=false;
         eventProviders=[];eventProvider=null;deploymentBlock=null;historyStart=null;deploymentBlockKnown=false;
         lastScannedBlock=null;cachedStakes=[];cachedWithdrawals=[];
         try{if(await connectWallet()){updateLink();await refresh();}else reset();}
