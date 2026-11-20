@@ -2979,3 +2979,83 @@ main {
     height: 100vh;
   }
 }
+
+/* NAVAA Earn amount field — Binance-inspired dark/light styling */
+.earn-page .earn-amount-box {
+  background: #2b3139;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  gap: 12px;
+}
+
+.earn-page .earn-amount-box:focus-within {
+  border: 0;
+  box-shadow: none;
+}
+
+.earn-page .earn-amount-token {
+  flex: 0 0 auto;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.earn-page .earn-amount-box input {
+  color: #ffffff;
+}
+
+.earn-page .earn-amount-box input::placeholder {
+  color: #848e9c;
+}
+
+.earn-page .earn-amount-box button {
+  background: transparent;
+  color: #f0b90b;
+  border: 0;
+  border-radius: 0;
+  padding: 8px 2px 8px 8px;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.earn-page .earn-balance-line {
+  justify-content: flex-start;
+  gap: 7px;
+  color: #848e9c;
+}
+
+.earn-page .earn-balance-line strong {
+  color: #eaecef;
+  font-weight: 600;
+}
+
+.earn-page .earn-referral-field:has(#earnReferrer:disabled) {
+  display: none;
+}
+
+[data-theme="light"] .earn-page .earn-amount-box {
+  background: #f5f5f5;
+}
+
+[data-theme="light"] .earn-page .earn-amount-token,
+[data-theme="light"] .earn-page .earn-amount-box input {
+  color: #1e2329;
+}
+
+[data-theme="light"] .earn-page .earn-amount-box input::placeholder {
+  color: #848e9c;
+}
+
+[data-theme="light"] .earn-page .earn-amount-box button {
+  color: #c99400;
+}
+
+[data-theme="light"] .earn-page .earn-balance-line {
+  color: #707a8a;
+}
+
+[data-theme="light"] .earn-page .earn-balance-line strong {
+  color: #1e2329;
+}
