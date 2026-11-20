@@ -2980,17 +2980,26 @@ main {
   }
 }
 
-/* NAVAA Earn amount field — Binance-inspired dark/light styling */
-.earn-page .earn-amount-box {
-  background: #2b3139;
+/* NAVAA Earn stake panel + amount input — Binance-inspired dark/light styling */
+/* Outer Amount/staking section: flat surface, no border or rounded corners */
+#pageEarn .earn-stake-panel {
+  background: #1e2329;
   border: 0;
   border-radius: 0;
+  box-shadow: none;
+}
+
+/* Amount input itself: Binance-style filled input with border and radius */
+#pageEarn .earn-amount-box {
+  background: #2b3139;
+  border: 1px solid #474d57;
+  border-radius: 8px;
   box-shadow: none;
   gap: 12px;
 }
 
-.earn-page .earn-amount-box:focus-within {
-  border: 0;
+#pageEarn .earn-amount-box:focus-within {
+  border-color: #f0b90b;
   box-shadow: none;
 }
 
@@ -3035,8 +3044,17 @@ main {
   display: none;
 }
 
-[data-theme="light"] .earn-page .earn-amount-box {
-  background: #f5f5f5;
+[data-theme="light"] #pageEarn .earn-stake-panel {
+  background: #ffffff;
+}
+
+[data-theme="light"] #pageEarn .earn-amount-box {
+  background: #ffffff;
+  border-color: #d9dce1;
+}
+
+[data-theme="light"] #pageEarn .earn-amount-box:focus-within {
+  border-color: #f0b90b;
 }
 
 [data-theme="light"] .earn-page .earn-amount-token,
