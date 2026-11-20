@@ -243,7 +243,7 @@ function updateEarnEligibility(rawBalance, tokenDecimals) {
     if (goButton) goButton.hidden = false;
     notice.classList.remove("is-ineligible");
 
-    icon.textContent = "↗";
+    icon.textContent = "";
     message.textContent =
       "Eligible to Earn ~25.55% APR";
 
