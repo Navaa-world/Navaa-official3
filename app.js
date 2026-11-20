@@ -935,6 +935,7 @@ function getReferralLink() {
 
       if (input) {
         input.value = ethers.formatUnits(max, decimals);
+        updateStakeButtons();
         if (walletBalanceRaw > capacityRaw) {
           setAmountHint(
             "Maximum stake limit: " + formatAmount(capacityRaw) + " NAVAA.",
@@ -943,7 +944,6 @@ function getReferralLink() {
         } else {
           setAmountHint("");
         }
-        updateStakeButtons();
       }
     };
   }
@@ -1060,6 +1060,7 @@ pausedState = isPaused === true;
         maxButton.onclick = () => {
           if (input) {
             input.value = ethers.formatUnits(maxStake, decimals);
+            updateStakeButtons();
             if (walletBalance !== null && capacity !== null && walletBalance > capacity) {
               setAmountHint(
                 "Maximum stake limit: " + formatAmount(capacity) + " NAVAA.",
@@ -1068,7 +1069,6 @@ pausedState = isPaused === true;
             } else {
               setAmountHint("");
             }
-            updateStakeButtons();
           }
         };
       }
