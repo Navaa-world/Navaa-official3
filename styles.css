@@ -3215,3 +3215,29 @@ main {
   font-weight: 750;
   cursor: pointer;
 }
+
+/* Make the insufficient-balance top-up action clearly link-like */
+#pageEarn .earn-amount-hint[data-type="warning"] {
+  color: #f0b90b;
+}
+
+#earnAmountHint #earnTopUpLink {
+  display: inline;
+  margin: 0 0 0 3px;
+  padding: 0 0 2px;
+  border: 0;
+  border-bottom: 1px dotted currentColor;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#earnAmountHint #earnTopUpLink:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 3px;
+}
