@@ -1875,6 +1875,20 @@ if (referralInput) {
     }
   }
 
+  function updateEstimatedDailyReward() {
+    const input = $("earnStakeAmount");
+    const output = $("earnDailyRewardValue");
+    if (!input || !output) return;
+
+    const raw = String(input.value || "").trim();
+    const amount = raw !== "" && /^\d+(\.\d+)?$/.test(raw) ? Number(raw) : 0;
+    const reward = Number.isFinite(amount) && amount > 0 ? amount * 0.0007 : 0;
+    output.textContent = reward.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 6
+    });
+  }
+
   /* =========================================
      BUTTON EVENTS
   ========================================= */
@@ -1883,7 +1897,21 @@ if (referralInput) {
     const input = $("earnStakeAmount");
 
     if (input) {
-      input.addEventListener("input", updateStakeButtons);
+      input.addEventListener("input", () => {
+        updateEstimatedDailyReward();
+        updateStakeButtons();
+      });
+      updateEstimatedDailyReward();
+    }
+
+    const rulesToggle = $("earnRulesToggle");
+    const rulesPanel = $("earnRulesPanel");
+    if (rulesToggle && rulesPanel) {
+      rulesToggle.addEventListener("click", () => {
+        const expanded = rulesToggle.getAttribute("aria-expanded") === "true";
+        rulesToggle.setAttribute("aria-expanded", String(!expanded));
+        rulesPanel.hidden = expanded;
+      });
     }
 
     if ($("earnApproveBtn")) {
