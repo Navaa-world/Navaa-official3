@@ -3241,3 +3241,125 @@ main {
   outline: 1px solid currentColor;
   outline-offset: 3px;
 }
+
+
+/* NAVAA Earn — Rules tab and live daily reward */
+#pageEarn .earn-rules-wrap {
+  margin-top: 13px;
+  border: 1px solid var(--ec-border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--ec-inner);
+}
+
+#pageEarn .earn-rules-tab {
+  width: 100%;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 13px;
+  border: 0;
+  background: transparent;
+  color: var(--ec-text);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#pageEarn .earn-rules-chevron {
+  color: var(--ec-muted);
+  font-size: 17px;
+  line-height: 1;
+  transition: transform .22s ease;
+}
+
+#pageEarn .earn-rules-tab[aria-expanded="true"] .earn-rules-chevron {
+  transform: rotate(180deg);
+}
+
+#pageEarn .earn-rules-panel {
+  display: grid;
+  gap: 0;
+  padding: 0 13px 7px;
+  animation: earnRulesReveal .22s ease both;
+}
+
+#pageEarn .earn-rules-panel[hidden] {
+  display: none;
+}
+
+#pageEarn .earn-rules-panel > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 9px 0;
+  border-top: 1px solid var(--ec-border);
+  font-size: 11px;
+}
+
+#pageEarn .earn-rules-panel > div span {
+  color: var(--ec-muted);
+}
+
+#pageEarn .earn-rules-panel > div strong {
+  color: var(--ec-text);
+  font-weight: 650;
+  text-align: right;
+}
+
+#pageEarn .earn-daily-reward {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+  padding: 12px 13px;
+  border: 1px solid var(--ec-border);
+  border-radius: 10px;
+  background: var(--ec-inner);
+  color: var(--ec-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+#pageEarn .earn-daily-reward > strong {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 6px;
+  min-width: 0;
+  color: #16a765;
+  font-size: clamp(13px, 3.6vw, 16px);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+#pageEarn .earn-daily-reward > strong small {
+  color: #16a765;
+  font-size: 10px;
+  font-weight: 750;
+}
+
+[data-theme="dark"] #pageEarn .earn-rules-wrap,
+[data-theme="dark"] #pageEarn .earn-daily-reward {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025), 0 5px 16px rgba(0,0,0,.12);
+}
+
+@keyframes earnRulesReveal {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 380px) {
+  #pageEarn .earn-rules-tab { min-height: 40px; padding-inline: 11px; }
+  #pageEarn .earn-rules-panel { padding-inline: 11px; }
+  #pageEarn .earn-daily-reward { padding: 11px; font-size: 11px; }
+}
