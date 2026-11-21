@@ -3325,8 +3325,9 @@ main {
   border-radius: 0;
   background: transparent;
   color: var(--ec-muted);
-  font-size: 13px;
-  font-weight: 500;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 #pageEarn .earn-daily-reward > strong {
@@ -3336,16 +3337,18 @@ main {
   gap: 6px;
   min-width: 0;
   color: #16a765;
+  font-family: inherit;
   font-size: clamp(13px, 3.6vw, 16px);
-  font-weight: 800;
+  font-weight: 650;
   font-variant-numeric: tabular-nums;
   text-align: right;
 }
 
 #pageEarn .earn-daily-reward > strong small {
   color: #16a765;
+  font-family: inherit;
   font-size: 1em;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 [data-theme="dark"] #pageEarn .earn-daily-reward > span {
@@ -3364,5 +3367,5 @@ main {
 @media (max-width: 380px) {
   #pageEarn .earn-rules-tab { min-height: 40px; padding-inline: 11px; }
   #pageEarn .earn-rules-panel { padding-inline: 11px; }
-  #pageEarn .earn-daily-reward { padding: 4px 2px; font-size: 12px; }
+  #pageEarn .earn-daily-reward { padding: 4px 2px; font-size: 13px; }
 }
