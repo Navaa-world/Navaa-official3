@@ -8,7 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
   
 <!-- 01. STYLES: consolidated responsive stylesheet -->
-  <link rel="stylesheet" href="./styles.css?v=6">
+  <link rel="stylesheet" href="./styles.css?v=7">
   </head>
   <body>
     <main>
@@ -420,64 +420,12 @@
       <!-- 08. EXCHANGE PAGE -->
       <section class="app-page" id="pageExchange">
         <div class="exchange-page">
-          <section class="ex-hero">
-            <div class="ex-hero-copy">
-              <div class="ex-eyebrow"><span class="ex-live-dot"></span> POLYGON MAINNET <span class="ex-eyebrow-divider">/</span> FIXED-RATE EXCHANGE</div>
-              <h1>NAVAA <span>Exchange</span></h1>
-              <p>Move between POL and NAVAA with transparent on-chain rates and instant contract quotes.</p>
-              <div class="ex-hero-tags">
-                <span><i></i> On-chain quotes</span>
-                <span><i></i> 0.2% fee</span>
-                <span><i></i> Non-custodial</span>
-              </div>
-            </div>
-            <div class="ex-visual" aria-hidden="true">
-              <div class="ex-visual-glow"></div>
-              <svg class="ex-visual-art" viewBox="0 0 360 250" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="exRing" x1="65" y1="28" x2="302" y2="226" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#56F5E5"/>
-                    <stop offset=".52" stop-color="#3888FF"/>
-                    <stop offset="1" stop-color="#9A67FF"/>
-                  </linearGradient>
-                  <linearGradient id="exCoin" x1="118" y1="58" x2="240" y2="192" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#1EE4D0"/>
-                    <stop offset="1" stop-color="#176B9E"/>
-                  </linearGradient>
-                  <filter id="exBlur" x="0" y="0" width="360" height="250" filterUnits="userSpaceOnUse">
-                    <feGaussianBlur stdDeviation="12"/>
-                  </filter>
-                </defs>
-                <ellipse cx="182" cy="129" rx="139" ry="70" transform="rotate(-22 182 129)" stroke="url(#exRing)" stroke-opacity=".58" stroke-width="1.4"/>
-                <ellipse cx="182" cy="129" rx="112" ry="91" transform="rotate(35 182 129)" stroke="#60D8FF" stroke-opacity=".25" stroke-width="1" stroke-dasharray="4 7"/>
-                <path d="M53 151C90 47 250 18 312 101" stroke="url(#exRing)" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 8"/>
-                <circle cx="79" cy="83" r="4" fill="#5AF4E4"/>
-                <circle cx="292" cy="176" r="3.5" fill="#8B75FF"/>
-                <circle cx="275" cy="57" r="2.5" fill="#8ADFFF"/>
-                <circle cx="182" cy="125" r="72" fill="#2BDCCB" fill-opacity=".16" filter="url(#exBlur)"/>
-                <circle cx="182" cy="125" r="58" fill="#0B2035" stroke="url(#exRing)" stroke-width="1.6"/>
-                <circle cx="182" cy="125" r="48" fill="url(#exCoin)" fill-opacity=".17" stroke="#8AFFF0" stroke-opacity=".42"/>
-                <path d="M181 87L211 104V146L181 163L151 146V104L181 87Z" stroke="#A6FFF5" stroke-width="2.2"/>
-                <path d="M166 111H188C196 111 201 115 201 122C201 129 196 133 188 133H166V111Z" stroke="#D5FFFB" stroke-width="3" stroke-linejoin="round"/>
-                <path d="M166 133H191C199 133 204 137 204 144C204 151 199 155 191 155H166V133Z" stroke="#D5FFFB" stroke-width="3" stroke-linejoin="round"/>
-                <path d="M175 102V163M188 102V163" stroke="#D5FFFB" stroke-opacity=".5" stroke-width="1.2"/>
-                <circle cx="91" cy="181" r="23" fill="#132E46" stroke="#4B9CFF" stroke-opacity=".7"/>
-                <path d="M91 169V193M82 175H96C100 175 102 177 102 181C102 185 99 187 95 187H82" stroke="#8CCBFF" stroke-width="2" stroke-linecap="round"/>
-                <circle cx="273" cy="77" r="22" fill="#152A3B" stroke="#55E8D8" stroke-opacity=".7"/>
-                <path d="M273 64L284 70V84L273 90L262 84V70L273 64Z" stroke="#8AFFF0" stroke-width="1.8"/>
-                <path d="M267 74H278M267 80H278" stroke="#8AFFF0" stroke-width="1.8" stroke-linecap="round"/>
-                <path d="M111 183L135 165M248 91L257 86" stroke="#73DFFF" stroke-opacity=".65" stroke-width="1.3" stroke-dasharray="3 4"/>
-              </svg>
-              <div class="ex-visual-caption"><span>POL</span><b>↔</b><span>NAVAA</span></div>
-            </div>
+          <section class="ex-info-card ex-account-card">
+                <div class="ex-side-heading"><div><span class="ex-section-kicker">ACCOUNT</span><h3>Your balances</h3></div><button type="button" id="exRefreshBtn" aria-label="Refresh balances and rates" title="Refresh">↻</button></div>
+                <div class="ex-balance-row"><span><i class="ex-balance-dot pol"></i>POL balance</span><strong id="exPolBalance">—</strong></div>
+                <div class="ex-balance-row"><span><i class="ex-balance-dot navaa"></i>NAVAA balance</span><strong id="exWalletNavaa">—</strong></div>
+                <div class="ex-wallet-state" id="exWalletState">Connect your wallet to trade on Polygon.</div>
           </section>
-
-          <div class="ex-market-grid">
-            <div class="ex-market-card"><span>BUY RATE</span><strong id="exBuyRate">—</strong><small>POL per NAVAA</small></div>
-            <div class="ex-market-card"><span>SELL RATE</span><strong id="exSellRate">—</strong><small>POL per NAVAA</small></div>
-            <div class="ex-market-card"><span>NAVAA RESERVE</span><strong id="exNavaaReserve">—</strong><small>NAVAA available</small></div>
-            <div class="ex-market-card"><span>POL RESERVE</span><strong id="exPolReserve">—</strong><small>POL available</small></div>
-          </div>
 
           <div class="ex-workspace">
             <section class="ex-trade-card">
@@ -532,12 +480,7 @@
             </section>
 
             <aside class="ex-side-column">
-              <section class="ex-info-card">
-                <div class="ex-side-heading"><div><span class="ex-section-kicker">ACCOUNT</span><h3>Your balances</h3></div><button type="button" id="exRefreshBtn" aria-label="Refresh balances and rates" title="Refresh">↻</button></div>
-                <div class="ex-balance-row"><span><i class="ex-balance-dot pol"></i>POL balance</span><strong id="exPolBalance">—</strong></div>
-                <div class="ex-balance-row"><span><i class="ex-balance-dot navaa"></i>NAVAA balance</span><strong id="exWalletNavaa">—</strong></div>
-                <div class="ex-wallet-state" id="exWalletState">Connect your wallet to trade on Polygon.</div>
-              </section>
+
 
               <section class="ex-info-card ex-how-card">
                 <span class="ex-section-kicker">TRANSPARENT BY DESIGN</span>
