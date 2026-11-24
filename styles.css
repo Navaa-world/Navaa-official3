@@ -3706,18 +3706,46 @@ main {
 }
 #pageExchange .ex-convert-mark {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  height: 0;
+  margin: 0;
+  overflow: visible;
+}
+#pageExchange .ex-convert-mark button {
+  position: relative;
+  top: -17px;
   display: grid;
-  width: 31px;
-  height: 31px;
-  margin: -2px auto;
+  width: 34px;
+  height: 34px;
+  padding: 0;
   place-items: center;
-  border: 3px solid var(--surface);
-  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--line));
+  border-radius: 11px;
   background: var(--surface2);
   color: var(--accent);
-  font-size: 16px;
-  font-weight: 800;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .14), inset 0 1px 0 rgba(255, 255, 255, .08);
+  cursor: pointer;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+#pageExchange .ex-convert-mark button svg {
+  display: block;
+  width: 19px;
+  height: 19px;
+}
+#pageExchange .ex-convert-mark button:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface2));
+  box-shadow: 0 4px 13px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+#pageExchange .ex-convert-mark button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+[data-theme="light"] #pageExchange .ex-convert-mark button {
+  box-shadow: 0 2px 8px rgba(20, 45, 65, .12), inset 0 1px 0 rgba(255, 255, 255, .85);
 }
 #pageExchange .ex-output-panel { padding-bottom: 13px; }
 #pageExchange .ex-output-box { min-height: 39px; justify-content: space-between; }
