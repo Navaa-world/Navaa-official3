@@ -4100,3 +4100,97 @@ main {
 #pageExchange .ex-trade-button {
   gap: 0;
 }
+
+
+/* NAVAA exchange: clean full-width terminal and flat convert fields. */
+#pageExchange .exchange-page {
+  width: min(100%, 1320px);
+  padding: 16px 12px calc(92px + env(safe-area-inset-bottom));
+}
+#pageExchange .ex-workspace {
+  width: 100%;
+  margin: 0;
+}
+#pageExchange .ex-trade-card {
+  max-width: 680px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+#pageExchange .ex-card-heading {
+  margin-bottom: 18px;
+}
+#pageExchange .ex-amount-panel {
+  min-height: 0;
+  padding: 13px 2px 14px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+#pageExchange .ex-amount-panel:focus-within {
+  border-color: transparent;
+  box-shadow: none;
+}
+#pageExchange .ex-amount-panel:not(.ex-output-panel) {
+  border-bottom: 1px solid var(--line);
+}
+#pageExchange .ex-output-panel {
+  padding-top: 15px;
+}
+#pageExchange .ex-convert-rate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin: 12px auto 4px;
+  padding: 0;
+  text-align: center;
+}
+#pageExchange .ex-live-rate-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  max-width: 100%;
+}
+#pageExchange .ex-live-rate-row > span {
+  color: var(--muted);
+  font-size: 8px;
+  font-weight: 750;
+  letter-spacing: .8px;
+}
+#pageExchange .ex-live-rate-row > strong {
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+#pageExchange .ex-quote-details {
+  margin-top: 13px;
+}
+#pageExchange .ex-trade-note {
+  display: none;
+}
+@media (max-width: 760px) {
+  #pageExchange .exchange-page {
+    padding: 12px 9px calc(88px + env(safe-area-inset-bottom));
+  }
+}
+@media (max-width: 520px) {
+  #pageExchange .exchange-page {
+    padding: 10px 7px calc(88px + env(safe-area-inset-bottom));
+  }
+  #pageExchange .ex-trade-card {
+    max-width: none;
+  }
+  #pageExchange .ex-amount-panel {
+    padding-right: 1px;
+    padding-left: 1px;
+  }
+}
