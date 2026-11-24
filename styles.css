@@ -4374,3 +4374,55 @@ main {
     transform: none;
   }
 }
+
+
+/* Final NAVAA exchange spacing, token consistency and wallet balance alignment. */
+#pageExchange .exchange-page { padding-top: 24px; }
+#pageExchange .ex-card-heading { margin-bottom: 25px; }
+#pageExchange .ex-token-choice { font-size: 14px; }
+#pageExchange .ex-token-choice strong {
+  font-size: 14px;
+  font-weight: 550;
+  letter-spacing: .1px;
+}
+#pageExchange .ex-token-symbol,
+#pageExchange img.ex-token-symbol-navaa {
+  width: 25px;
+  height: 25px;
+  flex: 0 0 25px;
+}
+#pageExchange .ex-token-symbol-pol svg { width: 17px; height: 17px; }
+#pageExchange .ex-field-meta .ex-wallet-balance {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+#pageExchange .ex-wallet-balance svg {
+  display: block;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  color: var(--muted);
+}
+#pageExchange .ex-wallet-balance strong { color: var(--text); font-weight: 550; }
+#pageExchange #exOutputBalance[hidden] { display: none !important; }
+@media (max-width: 520px) {
+  #pageExchange .exchange-page { padding-top: 20px; }
+  #pageExchange .ex-card-heading { margin-bottom: 22px; }
+  #pageExchange .ex-token-choice,
+  #pageExchange .ex-token-choice strong { font-size: 13px; }
+  #pageExchange .ex-token-symbol,
+  #pageExchange img.ex-token-symbol-navaa {
+    width: 23px;
+    height: 23px;
+    flex-basis: 23px;
+  }
+  #pageExchange .ex-token-symbol-pol svg { width: 16px; height: 16px; }
+  #pageExchange .ex-field-meta .ex-wallet-balance { gap: 4px; font-size: 10px; }
+}
