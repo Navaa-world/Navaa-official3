@@ -4194,3 +4194,67 @@ main {
     padding-left: 1px;
   }
 }
+
+
+/* Final responsive spacing and single-line Convert rate. */
+#pageExchange .exchange-page {
+  width: min(100%, 1120px);
+  padding: 16px clamp(16px, 2.8vw, 30px) calc(92px + env(safe-area-inset-bottom));
+}
+#pageExchange .ex-workspace {
+  width: 100%;
+  margin-inline: auto;
+}
+#pageExchange .ex-trade-card {
+  width: 100%;
+  max-width: 700px;
+  margin-inline: auto;
+}
+#pageExchange .ex-convert-rate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 20px;
+  margin: 13px auto 12px;
+  padding: 0 8px;
+  text-align: center;
+}
+#pageExchange .ex-convert-rate > strong {
+  display: block;
+  max-width: 100%;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: .1px;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+@media (max-width: 760px) {
+  #pageExchange .exchange-page {
+    padding: 14px 16px calc(88px + env(safe-area-inset-bottom));
+  }
+}
+@media (max-width: 520px) {
+  #pageExchange .exchange-page {
+    padding: 12px 14px calc(88px + env(safe-area-inset-bottom));
+  }
+  #pageExchange .ex-trade-card {
+    max-width: 100%;
+  }
+  #pageExchange .ex-amount-panel {
+    padding-right: 3px;
+    padding-left: 3px;
+  }
+  #pageExchange .ex-convert-rate > strong {
+    font-size: 11px;
+  }
+}
+@media (max-width: 360px) {
+  #pageExchange .exchange-page {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+}
