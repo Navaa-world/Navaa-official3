@@ -3963,12 +3963,20 @@ main {
   width: 25px;
   height: 25px;
   flex: 0 0 25px;
-  object-fit: cover;
+  box-sizing: border-box;
+  object-fit: contain;
   object-position: center;
-  border: 0;
+  padding: 1px;
+  border: 1px solid rgba(15, 191, 178, .48);
   outline: 0;
   border-radius: 50%;
-  background: transparent;
-  box-shadow: none;
+  background: linear-gradient(145deg, rgba(15, 191, 178, .12), rgba(15, 191, 178, .035));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .055), 0 0 9px rgba(15, 191, 178, .16);
   overflow: hidden;
+}
+
+[data-theme="light"] #pageExchange img.ex-token-symbol-navaa {
+  border-color: rgba(8, 153, 145, .48);
+  background: linear-gradient(145deg, rgba(15, 191, 178, .13), rgba(15, 191, 178, .045));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .72), 0 1px 5px rgba(20, 55, 75, .12);
 }
