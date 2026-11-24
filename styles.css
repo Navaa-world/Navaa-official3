@@ -3964,8 +3964,9 @@ main {
   height: 25px;
   flex: 0 0 25px;
   object-fit: contain;
+  border: 0;
   border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
-  background: var(--surface);
-  box-shadow: 0 2px 9px rgba(0,0,0,.12);
+  background: transparent;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 28%, transparent),
+              0 2px 9px rgba(0,0,0,.16);
 }
