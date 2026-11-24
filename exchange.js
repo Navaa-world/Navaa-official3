@@ -412,7 +412,6 @@
 
     busy = true;
     let refreshAfterTrade = false;
-    $("exTxResult").hidden = true;
     updateTradeButton();
     try {
       const signer = await browserProvider.getSigner();
