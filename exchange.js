@@ -154,9 +154,9 @@
     $("exOutputLabel").textContent = "Receive";
     $("exInputSymbol").outerHTML = buy
       ? '<span class="ex-token-symbol ex-token-symbol-pol" id="exInputSymbol" aria-label="Polygon logo"><svg viewBox="0 0 32 32" role="img" aria-hidden="true"><path d="M19.2 8.2 25 11.5v6.8l-5.8 3.3-5.8-3.3v-6.8zM6.9 14.7l5.8 3.3v6.7l-5.8 3.4-5.8-3.4V18z" transform="translate(3 -3)" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/></svg></span>'
-      : '<img class="ex-token-symbol ex-token-symbol-navaa" id="exInputSymbol" src="https://navaa-world.github.io/Navaa-official2/navaa-logo.png?v=2" alt="NAVAA logo" width="25" height="25">';
+      : '<img class="ex-token-symbol ex-token-symbol-navaa" id="exInputSymbol" src="https://navaa-world.github.io/Navaa-official3/input-logo.png" alt="NAVAA logo" width="25" height="25">';
     $("exOutputSymbol").outerHTML = buy
-      ? '<img class="ex-token-symbol ex-token-symbol-navaa" id="exOutputSymbol" src="https://navaa-world.github.io/Navaa-official2/navaa-logo.png?v=2" alt="NAVAA logo" width="25" height="25">'
+      ? '<img class="ex-token-symbol ex-token-symbol-navaa" id="exOutputSymbol" src="https://navaa-world.github.io/Navaa-official3/input-logo.png" alt="NAVAA logo" width="25" height="25">'
       : '<span class="ex-token-symbol ex-token-symbol-pol" id="exOutputSymbol" aria-label="Polygon logo"><svg viewBox="0 0 32 32" role="img" aria-hidden="true"><path d="M19.2 8.2 25 11.5v6.8l-5.8 3.3-5.8-3.3v-6.8zM6.9 14.7l5.8 3.3v6.7l-5.8 3.4-5.8-3.4V18z" transform="translate(3 -3)" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/></svg></span>';
     $("exInputToken").textContent = buy ? "POL" : "NAVAA";
     $("exOutputToken").textContent = buy ? "NAVAA" : "POL";
