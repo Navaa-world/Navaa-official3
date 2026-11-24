@@ -146,18 +146,23 @@
   }
 
   function updateRateDisplay() {
-    if (!account) {
-      if ($("exRateValue")) $("exRateValue").textContent = "—";
-      if ($("exSellRateValue")) $("exSellRateValue").textContent = "—";
+    const rateNode = $("exRateValue");
+    if (!rateNode) return;
+    const amount = parseAmount($("exAmount")?.value);
+    if (!account || !walletOnPolygon || amount === null || amount <= 0n) {
+      rateNode.textContent = "—";
       return;
     }
-    const inverseBuyRate = buyRate > 0n ? (TOKEN_UNIT * TOKEN_UNIT) / buyRate : 0n;
-    $("exRateValue").textContent = inverseBuyRate > 0n
-      ? "1 POL = " + formatRate(inverseBuyRate) + " NAVAA"
-      : "1 POL = — NAVAA";
-    $("exSellRateValue").textContent = sellRate > 0n
-      ? "1 NAVAA = " + formatRate(sellRate) + " POL"
-      : "1 NAVAA = — POL";
+    if (mode === "buy") {
+      const inverseBuyRate = buyRate > 0n ? (TOKEN_UNIT * TOKEN_UNIT) / buyRate : 0n;
+      rateNode.textContent = inverseBuyRate > 0n
+        ? "1 POL = " + formatRate(inverseBuyRate) + " NAVAA"
+        : "—";
+    } else {
+      rateNode.textContent = sellRate > 0n
+        ? "1 NAVAA = " + formatRate(sellRate) + " POL"
+        : "—";
+    }
   }
 
   function updateModeUI() {
@@ -506,9 +511,10 @@
     $("exAmount").addEventListener("input", () => {
       quoteRequestId++;
       currentQuote = null;
-      $("exOutputAmount").textContent = "0.00";
+      $("exOutputAmount").textContent = "—";
       $("exFeeValue").textContent = "—";
       $("exMinValue").textContent = "—";
+      updateRateDisplay();
       updateTradeButton();
       scheduleQuote();
     });
