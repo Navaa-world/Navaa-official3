@@ -3656,6 +3656,16 @@ main {
   min-width: 0;
   margin-top: 8px;
 }
+#pageExchange .ex-amount-box {
+  gap: 14px;
+}
+#pageExchange .ex-input-entry {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
 #pageExchange .ex-amount-box input {
   width: 100%;
   min-width: 0;
@@ -3695,14 +3705,22 @@ main {
   font-weight: 800;
 }
 #pageExchange #exMaxBtn {
-  padding: 5px 0 5px 5px;
+  margin-top: 1px;
+  padding: 2px 0;
   border: 0;
   background: transparent;
-  color: var(--accent);
+  color: #F0B90B;
   font: inherit;
   font-size: 10px;
-  font-weight: 800;
+  font-weight: 750;
+  letter-spacing: .35px;
+  line-height: 1.2;
   cursor: pointer;
+  transition: opacity .18s ease, transform .18s ease;
+}
+#pageExchange #exMaxBtn:hover {
+  opacity: .82;
+  transform: translateY(-1px);
 }
 #pageExchange .ex-convert-mark {
   position: relative;
