@@ -4030,3 +4030,73 @@ main {
   background: linear-gradient(145deg, rgba(15, 191, 178, .13), rgba(15, 191, 178, .045));
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .72), 0 1px 5px rgba(20, 55, 75, .12);
 }
+
+
+/* NAVAA exchange refinement: centered terminal and balanced convert fields. */
+#pageExchange .ex-workspace {
+  grid-template-columns: minmax(0, 1fr);
+}
+#pageExchange .ex-trade-card {
+  width: 100%;
+  max-width: 620px;
+  margin-inline: auto;
+}
+#pageExchange .ex-card-heading {
+  justify-content: center;
+  margin-bottom: 21px;
+  text-align: center;
+}
+#pageExchange .ex-section-kicker {
+  display: block;
+  text-align: center;
+}
+#pageExchange .ex-amount-panel {
+  min-height: 104px;
+  box-sizing: border-box;
+}
+#pageExchange .ex-amount-box,
+#pageExchange .ex-output-box {
+  align-items: flex-start;
+  min-height: 39px;
+}
+#pageExchange .ex-input-entry {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1px;
+}
+#pageExchange .ex-amount-box > .ex-token-choice,
+#pageExchange .ex-output-box > .ex-token-choice {
+  align-self: flex-start;
+  margin-top: 7px;
+}
+#pageExchange .ex-token-choice {
+  min-height: 25px;
+  gap: 7px;
+}
+#pageExchange .ex-token-symbol {
+  width: 25px;
+  height: 25px;
+  flex: 0 0 25px;
+}
+#pageExchange .ex-convert-rate {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 11px 2px 2px;
+  padding: 0 1px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+#pageExchange .ex-convert-rate strong {
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 650;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+#pageExchange .ex-trade-button {
+  gap: 0;
+}
