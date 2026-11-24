@@ -3692,6 +3692,10 @@ main {
   font-size: 12px;
   white-space: nowrap;
 }
+#pageExchange .ex-amount-box > .ex-token-choice {
+  align-self: flex-start;
+  margin-top: 7px;
+}
 #pageExchange .ex-token-symbol {
   display: grid;
   width: 25px;
