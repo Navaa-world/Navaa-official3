@@ -429,7 +429,7 @@
               <div class="ex-amount-panel">
                 <div class="ex-field-meta">
                   <label id="exInputLabel" for="exAmount">Pay</label>
-                  <span>Balance: <strong id="exInputBalance">—</strong></span>
+                  <span class="ex-wallet-balance"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3.5 7.5A2.5 2.5 0 0 1 6 5h13.5v14H6a2.5 2.5 0 0 1-2.5-2.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M3.5 8h14.8a2.2 2.2 0 0 1 2.2 2.2v3.6h-5a2.2 2.2 0 0 1 0-4.4h5M16 11.6h.01" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><strong id="exInputBalance">—</strong></span>
                 </div>
                 <div class="ex-amount-box">
                   <div class="ex-token-choice"><span class="ex-token-symbol ex-token-symbol-pol" id="exInputSymbol" aria-label="Polygon logo"><svg viewBox="0 0 32 32" role="img" aria-hidden="true"><path d="M19.2 8.2 25 11.5v6.8l-5.8 3.3-5.8-3.3v-6.8zM6.9 14.7l5.8 3.3v6.7l-5.8 3.4-5.8-3.4V18z" transform="translate(3 -3)" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/></svg></span><strong id="exInputToken">POL</strong></div>
@@ -449,7 +449,7 @@
               <div class="ex-amount-panel ex-output-panel">
                 <div class="ex-field-meta">
                   <label id="exOutputLabel">Receive</label>
-                  <span id="exOutputBalance">Balance: —</span>
+                  <span id="exOutputBalance" hidden aria-hidden="true"></span>
                 </div>
                 <div class="ex-output-box">
                   <div class="ex-token-choice"><img class="ex-token-symbol ex-token-symbol-navaa" id="exOutputSymbol" src="https://navaa-world.github.io/Navaa-official3/input-logo.png" alt="NAVAA logo" width="25" height="25"><strong id="exOutputToken">NAVAA</strong></div>
@@ -470,7 +470,7 @@
               <button type="button" class="ex-trade-button" id="exTradeBtn" disabled>Loading exchange…</button>
             </section>
           </div>
-          <p class="ex-footer-note">NAVAA Fixed-Rate Exchange · Polygon Mainnet · Always verify transaction details in your wallet before confirming.</p>
+          
         </div>
       </section>
       
