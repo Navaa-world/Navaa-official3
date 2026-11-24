@@ -3963,10 +3963,12 @@ main {
   width: 25px;
   height: 25px;
   flex: 0 0 25px;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
   border: 0;
+  outline: 0;
   border-radius: 50%;
   background: transparent;
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 28%, transparent),
-              0 2px 9px rgba(0,0,0,.16);
+  box-shadow: none;
+  overflow: hidden;
 }
