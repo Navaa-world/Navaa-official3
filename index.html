@@ -426,20 +426,17 @@
                 <div><span class="ex-section-kicker">TRADE TERMINAL</span></div>
               </div>
 
-              <div class="ex-mode-switch" role="tablist" aria-label="Exchange direction">
-                <button type="button" class="active" id="exModeBuy" role="tab" aria-selected="true">Buy</button>
-                <button type="button" id="exModeSell" role="tab" aria-selected="false">Sell</button>
-              </div>
-
               <div class="ex-amount-panel">
                 <div class="ex-field-meta">
                   <label id="exInputLabel" for="exAmount">Pay</label>
                   <span>Balance: <strong id="exInputBalance">—</strong></span>
                 </div>
                 <div class="ex-amount-box">
-                  <input id="exAmount" type="number" min="0" step="any" inputmode="decimal" placeholder="0.00" autocomplete="off">
+                  <div class="ex-input-entry">
+                    <input id="exAmount" type="number" min="0" step="any" inputmode="decimal" placeholder="0.00" autocomplete="off">
+                    <button type="button" id="exMaxBtn">MAX</button>
+                  </div>
                   <div class="ex-token-choice"><span class="ex-token-symbol ex-token-symbol-pol" id="exInputSymbol" aria-label="Polygon logo"><svg viewBox="0 0 32 32" role="img" aria-hidden="true"><path d="M19.2 8.2 25 11.5v6.8l-5.8 3.3-5.8-3.3v-6.8zM6.9 14.7l5.8 3.3v6.7l-5.8 3.4-5.8-3.4V18z" transform="translate(3 -3)" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/></svg></span><strong id="exInputToken">POL</strong></div>
-                  <button type="button" id="exMaxBtn">MAX</button>
                 </div>
               </div>
 
