@@ -457,9 +457,9 @@
                 </div>
               </div>
 
-              <div class="ex-convert-rate">
-                <span>Rate</span>
-                <strong id="exRateValue">—</strong>
+              <div class="ex-convert-rate" aria-live="polite">
+                <div class="ex-live-rate-row"><span>BUY</span><strong id="exRateValue">—</strong></div>
+                <div class="ex-live-rate-row"><span>SELL</span><strong id="exSellRateValue">—</strong></div>
               </div>
 
               <div class="ex-quote-details">
@@ -469,7 +469,6 @@
 
               <div class="ex-status" id="exStatus" data-kind="info" role="status" aria-live="polite">Connecting to the Polygon exchange contract…</div>
               <button type="button" class="ex-trade-button" id="exTradeBtn" disabled>Loading exchange…</button>
-              <p class="ex-trade-note">Quotes are read directly from the exchange contract. Your wallet confirms every transaction.</p>
             </section>
           </div>
           <p class="ex-footer-note">NAVAA Fixed-Rate Exchange · Polygon Mainnet · Always verify transaction details in your wallet before confirming.</p>
