@@ -112,15 +112,6 @@
     catch (_) { return null; }
   }
 
-  function setTxResult(message, hash) {
-    const wrap = $("exTxResult");
-    const link = $("exTxLink");
-    if (!wrap || !link) return;
-    $("exTxMessage").textContent = message;
-    link.href = "https://polygonscan.com/tx/" + hash;
-    wrap.hidden = false;
-  }
-
   function updateMarketUI() {
     const buyRateNode = $("exBuyRate");
     const sellRateNode = $("exSellRate");
@@ -144,6 +135,14 @@
     else state.textContent = "Connected: " + shortAddress(account) + " · Polygon Mainnet";
   }
 
+  function getDisplayRate() {
+    if (mode === "buy") {
+      const inverseBuyRate = buyRate > 0n ? (TOKEN_UNIT * TOKEN_UNIT) / buyRate : 0n;
+      return "1 POL = " + (inverseBuyRate > 0n ? formatRate(inverseBuyRate) : "—") + " NAVAA";
+    }
+    return "1 NAVAA = " + (sellRate > 0n ? formatRate(sellRate) : "—") + " POL";
+  }
+
   function updateModeUI() {
     const buy = mode === "buy";
     $("exInputLabel").textContent = "Pay";
@@ -164,7 +163,7 @@
       : "—");
     $("exOutputAmount").textContent = "0.00";
     $("exFeeValue").textContent = "—";
-    $("exRateValue").textContent = buy ? "1 NAVAA = " + formatRate(buyRate) + " POL" : "1 NAVAA = " + formatRate(sellRate) + " POL";
+    $("exRateValue").textContent = getDisplayRate();
     $("exMinValue").textContent = "—";
     currentQuote = null;
     updateTradeButton();
@@ -187,7 +186,7 @@
     else if (mode === "sell" && allowance < currentQuote.raw) { label = "Approve NAVAA"; disabled = false; }
 
     button.disabled = disabled;
-    button.innerHTML = label + ' <span>↗</span>';
+    button.textContent = label;
   }
 
   function scheduleQuote() {
@@ -207,9 +206,7 @@
       $("exOutputAmount").textContent = "0.00";
       $("exFeeValue").textContent = "—";
       $("exMinValue").textContent = "—";
-      $("exRateValue").textContent = mode === "buy"
-        ? "1 NAVAA = " + formatRate(buyRate) + " POL"
-        : "1 NAVAA = " + formatRate(sellRate) + " POL";
+      $("exRateValue").textContent = getDisplayRate();
       setStatus(paused ? "Exchange is currently paused by the contract owner." : "Enter an amount to get a live on-chain quote.");
       updateTradeButton();
       return;
@@ -230,9 +227,7 @@
       $("exFeeValue").textContent = mode === "buy"
         ? formatAmount(fee) + " POL"
         : formatAmount(fee) + " NAVAA";
-      $("exRateValue").textContent = mode === "buy"
-        ? "1 NAVAA = " + formatRate(buyRate) + " POL"
-        : "1 NAVAA = " + formatRate(sellRate) + " POL";
+      $("exRateValue").textContent = getDisplayRate();
       $("exMinValue").textContent = formatAmount(minimum) + (mode === "buy" ? " NAVAA" : " POL");
 
       if (paused) setStatus("Exchange is paused. Trading is temporarily disabled.", "warning");
@@ -335,9 +330,7 @@
       $("exOutputBalance").textContent = "Balance: " + (account
         ? (mode === "buy" ? formatAmount(navaaBalance) + " NAVAA" : formatAmount(polBalance) + " POL")
         : "—");
-      $("exRateValue").textContent = mode === "buy"
-        ? "1 NAVAA = " + formatRate(buyRate) + " POL"
-        : "1 NAVAA = " + formatRate(sellRate) + " POL";
+      $("exRateValue").textContent = getDisplayRate();
       lastRefresh = Date.now();
 
       const networkBadge = $("exWalletState");
@@ -453,7 +446,6 @@
       setStatus("Transaction submitted. Waiting for Polygon confirmation…", "info");
       const receipt = await tx.wait();
       if (!receipt || receipt.status !== 1) throw new Error("The exchange transaction did not complete successfully.");
-      setTxResult((mode === "buy" ? "NAVAA purchase" : "NAVAA sale") + " confirmed.", tx.hash);
       setStatus("Trade confirmed successfully on Polygon Mainnet.", "success");
       $("exAmount").value = "";
       currentQuote = null;
