@@ -3947,3 +3947,25 @@ main {
   #pageExchange .ex-account-card .ex-side-heading { margin-bottom: 7px; }
   #pageExchange .ex-account-card .ex-balance-row { padding: 9px 0; }
 }
+
+#pageExchange .ex-token-symbol-pol {
+  color: #8247e5;
+  background: linear-gradient(145deg, rgba(130,71,229,.13), rgba(130,71,229,.05));
+  border-color: rgba(130,71,229,.32);
+}
+#pageExchange .ex-token-symbol-pol svg {
+  display: block;
+  width: 17px;
+  height: 17px;
+}
+#pageExchange img.ex-token-symbol-navaa {
+  display: block;
+  width: 25px;
+  height: 25px;
+  flex: 0 0 25px;
+  object-fit: contain;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+  background: var(--surface);
+  box-shadow: 0 2px 9px rgba(0,0,0,.12);
+}
