@@ -131,8 +131,8 @@
     $("exModeSell").classList.toggle("active", !buy);
     $("exModeBuy").setAttribute("aria-selected", String(buy));
     $("exModeSell").setAttribute("aria-selected", String(!buy));
-    $("exInputLabel").textContent = buy ? "You pay" : "You sell";
-    $("exOutputLabel").textContent = buy ? "You receive" : "You receive";
+    $("exInputLabel").textContent = "Pay";
+    $("exOutputLabel").textContent = "Receive";
     $("exInputSymbol").textContent = buy ? "P" : "N";
     $("exOutputSymbol").textContent = buy ? "N" : "P";
     $("exInputToken").textContent = buy ? "POL" : "NAVAA";
@@ -140,6 +140,9 @@
     $("exInputBalance").textContent = account
       ? (buy ? formatAmount(polBalance) + " POL" : formatAmount(navaaBalance) + " NAVAA")
       : "—";
+    $("exOutputBalance").textContent = "Balance: " + (account
+      ? (buy ? formatAmount(navaaBalance) + " NAVAA" : formatAmount(polBalance) + " POL")
+      : "—");
     $("exOutputAmount").textContent = "0.00";
     $("exFeeValue").textContent = "—";
     $("exRateValue").textContent = buy ? "1 NAVAA = " + formatRate(buyRate) + " POL" : "1 NAVAA = " + formatRate(sellRate) + " POL";
@@ -152,7 +155,7 @@
   function updateTradeButton() {
     const button = $("exTradeBtn");
     if (!button) return;
-    let label = mode === "buy" ? "Buy NAVAA" : "Sell NAVAA";
+    let label = mode === "buy" ? "Buy" : "Sell";
     let disabled = busy;
 
     if (busy) label = "Please wait…";
@@ -240,9 +243,6 @@
       account = null;
       polBalance = 0n;
       navaaBalance = 0n;
-      $("exPolBalance").textContent = "—";
-      $("exWalletNavaa").textContent = "—";
-
       if (window.ethereum) {
         try {
           const accounts = await window.ethereum.request({ method: "eth_accounts" });
@@ -264,18 +264,12 @@
       }
 
       readProvider = walletOnPolygon && browserProvider ? browserProvider : rpcProvider;
-      const code = await readProvider.getCode(EXCHANGE_ADDRESS);
-      if (!code || code === "0x") throw new Error("Exchange contract code was not found on Polygon Mainnet.");
-
       contractRead = new ethers.Contract(EXCHANGE_ADDRESS, EXCHANGE_ABI, readProvider);
       tokenRead = new ethers.Contract(TOKEN_ADDRESS, TOKEN_ABI, readProvider);
 
-      const deployedToken = await contractRead.navaa();
-      if (deployedToken.toLowerCase() !== TOKEN_ADDRESS.toLowerCase()) {
-        throw new Error("The deployed exchange contract is linked to a different NAVAA token address.");
-      }
-
-      const values = await Promise.all([
+      const [code, deployedToken, ...values] = await Promise.all([
+        readProvider.getCode(EXCHANGE_ADDRESS),
+        contractRead.navaa(),
         contractRead.buyRate(),
         contractRead.sellRate(),
         contractRead.paused(),
@@ -283,6 +277,10 @@
         readProvider.getBalance(EXCHANGE_ADDRESS),
         tokenRead.balanceOf(EXCHANGE_ADDRESS)
       ]);
+      if (!code || code === "0x") throw new Error("Exchange contract code was not found on Polygon Mainnet.");
+      if (deployedToken.toLowerCase() !== TOKEN_ADDRESS.toLowerCase()) {
+        throw new Error("The deployed exchange contract is linked to a different NAVAA token address.");
+      }
       buyRate = values[0];
       sellRate = values[1];
       paused = values[2];
@@ -291,31 +289,29 @@
       navaaReserve = values[5];
 
       if (account) {
-        const balances = await Promise.all([
+        const balancesPromise = Promise.all([
           readProvider.getBalance(account),
           tokenRead.balanceOf(account)
         ]);
+        const allowancePromise = mode === "sell"
+          ? tokenRead.allowance(account, EXCHANGE_ADDRESS).catch(() => 0n)
+          : Promise.resolve(0n);
+        const [balances, currentAllowance] = await Promise.all([balancesPromise, allowancePromise]);
         polBalance = balances[0];
         navaaBalance = balances[1];
-        if (mode === "sell") {
-          try { allowance = await tokenRead.allowance(account, EXCHANGE_ADDRESS); }
-          catch (_) { allowance = 0n; }
-        } else allowance = 0n;
+        allowance = currentAllowance;
       } else {
         polBalance = 0n;
         navaaBalance = 0n;
         allowance = 0n;
       }
 
-      $("exWalletState").textContent = !account
-        ? "Connect your wallet to trade. Live rates and contract reserves remain visible."
-        : !walletOnPolygon
-          ? "Wallet connected (" + shortAddress(account) + "). Switch to Polygon Mainnet to trade."
-          : "Connected: " + shortAddress(account) + " · Polygon Mainnet";
-      updateMarketUI();
       $("exInputBalance").textContent = account
         ? (mode === "buy" ? formatAmount(polBalance) + " POL" : formatAmount(navaaBalance) + " NAVAA")
         : "—";
+      $("exOutputBalance").textContent = "Balance: " + (account
+        ? (mode === "buy" ? formatAmount(navaaBalance) + " NAVAA" : formatAmount(polBalance) + " POL")
+        : "—");
       $("exRateValue").textContent = mode === "buy"
         ? "1 NAVAA = " + formatRate(buyRate) + " POL"
         : "1 NAVAA = " + formatRate(sellRate) + " POL";
@@ -479,7 +475,6 @@
     });
     $("exMaxBtn").addEventListener("click", setMax);
     $("exTradeBtn").addEventListener("click", handleTrade);
-    $("exRefreshBtn").addEventListener("click", refreshData);
     $("connectBtn")?.addEventListener("click", () => {
       setTimeout(refreshData, 700);
       setTimeout(refreshData, 1700);
