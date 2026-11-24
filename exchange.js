@@ -56,6 +56,7 @@
   let currentQuote = null;
   let busy = false;
   let quoteTimer = null;
+  let quoteRequestId = 0;
   let lastRefresh = 0;
 
   function setStatus(message, kind = "info") {
@@ -102,15 +103,24 @@
   }
 
   function updateMarketUI() {
-    $("exBuyRate").textContent = buyRate > 0n ? formatRate(buyRate) : "—";
-    $("exSellRate").textContent = sellRate > 0n ? formatRate(sellRate) : "—";
-    $("exNavaaReserve").textContent = formatAmount(navaaReserve);
-    $("exPolReserve").textContent = formatAmount(polReserve);
-    $("exPolBalance").textContent = account ? formatAmount(polBalance) + " POL" : "—";
-    $("exWalletNavaa").textContent = account ? formatAmount(navaaBalance) + " NAVAA" : "—";
+    const buyRateNode = $("exBuyRate");
+    const sellRateNode = $("exSellRate");
+    const navaaReserveNode = $("exNavaaReserve");
+    const polReserveNode = $("exPolReserve");
+
+    if (buyRateNode) buyRateNode.textContent = buyRate > 0n ? formatRate(buyRate) : "—";
+    if (sellRateNode) sellRateNode.textContent = sellRate > 0n ? formatRate(sellRate) : "—";
+    if (navaaReserveNode) navaaReserveNode.textContent = formatAmount(navaaReserve);
+    if (polReserveNode) polReserveNode.textContent = formatAmount(polReserve);
+
+    const polBalanceNode = $("exPolBalance");
+    const navaaBalanceNode = $("exWalletNavaa");
+    if (polBalanceNode) polBalanceNode.textContent = account ? formatAmount(polBalance) + " POL" : "—";
+    if (navaaBalanceNode) navaaBalanceNode.textContent = account ? formatAmount(navaaBalance) + " NAVAA" : "—";
 
     const state = $("exWalletState");
-    if (!account) state.textContent = "Connect your wallet to trade. Live rates and contract reserves remain visible.";
+    if (!state) return;
+    if (!account) state.textContent = "Connect your wallet to trade. Live contract information remains available.";
     else if (!walletOnPolygon) state.textContent = "Wallet connected (" + shortAddress(account) + "). Switch to Polygon Mainnet to trade.";
     else state.textContent = "Connected: " + shortAddress(account) + " · Polygon Mainnet";
   }
@@ -160,11 +170,14 @@
 
   function scheduleQuote() {
     clearTimeout(quoteTimer);
+    currentQuote = null;
+    updateTradeButton();
     quoteTimer = setTimeout(refreshQuote, 220);
   }
 
   async function refreshQuote() {
     if (!contractRead) return;
+    const requestId = ++quoteRequestId;
     const raw = parseAmount($("exAmount").value);
     currentQuote = null;
 
@@ -184,6 +197,7 @@
       const quote = mode === "buy"
         ? await contractRead.quoteBuy(raw)
         : await contractRead.quoteSell(raw);
+      if (requestId !== quoteRequestId) return;
       const fee = quote[0];
       const output = mode === "buy" ? quote[2] : quote[2];
       const executable = quote[3];
@@ -212,9 +226,10 @@
         catch (_) { allowance = 0n; }
       } else allowance = 0n;
     } catch (error) {
+      if (requestId !== quoteRequestId) return;
       setStatus(error.shortMessage || error.reason || "Unable to fetch the live contract quote. Please refresh.", "error");
     }
-    updateTradeButton();
+    if (requestId === quoteRequestId) updateTradeButton();
   }
 
   async function refreshData() {
@@ -223,15 +238,27 @@
       browserProvider = null;
       walletOnPolygon = false;
       account = null;
+      polBalance = 0n;
+      navaaBalance = 0n;
+      $("exPolBalance").textContent = "—";
+      $("exWalletNavaa").textContent = "—";
+
       if (window.ethereum) {
         try {
-          browserProvider = new ethers.BrowserProvider(window.ethereum);
-          const net = await browserProvider.getNetwork();
-          walletOnPolygon = net.chainId === POLYGON_CHAIN_ID;
           const accounts = await window.ethereum.request({ method: "eth_accounts" });
-          account = accounts && accounts.length ? accounts[0] : null;
+          account = accounts && accounts.length ? ethers.getAddress(accounts[0]) : null;
+          if (account) {
+            browserProvider = new ethers.BrowserProvider(window.ethereum, "any");
+            try {
+              const net = await browserProvider.getNetwork();
+              walletOnPolygon = net.chainId === POLYGON_CHAIN_ID;
+            } catch (_) {
+              walletOnPolygon = false;
+            }
+          }
         } catch (_) {
           browserProvider = null;
+          account = null;
           walletOnPolygon = false;
         }
       }
@@ -351,8 +378,9 @@
       return;
     }
     const raw = parseAmount($("exAmount").value);
-    if (raw === null || raw <= 0n || !currentQuote || !currentQuote.executable) {
-      setStatus("Enter a valid amount and wait for an executable quote.", "warning");
+    if (raw === null || raw <= 0n || !currentQuote || currentQuote.raw !== raw || !currentQuote.executable) {
+      setStatus("Enter a valid amount and wait for its latest executable quote.", "warning");
+      scheduleQuote();
       return;
     }
     if (mode === "buy" && raw > polBalance) {
@@ -365,6 +393,7 @@
     }
 
     busy = true;
+    let refreshAfterTrade = false;
     $("exTxResult").hidden = true;
     updateTradeButton();
     try {
@@ -378,7 +407,8 @@
           setStatus("NAVAA approval submitted. Waiting for Polygon confirmation…", "info");
           const approvalReceipt = await approvalTx.wait();
           if (!approvalReceipt || approvalReceipt.status !== 1) throw new Error("NAVAA approval transaction failed.");
-          await refreshData();
+          allowance = await tokenWrite.allowance(account, EXCHANGE_ADDRESS);
+          updateTradeButton();
           setStatus("NAVAA approval confirmed. Press Sell NAVAA to complete your trade.", "success");
           return;
         }
@@ -402,7 +432,7 @@
       setStatus("Trade confirmed successfully on Polygon Mainnet.", "success");
       $("exAmount").value = "";
       currentQuote = null;
-      await refreshData();
+      refreshAfterTrade = true;
     } catch (error) {
       const message = error.code === 4001 || error.code === "ACTION_REJECTED"
         ? "Transaction was rejected in your wallet."
@@ -411,7 +441,8 @@
     } finally {
       busy = false;
       updateTradeButton();
-      if ($("exAmount").value.trim()) scheduleQuote();
+      if (refreshAfterTrade) await refreshData();
+      else if ($("exAmount").value.trim()) scheduleQuote();
     }
   }
 
@@ -437,7 +468,15 @@
       mode = "sell";
       updateModeUI();
     });
-    $("exAmount").addEventListener("input", scheduleQuote);
+    $("exAmount").addEventListener("input", () => {
+      quoteRequestId++;
+      currentQuote = null;
+      $("exOutputAmount").textContent = "0.00";
+      $("exFeeValue").textContent = "—";
+      $("exMinValue").textContent = "—";
+      updateTradeButton();
+      scheduleQuote();
+    });
     $("exMaxBtn").addEventListener("click", setMax);
     $("exTradeBtn").addEventListener("click", handleTrade);
     $("exRefreshBtn").addEventListener("click", refreshData);
