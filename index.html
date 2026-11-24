@@ -420,28 +420,20 @@
       <!-- 08. EXCHANGE PAGE -->
       <section class="app-page" id="pageExchange">
         <div class="exchange-page">
-          <section class="ex-info-card ex-account-card">
-                <div class="ex-side-heading"><div><span class="ex-section-kicker">ACCOUNT</span><h3>Your balances</h3></div><button type="button" id="exRefreshBtn" aria-label="Refresh balances and rates" title="Refresh">↻</button></div>
-                <div class="ex-balance-row"><span><i class="ex-balance-dot pol"></i>POL balance</span><strong id="exPolBalance">—</strong></div>
-                <div class="ex-balance-row"><span><i class="ex-balance-dot navaa"></i>NAVAA balance</span><strong id="exWalletNavaa">—</strong></div>
-                <div class="ex-wallet-state" id="exWalletState">Connect your wallet to trade on Polygon.</div>
-          </section>
-
           <div class="ex-workspace">
             <section class="ex-trade-card">
               <div class="ex-card-heading">
-                <div><span class="ex-section-kicker">TRADE TERMINAL</span><h2>Exchange assets</h2></div>
-                <span class="ex-fixed-badge"><i></i> FIXED RATE</span>
+                <div><span class="ex-section-kicker">TRADE TERMINAL</span></div>
               </div>
 
               <div class="ex-mode-switch" role="tablist" aria-label="Exchange direction">
-                <button type="button" class="active" id="exModeBuy" role="tab" aria-selected="true">Buy NAVAA</button>
-                <button type="button" id="exModeSell" role="tab" aria-selected="false">Sell NAVAA</button>
+                <button type="button" class="active" id="exModeBuy" role="tab" aria-selected="true">Buy</button>
+                <button type="button" id="exModeSell" role="tab" aria-selected="false">Sell</button>
               </div>
 
               <div class="ex-amount-panel">
                 <div class="ex-field-meta">
-                  <label id="exInputLabel" for="exAmount">You pay</label>
+                  <label id="exInputLabel" for="exAmount">Pay</label>
                   <span>Balance: <strong id="exInputBalance">—</strong></span>
                 </div>
                 <div class="ex-amount-box">
@@ -455,8 +447,8 @@
 
               <div class="ex-amount-panel ex-output-panel">
                 <div class="ex-field-meta">
-                  <label id="exOutputLabel">You receive</label>
-                  <span>Estimated output</span>
+                  <label id="exOutputLabel">Receive</label>
+                  <span id="exOutputBalance">Balance: —</span>
                 </div>
                 <div class="ex-output-box">
                   <strong id="exOutputAmount">0.00</strong>
