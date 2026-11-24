@@ -146,10 +146,6 @@
 
   function updateModeUI() {
     const buy = mode === "buy";
-    $("exModeBuy").classList.toggle("active", buy);
-    $("exModeSell").classList.toggle("active", !buy);
-    $("exModeBuy").setAttribute("aria-selected", String(buy));
-    $("exModeSell").setAttribute("aria-selected", String(!buy));
     $("exInputLabel").textContent = "Pay";
     $("exOutputLabel").textContent = "Receive";
     $("exInputSymbol").outerHTML = buy
@@ -487,16 +483,6 @@
   }
 
   function bindEvents() {
-    $("exModeBuy").addEventListener("click", () => {
-      if (mode === "buy") return;
-      mode = "buy";
-      updateModeUI();
-    });
-    $("exModeSell").addEventListener("click", () => {
-      if (mode === "sell") return;
-      mode = "sell";
-      updateModeUI();
-    });
     $("exSwapDirectionBtn")?.addEventListener("click", () => {
       mode = mode === "buy" ? "sell" : "buy";
       updateModeUI();
