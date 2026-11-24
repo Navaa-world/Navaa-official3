@@ -4426,3 +4426,26 @@ main {
   #pageExchange .ex-token-symbol-pol svg { width: 16px; height: 16px; }
   #pageExchange .ex-field-meta .ex-wallet-balance { gap: 4px; font-size: 10px; }
 }
+
+
+/* Keep the trade button anchored: reserve the quote/rate area even while hidden. */
+#pageExchange .ex-quote-details {
+  min-height: 63px;
+  max-height: 90px;
+  margin: 13px 1px 2px;
+  visibility: hidden;
+}
+#pageExchange .ex-quote-details.is-visible {
+  visibility: visible;
+}
+#pageExchange .ex-convert-rate[hidden] {
+  display: flex !important;
+  min-height: 20px;
+  margin: 10px auto 12px;
+  visibility: hidden;
+}
+#pageExchange .ex-convert-rate:not([hidden]) {
+  min-height: 20px;
+  margin: 10px auto 12px;
+  visibility: visible;
+}
