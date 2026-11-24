@@ -3918,3 +3918,32 @@ main {
   #pageExchange .ex-mode-switch button,
   #pageExchange .ex-trade-button { transition: none; }
 }
+
+
+/* Exchange layout step: account balances moved above the trade workspace. */
+#pageExchange .ex-account-card {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  align-items: center;
+  column-gap: 18px;
+  row-gap: 0;
+  margin-bottom: 14px;
+}
+#pageExchange .ex-account-card .ex-side-heading,
+#pageExchange .ex-account-card .ex-wallet-state {
+  grid-column: 1 / -1;
+}
+#pageExchange .ex-account-card .ex-side-heading { margin-bottom: 10px; }
+#pageExchange .ex-account-card .ex-balance-row {
+  min-width: 0;
+  padding: 11px 0;
+}
+@media (max-width: 520px) {
+  #pageExchange .ex-account-card {
+    grid-template-columns: minmax(0,1fr);
+    row-gap: 0;
+    padding: 14px;
+  }
+  #pageExchange .ex-account-card .ex-side-heading { margin-bottom: 7px; }
+  #pageExchange .ex-account-card .ex-balance-row { padding: 9px 0; }
+}
