@@ -76,6 +76,15 @@
     return /^0x[0-9a-f]{4}\.\.\.[0-9a-f]{4}$/i.test(label);
   }
 
+  function clearQuoteDisplay() {
+    currentQuote = null;
+    if ($("exOutputAmount")) $("exOutputAmount").textContent = "—";
+    if ($("exFeeValue")) $("exFeeValue").textContent = "—";
+    if ($("exMinValue")) $("exMinValue").textContent = "—";
+    if ($("exRateValue")) $("exRateValue").textContent = "—";
+    if ($("exSellRateValue")) $("exSellRateValue").textContent = "—";
+  }
+
   function clearExchangeWalletBalances() {
     account = null;
     walletOnPolygon = false;
@@ -86,6 +95,7 @@
     if ($("exOutputBalance")) $("exOutputBalance").textContent = "Balance: —";
     if ($("exPolBalance")) $("exPolBalance").textContent = "—";
     if ($("exWalletNavaa")) $("exWalletNavaa").textContent = "—";
+    clearQuoteDisplay();
     updateTradeButton();
   }
 
@@ -130,17 +140,24 @@
 
     const state = $("exWalletState");
     if (!state) return;
-    if (!account) state.textContent = "Connect your wallet to trade. Live contract information remains available.";
+    if (!account) state.textContent = "Connect your wallet to view live rates and calculate a quote.";
     else if (!walletOnPolygon) state.textContent = "Wallet connected (" + shortAddress(account) + "). Switch to Polygon Mainnet to trade.";
     else state.textContent = "Connected: " + shortAddress(account) + " · Polygon Mainnet";
   }
 
-  function getDisplayRate() {
-    if (mode === "buy") {
-      const inverseBuyRate = buyRate > 0n ? (TOKEN_UNIT * TOKEN_UNIT) / buyRate : 0n;
-      return "1 POL = " + (inverseBuyRate > 0n ? formatRate(inverseBuyRate) : "—") + " NAVAA";
+  function updateRateDisplay() {
+    if (!account) {
+      if ($("exRateValue")) $("exRateValue").textContent = "—";
+      if ($("exSellRateValue")) $("exSellRateValue").textContent = "—";
+      return;
     }
-    return "1 NAVAA = " + (sellRate > 0n ? formatRate(sellRate) : "—") + " POL";
+    const inverseBuyRate = buyRate > 0n ? (TOKEN_UNIT * TOKEN_UNIT) / buyRate : 0n;
+    $("exRateValue").textContent = inverseBuyRate > 0n
+      ? "1 POL = " + formatRate(inverseBuyRate) + " NAVAA"
+      : "1 POL = — NAVAA";
+    $("exSellRateValue").textContent = sellRate > 0n
+      ? "1 NAVAA = " + formatRate(sellRate) + " POL"
+      : "1 NAVAA = — POL";
   }
 
   function updateModeUI() {
@@ -163,7 +180,7 @@
       : "—");
     $("exOutputAmount").textContent = "0.00";
     $("exFeeValue").textContent = "—";
-    $("exRateValue").textContent = getDisplayRate();
+    updateRateDisplay();
     $("exMinValue").textContent = "—";
     currentQuote = null;
     updateTradeButton();
@@ -199,6 +216,12 @@
   async function refreshQuote() {
     if (!contractRead) return;
     const requestId = ++quoteRequestId;
+    if (!account) {
+      clearQuoteDisplay();
+      setStatus("Connect your wallet to view live rates and calculate a quote.", "info");
+      updateTradeButton();
+      return;
+    }
     const raw = parseAmount($("exAmount").value);
     currentQuote = null;
 
@@ -206,7 +229,7 @@
       $("exOutputAmount").textContent = "0.00";
       $("exFeeValue").textContent = "—";
       $("exMinValue").textContent = "—";
-      $("exRateValue").textContent = getDisplayRate();
+      updateRateDisplay();
       setStatus(paused ? "Exchange is currently paused by the contract owner." : "Enter an amount to get a live on-chain quote.");
       updateTradeButton();
       return;
@@ -227,7 +250,7 @@
       $("exFeeValue").textContent = mode === "buy"
         ? formatAmount(fee) + " POL"
         : formatAmount(fee) + " NAVAA";
-      $("exRateValue").textContent = getDisplayRate();
+      updateRateDisplay();
       $("exMinValue").textContent = formatAmount(minimum) + (mode === "buy" ? " NAVAA" : " POL");
 
       if (paused) setStatus("Exchange is paused. Trading is temporarily disabled.", "warning");
@@ -259,6 +282,7 @@
       navaaBalance = 0n;
       $("exInputBalance").textContent = "—";
       $("exOutputBalance").textContent = "Balance: —";
+      clearQuoteDisplay();
       if (window.ethereum) {
         try {
           const accounts = await window.ethereum.request({ method: "eth_accounts" });
@@ -330,7 +354,7 @@
       $("exOutputBalance").textContent = "Balance: " + (account
         ? (mode === "buy" ? formatAmount(navaaBalance) + " NAVAA" : formatAmount(polBalance) + " POL")
         : "—");
-      $("exRateValue").textContent = getDisplayRate();
+      updateRateDisplay();
       lastRefresh = Date.now();
 
       const networkBadge = $("exWalletState");
@@ -348,6 +372,7 @@
       navaaBalance = 0n;
       $("exInputBalance").textContent = "—";
       $("exOutputBalance").textContent = "Balance: —";
+      clearQuoteDisplay();
       setStatus(error.shortMessage || error.reason || error.message || "Could not connect to the exchange contract.", "error");
       $("exWalletState").textContent = "Contract data unavailable. Check your network connection and refresh.";
       updateTradeButton();
