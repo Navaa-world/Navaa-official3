@@ -4258,3 +4258,119 @@ main {
     padding-left: 12px;
   }
 }
+
+
+/* Convert-style token/amount rows and progressive quote reveal. */
+#pageExchange .ex-amount-box,
+#pageExchange .ex-output-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  min-width: 0;
+}
+#pageExchange .ex-amount-box > .ex-token-choice,
+#pageExchange .ex-output-box > .ex-token-choice {
+  align-self: center;
+  flex: 0 0 auto;
+  margin: 0;
+  order: 0;
+}
+#pageExchange .ex-input-entry {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: 0;
+}
+#pageExchange .ex-amount-box input {
+  width: 100%;
+  min-width: 0;
+  text-align: right;
+  height: 38px;
+}
+#pageExchange #exMaxBtn {
+  flex: 0 0 auto;
+  margin: 0;
+  white-space: nowrap;
+}
+#pageExchange .ex-output-box > #exOutputAmount {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+#pageExchange .ex-quote-details {
+  display: grid;
+  gap: 0;
+  margin: 0 1px;
+  padding: 0 1px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(-7px);
+  pointer-events: none;
+  transition: max-height .28s ease, opacity .22s ease, transform .28s ease, margin .28s ease;
+}
+#pageExchange .ex-quote-details.is-visible {
+  max-height: 90px;
+  margin: 13px 1px 2px;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+#pageExchange .ex-quote-details > div {
+  min-height: 25px;
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: opacity .2s ease, transform .24s ease;
+}
+#pageExchange .ex-quote-details.is-visible > div {
+  opacity: 1;
+  transform: translateY(0);
+}
+#pageExchange .ex-quote-details.is-visible > div:nth-child(1) {
+  transition-delay: .04s;
+}
+#pageExchange .ex-quote-details.is-visible > div:nth-child(2) {
+  transition-delay: .13s;
+}
+#pageExchange .ex-convert-rate[hidden],
+#pageExchange .ex-status[hidden] {
+  display: none !important;
+}
+#pageExchange .ex-convert-rate {
+  margin-top: 10px;
+}
+@media (max-width: 520px) {
+  #pageExchange .ex-amount-box,
+  #pageExchange .ex-output-box {
+    gap: 8px;
+  }
+  #pageExchange .ex-token-choice {
+    gap: 6px;
+    font-size: 11px;
+  }
+  #pageExchange .ex-token-symbol {
+    width: 23px;
+    height: 23px;
+    flex-basis: 23px;
+  }
+  #pageExchange .ex-amount-box input,
+  #pageExchange .ex-output-box > #exOutputAmount {
+    font-size: clamp(17px, 5vw, 23px);
+  }
+  #pageExchange #exMaxBtn {
+    font-size: 9px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #pageExchange .ex-quote-details,
+  #pageExchange .ex-quote-details > div {
+    transition: none;
+    transform: none;
+  }
+}
