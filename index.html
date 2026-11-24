@@ -457,36 +457,20 @@
                 </div>
               </div>
 
+              <div class="ex-convert-rate">
+                <span>Rate</span>
+                <strong id="exRateValue">—</strong>
+              </div>
+
               <div class="ex-quote-details">
                 <div><span>Exchange fee <b>(0.2%)</b></span><strong id="exFeeValue">—</strong></div>
-                <div><span>Live contract rate</span><strong id="exRateValue">—</strong></div>
                 <div><span>Minimum received <b>(0.5% slippage)</b></span><strong id="exMinValue">—</strong></div>
               </div>
 
               <div class="ex-status" id="exStatus" data-kind="info" role="status" aria-live="polite">Connecting to the Polygon exchange contract…</div>
-              <button type="button" class="ex-trade-button" id="exTradeBtn" disabled>Loading exchange… <span>↗</span></button>
-              <div class="ex-tx-result" id="exTxResult" hidden>
-                <span id="exTxMessage">Transaction confirmed.</span>
-                <a id="exTxLink" href="#" target="_blank" rel="noopener noreferrer">View on PolygonScan ↗</a>
-              </div>
+              <button type="button" class="ex-trade-button" id="exTradeBtn" disabled>Loading exchange…</button>
               <p class="ex-trade-note">Quotes are read directly from the exchange contract. Your wallet confirms every transaction.</p>
             </section>
-
-            <aside class="ex-side-column">
-
-
-              <section class="ex-info-card ex-how-card">
-                <span class="ex-section-kicker">TRANSPARENT BY DESIGN</span>
-                <h3>How it works</h3>
-                <div class="ex-step"><b>01</b><div><strong>Live quote</strong><p>Amounts are calculated using the current on-chain rate and available reserve.</p></div></div>
-                <div class="ex-step"><b>02</b><div><strong>Review fee</strong><p>A 0.2% fee is applied by the contract on each completed trade.</p></div></div>
-                <div class="ex-step"><b>03</b><div><strong>Confirm in wallet</strong><p>Transactions execute atomically on Polygon Mainnet.</p></div></div>
-              </section>
-
-              <a class="ex-contract-link" href="https://polygonscan.com/address/0xf31f82837b89f4d9a37b8e700cb175893766dd8f#code" target="_blank" rel="noopener noreferrer">
-                <span><small>VERIFIED EXCHANGE CONTRACT</small><strong>0xf31f…dd8f</strong></span><b>↗</b>
-              </a>
-            </aside>
           </div>
           <p class="ex-footer-note">NAVAA Fixed-Rate Exchange · Polygon Mainnet · Always verify transaction details in your wallet before confirming.</p>
         </div>
