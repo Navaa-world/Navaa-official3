@@ -497,6 +497,10 @@
       mode = "sell";
       updateModeUI();
     });
+    $("exSwapDirectionBtn")?.addEventListener("click", () => {
+      mode = mode === "buy" ? "sell" : "buy";
+      updateModeUI();
+    });
     $("exAmount").addEventListener("input", () => {
       quoteRequestId++;
       currentQuote = null;
