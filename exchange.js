@@ -62,8 +62,12 @@
   function setStatus(message, kind = "info") {
     const node = $("exStatus");
     if (!node) return;
-    node.textContent = message;
+    const useful = kind === "error" || kind === "warning" ||
+      (kind === "info" && /transaction|approval|confirm|switch|connect/i.test(message)) ||
+      (kind === "success" && /trade confirmed|approval confirmed/i.test(message));
+    node.textContent = useful ? message : "";
     node.dataset.kind = kind;
+    node.hidden = !useful;
   }
 
   function shortAddress(value) {
@@ -76,13 +80,25 @@
     return /^0x[0-9a-f]{4}\.\.\.[0-9a-f]{4}$/i.test(label);
   }
 
+  function updateQuoteVisibility() {
+    const amount = parseAmount($("exAmount")?.value);
+    const visible = !!account && walletOnPolygon && amount !== null && amount > 0n;
+    const panel = $("exQuoteDetails");
+    if (panel) {
+      panel.classList.toggle("is-visible", visible);
+      panel.setAttribute("aria-hidden", visible ? "false" : "true");
+    }
+    const rateWrap = $("exRateWrap");
+    if (rateWrap) rateWrap.hidden = !visible;
+  }
+
   function clearQuoteDisplay() {
     currentQuote = null;
     if ($("exOutputAmount")) $("exOutputAmount").textContent = "—";
     if ($("exFeeValue")) $("exFeeValue").textContent = "—";
     if ($("exMinValue")) $("exMinValue").textContent = "—";
-    if ($("exRateValue")) $("exRateValue").textContent = "—";
-    if ($("exSellRateValue")) $("exSellRateValue").textContent = "—";
+    if ($("exRateValue")) $("exRateValue").textContent = "";
+    updateQuoteVisibility();
   }
 
   function clearExchangeWalletBalances() {
@@ -150,9 +166,11 @@
     if (!rateNode) return;
     const amount = parseAmount($("exAmount")?.value);
     if (!account || !walletOnPolygon || amount === null || amount <= 0n) {
-      rateNode.textContent = "—";
+      rateNode.textContent = "";
+      updateQuoteVisibility();
       return;
     }
+    updateQuoteVisibility();
     if (mode === "buy") {
       const inverseBuyRate = buyRate > 0n ? (TOKEN_UNIT * TOKEN_UNIT) / buyRate : 0n;
       rateNode.textContent = inverseBuyRate > 0n
@@ -187,6 +205,7 @@
     $("exFeeValue").textContent = "—";
     updateRateDisplay();
     $("exMinValue").textContent = "—";
+    updateQuoteVisibility();
     currentQuote = null;
     updateTradeButton();
     scheduleQuote();
@@ -221,9 +240,9 @@
   async function refreshQuote() {
     if (!contractRead) return;
     const requestId = ++quoteRequestId;
-    if (!account) {
+    if (!account || !walletOnPolygon) {
       clearQuoteDisplay();
-      setStatus("Connect your wallet to view live rates and calculate a quote.", "info");
+      setStatus("Connect your wallet to Polygon Mainnet to calculate a quote.", "info");
       updateTradeButton();
       return;
     }
@@ -500,6 +519,8 @@
     let value = mode === "buy" ? polBalance * 98n / 100n : navaaBalance;
     if (mode === "buy" && value > 0n) value = value > 20000000000000000n ? value - 20000000000000000n : value;
     $("exAmount").value = ethers.formatUnits(value, 18);
+    updateQuoteVisibility();
+    updateRateDisplay();
     scheduleQuote();
   }
 
@@ -514,6 +535,7 @@
       $("exOutputAmount").textContent = "—";
       $("exFeeValue").textContent = "—";
       $("exMinValue").textContent = "—";
+      updateQuoteVisibility();
       updateRateDisplay();
       updateTradeButton();
       scheduleQuote();
