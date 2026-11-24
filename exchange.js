@@ -70,6 +70,25 @@
     return value ? value.slice(0, 6) + "…" + value.slice(-4) : "—";
   }
 
+  // Exchange balances follow the main app's explicit wallet connection state.
+  function isMainWalletConnected() {
+    const label = $("connectBtn")?.textContent?.trim() || "";
+    return /^0x[0-9a-f]{4}\.\.\.[0-9a-f]{4}$/i.test(label);
+  }
+
+  function clearExchangeWalletBalances() {
+    account = null;
+    walletOnPolygon = false;
+    polBalance = 0n;
+    navaaBalance = 0n;
+    allowance = 0n;
+    if ($("exInputBalance")) $("exInputBalance").textContent = "—";
+    if ($("exOutputBalance")) $("exOutputBalance").textContent = "Balance: —";
+    if ($("exPolBalance")) $("exPolBalance").textContent = "—";
+    if ($("exWalletNavaa")) $("exWalletNavaa").textContent = "—";
+    updateTradeButton();
+  }
+
   function formatAmount(raw, digits = 6) {
     try {
       const value = Number(ethers.formatUnits(raw, 18));
@@ -252,7 +271,9 @@
       if (window.ethereum) {
         try {
           const accounts = await window.ethereum.request({ method: "eth_accounts" });
-          account = accounts && accounts.length ? ethers.getAddress(accounts[0]) : null;
+          account = accounts && accounts.length && isMainWalletConnected()
+            ? ethers.getAddress(accounts[0])
+            : null;
           if (account) {
             browserProvider = new ethers.BrowserProvider(window.ethereum, "any");
             try {
@@ -495,8 +516,14 @@
       button.addEventListener("click", () => setTimeout(refreshData, 250));
     });
     if (window.ethereum?.on) {
-      window.ethereum.on("accountsChanged", refreshData);
-      window.ethereum.on("chainChanged", refreshData);
+      window.ethereum.on("accountsChanged", () => {
+        clearExchangeWalletBalances();
+        refreshData();
+      });
+      window.ethereum.on("chainChanged", () => {
+        clearExchangeWalletBalances();
+        refreshData();
+      });
     }
     document.addEventListener("visibilitychange", () => {
       if (!document.hidden && $("pageExchange")?.classList.contains("active")) refreshData();
