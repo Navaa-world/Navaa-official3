@@ -1896,6 +1896,42 @@ if (referralInput) {
   function bindEvents() {
     const input = $("earnStakeAmount");
 
+    /* Keep the existing Earn actions reachable above the mobile keyboard. */
+    if (input) {
+      let earnKeyboardBlurTimer = null;
+      const viewport = window.visualViewport;
+
+      const syncEarnKeyboardActions = () => {
+        if (!document.body) return;
+        const amountFocused = document.activeElement === input;
+        const viewportGap = viewport
+          ? Math.max(0, window.innerHeight - (viewport.height + viewport.offsetTop))
+          : 0;
+        const keyboardVisible = amountFocused && viewportGap > 100;
+
+        document.body.classList.toggle("earn-keyboard-open", keyboardVisible);
+        document.documentElement.style.setProperty(
+          "--earn-keyboard-inset",
+          keyboardVisible ? viewportGap + "px" : "0px"
+        );
+      };
+
+      input.addEventListener("focus", () => {
+        if (earnKeyboardBlurTimer) clearTimeout(earnKeyboardBlurTimer);
+        syncEarnKeyboardActions();
+      });
+
+      input.addEventListener("blur", () => {
+        earnKeyboardBlurTimer = setTimeout(syncEarnKeyboardActions, 250);
+      });
+
+      if (viewport) {
+        viewport.addEventListener("resize", syncEarnKeyboardActions);
+        viewport.addEventListener("scroll", syncEarnKeyboardActions);
+      }
+      window.addEventListener("resize", syncEarnKeyboardActions);
+    }
+
     if (input) {
       input.addEventListener("input", () => {
         updateEstimatedDailyReward();
