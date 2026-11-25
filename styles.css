@@ -4676,7 +4676,7 @@ body.earn-keyboard-open #pageEarn .earn-stake-panel .earn-action-buttons {
   position: fixed;
   left: 12px;
   right: 12px;
-  bottom: max(8px, env(safe-area-inset-bottom));
+  bottom: calc(var(--earn-keyboard-inset, 0px) + max(8px, env(safe-area-inset-bottom)));
   z-index: 2100;
   width: auto;
   margin: 0;
