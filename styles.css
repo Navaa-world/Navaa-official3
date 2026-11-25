@@ -4527,3 +4527,168 @@ main {
     font-size: 10px;
   }
 }
+
+
+/* NAVAA Earn refinement: match Exchange gutters and keep plan information inside Rules. */
+#pageEarn .earn-page {
+  width: min(100%, 1120px);
+  margin-inline: auto;
+  padding: 16px clamp(16px, 2.8vw, 30px) calc(92px + env(safe-area-inset-bottom));
+}
+
+#pageEarn .earn-rules-wrap {
+  margin-top: 13px;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: var(--bg);
+  box-shadow: none;
+}
+
+#pageEarn .earn-rules-tab {
+  width: auto;
+  min-height: 34px;
+  justify-content: flex-start;
+  gap: 7px;
+  padding: 0;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+#pageEarn .earn-rules-chevron {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--muted);
+  transition: transform .22s ease, color .22s ease;
+}
+
+#pageEarn .earn-rules-tab[aria-expanded="true"] .earn-rules-chevron {
+  transform: rotate(180deg);
+  color: var(--accent);
+}
+
+#pageEarn .earn-rules-panel {
+  display: block;
+  padding: 9px 0 2px;
+  border: 0;
+  background: var(--bg);
+}
+
+#pageEarn .earn-rules-panel[hidden] {
+  display: none;
+}
+
+#pageEarn .earn-rules-panel .earn-stake-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: start;
+  gap: 8px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+#pageEarn .earn-rules-panel .earn-stake-summary > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 4px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+#pageEarn .earn-rules-panel .earn-stake-summary span {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+#pageEarn .earn-rules-panel .earn-stake-summary strong {
+  color: var(--text);
+  font-size: 11px;
+  line-height: 1.35;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+  #pageEarn .earn-page {
+    padding: 14px 16px calc(88px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 520px) {
+  #pageEarn .earn-page {
+    padding: 12px 14px calc(88px + env(safe-area-inset-bottom));
+  }
+
+  #pageEarn .earn-rules-panel .earn-stake-summary {
+    gap: 6px;
+  }
+
+  #pageEarn .earn-rules-panel .earn-stake-summary span {
+    font-size: 9px;
+  }
+
+  #pageEarn .earn-rules-panel .earn-stake-summary strong {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  #pageEarn .earn-page {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  #pageEarn .earn-rules-panel .earn-stake-summary {
+    gap: 4px;
+  }
+
+  #pageEarn .earn-rules-panel .earn-stake-summary span {
+    font-size: 8px;
+  }
+
+  #pageEarn .earn-rules-panel .earn-stake-summary strong {
+    font-size: 9px;
+  }
+}
+
+/* On-screen keyboard mode: surface the existing action buttons above the keyboard. */
+body.earn-keyboard-open .bottom-nav {
+  display: none !important;
+}
+
+body.earn-keyboard-open #pageEarn .earn-stake-panel .earn-action-buttons {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: max(8px, env(safe-area-inset-bottom));
+  z-index: 2100;
+  width: auto;
+  margin: 0;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .24);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+[data-theme="light"] body.earn-keyboard-open #pageEarn .earn-stake-panel .earn-action-buttons {
+  box-shadow: 0 8px 28px rgba(20, 33, 58, .14);
+}
